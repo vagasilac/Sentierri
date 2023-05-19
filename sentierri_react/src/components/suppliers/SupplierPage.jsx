@@ -14,8 +14,6 @@ import { QualityIssues_dummy } from './QualityIssues_dummy';
 import { fetchSupplierCategories } from '../../features/supplierCategories/supplierCategoriesSlice';
 
 // TODOs:
-// - default associate suppliers not displaying in autocomplete
-// - on page refresh, category is lost
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -408,7 +406,7 @@ const SupplierPage = () => {
                                     getOptionSelected={(option, value) =>
                                         option.id === value.id
                                       }
-                                    value={associateSuppliers.map((supplier) => supplier.name)}
+                                    value={associateSuppliers}
                                     onChange={(e, value) => {
                                         setFormValues((prev) => ({
                                         ...prev,

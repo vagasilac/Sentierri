@@ -11,8 +11,8 @@ DONE:
 
 src\components\suppliers\SupplierPage.jsx
 TODO:
-- default associate suppliers not displaying in autocomplete
-- on page refresh, category is lost
 DONE:
 - category chips
 - tabs (details, invoices, purchase orders)
+- default associate suppliers not displaying in autocomplete
+- on page refresh, category is lost
