@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "L4c1 V4g4$123",
+    "database": "sentierri",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "L4c1 V4g4$123",
+    "database": "sentierri",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "L4c1 V4g4$123",
+    "database": "sentierri",
+    "host": "localhost",
+    "dialect": "postgres"
+  }
+}

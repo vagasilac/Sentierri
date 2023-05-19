@@ -1,0 +1,17 @@
+.search-input-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .search-input-container input {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  
+  .search-input-container:hover input {
+    display: block;
+  }

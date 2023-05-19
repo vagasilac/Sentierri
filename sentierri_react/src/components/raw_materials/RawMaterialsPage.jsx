@@ -1,0 +1,154 @@
+import React, { useState, useEffect } from 'react';
+import { Container, Typography, Box, Button } from '@material-ui/core';
+import DataTable from '../common/DataTable';
+import { getAllMaterials } from '../../services/rawMaterialService';
+import { useNavigate } from 'react-router-dom';
+
+const RawMaterialsPage = () => {
+  const [rawMaterials, setRawMaterials] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchRawMaterials = async () => {
+      const materials = await getAllMaterials();
+      setRawMaterials(materials);
+      console.log('Raw materials fetched - useEffect materials', materials);
+      console.log('Raw materials fetched - useEffect rawmaterials:', rawMaterials);
+    };
+    fetchRawMaterials();
+  }, []);
+
+  // columns for react-table
+  const columns = [
+    { accessor: 'material_id',
+      Header: 'Material ID',
+      options: {
+        filter: true,
+        sort: true,
+      }},
+    { accessor: 'name',
+      Header: 'Name',
+      options: {
+        filter: true,
+        sort: true,
+      }},
+    { accessor: 'material_group',
+      Header: 'Group',
+      options: {
+        filter: true,
+        sort: true,
+      }},
+    { accessor: 'material_type',
+      Header: 'Type',
+      options: {
+        filter: true,
+        sort: true,
+      }},
+    { accessor: 'material_category',
+      Header: 'Category',
+      options: {
+        filter: true,
+        sort: true,
+      }},
+    { accessor: 'material_subcategory',
+      Header: 'Subcategory',
+      options: {
+        filter: true,
+        sort: true,
+      }},
+    { accessor: 'color',
+      Header: 'Color',
+      options: {
+        filter: true,
+        sort: true,
+      }},
+    { accessor: 'supplier_color',
+      Header: () => (
+        <Box>
+          <Typography variant="body1"
+            style={{fontWeight: 'bold'}}>Supplier</Typography>
+          <Typography variant="body1"
+            style={{fontWeight: 'bold'}}>color</Typography>
+        </Box>
+      ),
+      options: {
+        filter: true,
+        sort: true,
+      }},
+    { accessor: 'size',
+      Header: 'Size',
+      options: {
+        filter: true,
+        sort: true,
+      }},
+    { accessor: 'roll_width',
+      Header: 'Width',
+      options: {
+        filter: true,
+        sort: true,
+      }},
+    { accessor: 'unit_of_measure',
+      Header: 'UM',
+      options: {
+        filter: true,
+        sort: true,
+      }},
+    { accessor: 'price_per_unit',
+    Header: () => (
+      <Box>
+        <Typography variant="body1"
+          style={{fontWeight: 'bold'}}>Price</Typography>
+        <Typography variant="body1"
+          style={{fontWeight: 'bold'}}>per</Typography>
+        <Typography variant="body1"
+          style={{fontWeight: 'bold'}}>unit</Typography>
+      </Box>
+    ),
+      options: {
+        filter: true,
+        sort: true,
+       }},
+    { accessor: 'lead_time',
+    Header: () => (
+      <Box>
+        <Typography variant="body1"
+          style={{fontWeight: 'bold'}}>Lead</Typography>
+        <Typography variant="body1"
+          style={{fontWeight: 'bold'}}>time</Typography>
+      </Box>
+    ),
+      options: {
+        filter: true,
+        sort: true,
+       }},
+    { accessor: 'main_supplier',
+      Header: 'Main\nsupplier',
+      options: {
+        filter: true,
+        sort: true,
+       }},
+    { Header: 'Actions',
+      Cell: ({row}) => (
+        <div>
+          <Button 
+            variant="contained"
+            color="primary"
+            onClick={() => navigate(`/raw_materials/${row.original.id}`)}>View</Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => console.log(`Delete ${row.original.material_id}`)}>Delete</Button>
+        </div>
+      )
+  }
+  ];
+
+  return (
+      <Box style={{width: '100%', marginTop: '20px'}}>
+        <Typography variant="h4">Raw Materials</Typography>
+        <DataTable key={rawMaterials.length} columns={columns} data={rawMaterials} />
+      </Box>
+  );
+};
+
+export default RawMaterialsPage;

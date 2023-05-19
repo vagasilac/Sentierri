@@ -1,0 +1,18 @@
+src\components\suppliers\NewSupplierPage.jsx
+TODO:
+- required fields...
+DONE:
+- ASSOCIATE SUPPLIERS AUTOCOMPLETE LIST - ONLY SHOW SUPPLIERS THAT ARE NOT AGENTS AND NOT ALREADY ASSOCIATED WITH ANY OTHER AGENT
+
+src\components\suppliers\SuppliersPage.jsx
+TODO:
+- Add grouping by category
+DONE:
+
+src\components\suppliers\SupplierPage.jsx
+TODO:
+- default associate suppliers not displaying in autocomplete
+- on page refresh, category is lost
+DONE:
+- category chips
+- tabs (details, invoices, purchase orders)

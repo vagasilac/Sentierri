@@ -1,0 +1,13 @@
+.main {
+    display: flex;
+}
+
+:root {
+    --background-color: #fff;
+    --text-color: #333;
+  }
+  
+  .light-theme {
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
