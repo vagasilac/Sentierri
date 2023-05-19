@@ -4,7 +4,7 @@ import { Container, Grid, Tab, Tabs, Box, Typography, TextField, Button, Paper, 
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSuppliers, updateSupplier } from '../../features/suppliers/suppliersSlice';
-import { fetchAgentRelations } from '../../features/agentRelations/agentRelationsSlice';
+import { addAgentRelation, fetchAgentRelations } from '../../features/agentRelations/agentRelationsSlice';
 import { Autocomplete, Switch } from '@mui/material';
 import CategorySelector from '../common/CategorySelector';
 import { fetchCategories } from '../../features/categories/categoriesSlice';
@@ -28,7 +28,6 @@ const SupplierPage = () => {
     const { id } = useParams();
     const numId = Number(id);
     const navigate = useNavigate();
-    const [shouldUpdateCategories, setShouldUpdateCategories] = useState(false);
     const classes = useStyles();
     const dispatch = useDispatch();
     const [tabValue, setTabValue] = useState(0);
@@ -60,7 +59,7 @@ const SupplierPage = () => {
     const supplier = useSelector(state => state.suppliers.data.find(supplier => supplier.id === numId));
     console.log('supplier in SupplierPage', supplier);
     const [selectedCategoryId, setSelectedCategoryId] = useState([]);
-    const agentRelations = useSelector(state => state.agentRelations.data);
+    const agentRelations = useSelector(state => state.agentRelations.data);   
     console.log('agentRelations in SupplierPage', agentRelations);
     const [associateSuppliers, setAssociateSuppliers] = useState([]);
     console.log('associateSuppliers in SupplierPage', associateSuppliers);
@@ -102,16 +101,13 @@ const SupplierPage = () => {
         if (supplier && supplier.categories) {
             setFormValues(supplier);
             setSelectedCategoryId(supplier.categories.map(category => category.id));
+            
         }
     }, [supplier]);
 
     useEffect(() => {
         setFormValues((prev) => ({ ...prev, associateSuppliers: associateSuppliers }));
     }, [associateSuppliers]);
-
-    useEffect(() => {
-        setShouldUpdateCategories(true);
-    }, [selectedCategoryId]);
 
     // VALIDATION
         // Check if supplier exists by name
@@ -159,8 +155,7 @@ const SupplierPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(updateSupplier(formValues));
-        {shouldUpdateCategories &&
-            dispatch(removeSupplierCategory(numId));
+        dispatch(removeSupplierCategory(numId));
         if (selectedCategoryId.length > 0) {
             selectedCategoryId.forEach(categoryId => {
                 console.log('supplierId', numId, 'categoryId', categoryId);
@@ -170,8 +165,8 @@ const SupplierPage = () => {
 
         for (let supplier of formValues.associateSuppliers) {
             if (supplier) {
-              console.log('adding agentRelaion agent Id', supplierId, 'associate id', supplier.id);
-              dispatch(addAgentRelation(supplierId, supplier.id));
+              console.log('adding agentRelaion agent Id', numId, 'associate id', supplier.id);
+              dispatch(addAgentRelation(numId, supplier.id));
             }
           }
     };
@@ -179,6 +174,10 @@ const SupplierPage = () => {
     const handleBack = () => {
         navigate('/suppliers');
     };
+
+    // get id of agentRelations row where agentId === numId
+    const agentRelationId = agentRelations.find(agentRelation => agentRelation.agentId === numId);
+    console.log('agentRelationId', agentRelationId);
 
     return (
         <Container
