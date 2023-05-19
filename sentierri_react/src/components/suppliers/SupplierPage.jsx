@@ -161,15 +161,15 @@ const SupplierPage = () => {
                 console.log('supplierId', numId, 'categoryId', categoryId);
                 dispatch(addSupplierCategory(numId, categoryId));
             });
-        }}        
+        }        
 
         for (let supplier of formValues.associateSuppliers) {
             if (supplier) {
               console.log('adding agentRelaion agent Id', numId, 'associate id', supplier.id);
               dispatch(addAgentRelation(numId, supplier.id));
             }
-          }
-    };
+        };
+    }
 
     const handleBack = () => {
         navigate('/suppliers');
