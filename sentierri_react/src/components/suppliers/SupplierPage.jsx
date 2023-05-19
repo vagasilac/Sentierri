@@ -78,17 +78,28 @@ const SupplierPage = () => {
     console.log('associateSuppliers', associateSuppliers);
     console.log('associateSuppliers.map(supplier => supplier.name)', associateSuppliers.map(supplier => supplier.name));
     console.log('formValues.associateSuppliers', formValues.associateSuppliers);
-
-
+    
+    
     useEffect(() => {
         const fetchData = async () => {
             dispatch(fetchCategories());
             dispatch(fetchSuppliers());
             dispatch(fetchAgentRelations());}
-        fetchData();
+            fetchData();
         setAssociateSuppliers(agentRelations.filter(agentRelation => agentRelation.agentId === numId).map(agentRelation => suppliers.find(supplier => supplier.id === agentRelation.supplierId)));
         console.log('associateSuppliers in useEffect', associateSuppliers);
     }, [dispatch]);
+
+    useEffect(() => {
+        if (agentRelations.length > 0 && suppliers.length > 0) {
+            setAssociateSuppliers(
+                agentRelations
+                    .filter(agentRelation => agentRelation.agentId === numId)
+                    .map(agentRelation => suppliers.find(supplier => supplier.id === agentRelation.supplierId))
+            );
+        }
+    }, [agentRelations, suppliers, numId]);
+    
 
     useEffect(() => {
         if (supplier && supplier.categories) {
