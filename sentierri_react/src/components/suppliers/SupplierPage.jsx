@@ -102,13 +102,14 @@ const SupplierPage = () => {
 
     useEffect(() => {
         if (supplier && supplier.categories) {
-            setFormValues({
-                ...supplier,
-                associateSuppliers: associateSuppliers
-            });
+            setFormValues(supplier);
             setSelectedCategoryId(supplier.categories.map(category => category.id));
         }
     }, [supplier]);
+
+    useEffect(() => {
+        setFormValues((prev) => ({ ...prev, associateSuppliers: associateSuppliers }));
+    }, [associateSuppliers]);
 
     useEffect(() => {
         setShouldUpdateCategories(true);
@@ -407,7 +408,7 @@ const SupplierPage = () => {
                                     getOptionSelected={(option, value) =>
                                         option.id === value.id
                                       }
-                                    defaultValue={associateSuppliers.map((supplier) => supplier)}
+                                    value={associateSuppliers.map((supplier) => supplier.name)}
                                     onChange={(e, value) => {
                                         setFormValues((prev) => ({
                                         ...prev,
