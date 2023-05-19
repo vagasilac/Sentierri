@@ -86,11 +86,10 @@ const SupplierPage = () => {
             dispatch(fetchSuppliers());
             dispatch(fetchAgentRelations());}
             fetchData();
-        setAssociateSuppliers(agentRelations.filter(agentRelation => agentRelation.agentId === numId).map(agentRelation => suppliers.find(supplier => supplier.id === agentRelation.supplierId)));
-        console.log('associateSuppliers in useEffect', associateSuppliers);
     }, [dispatch]);
 
     useEffect(() => {
+        console.log('useEffect associateSuppliers called');
         if (agentRelations.length > 0 && suppliers.length > 0) {
             setAssociateSuppliers(
                 agentRelations
