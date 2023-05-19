@@ -46,6 +46,18 @@ const agentRelationsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         },
+    removeAgentRelationRequest: (state) => {
+        state.loading = true;
+        },
+    removeAgentRelationSuccess: (state, action) => {
+        state.loading = false;
+        state.data = state.data.filter((agentRelation) => agentRelation.id !== action.payload);
+        state.error = null;
+        },
+    removeAgentRelationFailure: (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        }
     },
 });
 
@@ -59,6 +71,9 @@ export const {
     addAgentRelationRequest,
     addAgentRelationSuccess,
     addAgentRelationFailure,
+    removeAgentRelationRequest,
+    removeAgentRelationSuccess,
+    removeAgentRelationFailure,
 } = agentRelationsSlice.actions;
 
 export const fetchAgentRelations = () => {
@@ -106,5 +121,21 @@ export const addAgentRelation = (agentId, supplierId) => {
 }
 
 // removeAgentRelation
+export const removeAgentRelation = (agentId) => {
+    return async (dispatch) => {
+        console.log('removeAgentRelation dispatch with agent id: ' + agentId);
+        dispatch(removeAgentRelationRequest());
+        try {
+        const success = await agentRelationsService.removeAgentRelation(agentId);
+        if (success) {
+            dispatch(removeAgentRelationSuccess(agentId));
+        } else {
+            dispatch(removeAgentRelationFailure('Error!'));
+        }
+        } catch (error) {
+        dispatch(removeAgentRelationFailure(error));
+        }
+    };
+}
 
 export default agentRelationsSlice.reducer;

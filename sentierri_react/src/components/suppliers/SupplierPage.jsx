@@ -4,7 +4,7 @@ import { Container, Grid, Tab, Tabs, Box, Typography, TextField, Button, Paper, 
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSuppliers, updateSupplier } from '../../features/suppliers/suppliersSlice';
-import { addAgentRelation, fetchAgentRelations } from '../../features/agentRelations/agentRelationsSlice';
+import { addAgentRelation, fetchAgentRelations, removeAgentRelation } from '../../features/agentRelations/agentRelationsSlice';
 import { Autocomplete, Switch } from '@mui/material';
 import CategorySelector from '../common/CategorySelector';
 import { fetchCategories } from '../../features/categories/categoriesSlice';
@@ -163,6 +163,7 @@ const SupplierPage = () => {
             });
         }        
 
+        dispatch(removeAgentRelation(agentRelationsId));
         for (let supplier of formValues.associateSuppliers) {
             if (supplier) {
               console.log('adding agentRelaion agent Id', numId, 'associate id', supplier.id);
@@ -175,9 +176,9 @@ const SupplierPage = () => {
         navigate('/suppliers');
     };
 
-    // get id of agentRelations row where agentId === numId
-    const agentRelationId = agentRelations.find(agentRelation => agentRelation.agentId === numId);
-    console.log('agentRelationId', agentRelationId);
+    // get index of agentRelations array item where agentId === numId
+    const agentRelationsId = agentRelations.findIndex(agentRelation => agentRelation.agentId === numId);
+        console.log('agentRelationsId', agentRelationsId);
 
     return (
         <Container
