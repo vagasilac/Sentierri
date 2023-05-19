@@ -102,9 +102,11 @@ const SupplierPage = () => {
 
     useEffect(() => {
         if (supplier && supplier.categories) {
-            setFormValues(supplier);
+            setFormValues({
+                ...supplier,
+                associateSuppliers: associateSuppliers
+            });
             setSelectedCategoryId(supplier.categories.map(category => category.id));
-            setFormValues((prev) => ({ ...prev, associateSuppliers: associateSuppliers }));
         }
     }, [supplier]);
 
