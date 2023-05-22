@@ -4,8 +4,10 @@ import {
   useGroupBy,
   useExpanded,
   useSortBy,
+  useBlockLayout,
   useFilters,
 } from 'react-table';
+import { useSticky } from 'react-table-sticky';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import {
@@ -66,7 +68,9 @@ const DataTable = ({ columns, data }) => {
     useFilters,
     useGroupBy,
     useSortBy,
-    useExpanded
+    useExpanded,
+    useSticky,
+    useBlockLayout
   );
 
   const navigate = useNavigate();
