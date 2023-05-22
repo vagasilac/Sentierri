@@ -157,72 +157,53 @@ const NewSupplierPage = () => {
         navigate('/suppliers');
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+      
         try {
-            const response = await dispatch(addSupplier(formValues));
-            const supplierId = response.payload.id;
-
+          const result = await dispatch(addSupplier(formValues));
+          if (result && result.payload) {
+            const supplierId = result.payload.id;
+      
             for (let category of selectedCategoryId) {
-                if (category) {
-                    const response = await dispatch(addSupplierCategory(supplierId, category.id));
-                    if (response.error) {
-                        throw new Error('Error adding category to supplier');
-                    }
+              if (category) {
+                const response = await dispatch(addSupplierCategory(supplierId, category.id));
+                if (response.error) {
+                  throw new Error('Error adding supplier category');
                 }
+              }
             }
-        // if (selectedCategoryId.length > 0) {
-        //     selectedCategoryId.forEach(categoryId => {
-        //         console.log('supplierId', supplierId, 'categoryId', categoryId);
-        //         dispatch(addSupplierCategory(supplierId, categoryId));
-        //     });
-        // }
-
-            if (formValues.isAgent) {
-                formValues.associateSuppliers.forEach((supplier) => {
-                if (supplier) {
-                    console.log('adding agentRelation agent Id', supplierId, 'associate id', supplier.id);
-                    dispatch(addAgentRelation(supplierId, supplier.id));
+      
+            for (let supplier of formValues.associateSuppliers) {
+              if (supplier) {
+                const response = await dispatch(addAgentRelation(supplierId, supplier.id));
+                if (response.error) {
+                  throw new Error('Error adding agent relation');
                 }
-                });
-            } else {
-                associateAgents.forEach((agent) => {
-                if (agent) {
-                    console.log('adding agentRelation agent Id', agent.id, 'associate id', supplierId);
-                    dispatch(addAgentRelation(agent.id, supplierId));
-                }
-                });
+              }
             }
-
-            setSelectedCategoryId('');
-            setFormValues({
-                name: '',
-                abbreviation: '',
-                telephone: '',
-                email: '',
-                street_address_1: '',
-                street_address_2: '',
-                city: '',
-                zip: '',
-                county: '',
-                country: '',
-                vat: '',
-                reg_com: '',
-                contact_person_firstname: '',
-                contact_person_familyname: '',
-                lead_time: '',
-                swift: '',
-                iban: '',
-                isAgent: false,
-                associateSuppliers: [],
-            });
-            } catch (err) {
-                console.log('err', err);
-                setErrorMessage(err.message);
-                setErrorSnackbarOpen(true);
-            };
-        };
+      
+            for (let agent of formValues.associateAgents) {
+              if (agent) {
+                const response = await dispatch(addAgentRelation(agent.id, supplierId));
+                if (response.error) {
+                  throw new Error('Error adding agent relation');
+                }
+              }
+            }
+      
+            setSnackbarOpen(true);
+            setFormValues(initialFormState);
+          } else {
+            throw new Error('Error adding supplier');
+          }
+        } catch (error) {
+          console.error(error);
+          setError(error.message);
+          setErrorSnackbarOpen(true); // Open the error Snackbar
+        }
+      };
+      
 
 
     return (
