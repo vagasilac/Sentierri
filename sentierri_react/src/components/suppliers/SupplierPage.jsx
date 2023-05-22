@@ -99,9 +99,13 @@ const SupplierPage = () => {
                     .filter(agentRelation => agentRelation.agentId === numId)
                     .map(agentRelation => suppliers.find(supplier => supplier.id === agentRelation.supplierId))
             );
+            setAssociateAgents(
+                agentRelations
+                    .filter(agentRelation => agentRelation.supplierId === numId)
+                    .map(agentRelation => suppliers.find(supplier => supplier.id === agentRelation.agentId))
+            );
         }
     }, [agentRelations, suppliers, numId]);
-    
 
     useEffect(() => {
         if (supplier && supplier.categories) {
@@ -118,16 +122,6 @@ const SupplierPage = () => {
     useEffect(() => {
         setFormValues((prev) => ({ ...prev, associateAgents: associateAgents }));
       }, [associateAgents]);      
-
-    useEffect(() => {
-        if (agentRelations.length > 0 && suppliers.length > 0) {
-          setAssociateAgents(
-            agentRelations
-              .filter(agentRelation => agentRelation.supplierId === numId)
-              .map(agentRelation => suppliers.find(supplier => supplier.id === agentRelation.agentId))
-          );
-        }
-      }, [agentRelations, suppliers, numId]);   
 
     // VALIDATION
         // Check if supplier exists by name
