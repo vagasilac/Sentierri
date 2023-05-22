@@ -61,17 +61,25 @@ const updateSupplierCategory = async (req, res) => {
 // Delete a supplierCategory by ID
 const deleteSupplierCategory = async (req, res) => {
   try {
-    const rowsDeleted = await SupplierCategory.destroy({ where: { id: req.params.id } });
+      const { supplierId, categoryId } = req.params;
+      const rowsDeleted = await SupplierCategory.destroy({ 
+          where: { 
+              supplierId: supplierId, 
+              categoryId: categoryId 
+          } 
+      });
 
-    if (!rowsDeleted) {
-      return res.status(404).json({ message: 'SupplierCategory not found' });
-    }
+      if (!rowsDeleted) {
+          return res.status(404).json({ message: 'SupplierCategory not found' });
+      }
 
-    res.status(204).json({ message: 'SupplierCategory deleted successfully' });
+      res.status(204).json({ message: 'SupplierCategory deleted successfully' });
   } catch (error) {
-    res.status(400).json({ message: 'Error deleting supplierCategory', error });
+      res.status(400).json({ message: 'Error deleting supplierCategory', error });
   }
 };
+
+
 
 // Export the CRUD functions for use in routes
 module.exports = {

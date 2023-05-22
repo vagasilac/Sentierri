@@ -86,17 +86,17 @@ export const addSupplierCategory = (supplierId, categoryId) => {
 };
 
 // removeSupplierCategory
-export const removeSupplierCategory = (supplierId) => {
+export const removeSupplierCategory = (supplierId, categoryId) => {
   return async (dispatch) => {
-    dispatch(removeSupplierCategoryRequest());
-    // remove that supplierCategory from the database that has the received supplierId as its supplierId
-    try {
-      const removedSupplierCategory = await supplierCategoryService.removeSupplierCategory(supplierId);
-      dispatch(removeSupplierCategorySuccess(removedSupplierCategory));
-    } catch (error) {
-      dispatch(removeSupplierCategoryFailure(error));
-    }
+      dispatch(removeSupplierCategoryRequest());
+      try {
+          const removedSupplierCategory = await supplierCategoryService.removeSupplierCategory(supplierId, categoryId);
+          dispatch(removeSupplierCategorySuccess(removedSupplierCategory));
+      } catch (error) {
+          dispatch(removeSupplierCategoryFailure(error));
+      }
   };
 };
+
 
 export default supplierCategoriesSlice.reducer;

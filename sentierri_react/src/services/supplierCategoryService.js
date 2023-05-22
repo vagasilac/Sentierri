@@ -32,3 +32,15 @@ export const getAllSupplierCategories = async () => {
     return null;
   }
 };
+
+export const removeSupplierCategory = async (supplierId, categoryId) => {
+  const response = await fetch(`/api/supplierCategories/${supplierId}/${categoryId}`, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to delete supplier category');
+  }
+
+  return await response.json();
+};
