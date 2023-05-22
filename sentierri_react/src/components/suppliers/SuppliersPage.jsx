@@ -50,7 +50,7 @@ const SuppliersPage = () => {
     },
     { accessor: 'associatedEntity',
       Header: 'Associated Entity',
-      Cell: ({value}) => value ? value.join(', ') : 'None',
+      Cell: ({ value }) => Array.isArray(value) ? value.join(', ') : value || 'None',
       options: {
         filter: true,
         sort: true,
