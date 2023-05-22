@@ -73,17 +73,18 @@ export const fetchSupplierCategories = () => {
 };
 
 // addSupplierCategory
-export const addSupplierCategory = (supplierId, categoryId) => {
-  return async (dispatch) => {
-    dispatch(addSupplierCategoryRequest());
+export const addSupplierCategory = createAsyncThunk(
+  'supplierCategories/addSupplierCategory',
+  async ({ supplierId, categoryId }, { rejectWithValue }) => {
     try {
-      const addedSupplierCategory = await supplierCategoryService.addSupplierCategory(supplierId, categoryId);
-      dispatch(addSupplierCategorySuccess(addedSupplierCategory));
-    } catch (error) {
-      dispatch(addSupplierCategoryFailure(error));
+      const response = await supplierCategoryService.addSupplierCategory(supplierId, categoryId);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
     }
-  };
-};
+  }
+);
+
 
 // removeSupplierCategory
 export const removeSupplierCategory = (supplierId, categoryId) => {

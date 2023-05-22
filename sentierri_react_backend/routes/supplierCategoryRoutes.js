@@ -21,21 +21,21 @@ const router = express.Router();
 
 
 // Create a new supplierCategory
-router.post('/', createSupplierCategory);
+router.post('/:supplierId/:categoryId', createSupplierCategory);
 
 // Get all supplierCategories
-router.get('/', getAllSupplierCategories);
+router.get('/:supplierId/:categoryId', getSupplierCategoryById);
 
 // Get a single supplierCategory by ID
-router.get('/:id', getSupplierCategoryById);
+router.get('/:supplierId/:categoryId', getSupplierCategoryById);
 
 // Update a supplierCategory by ID
-router.put('/:id', updateSupplierCategory);
+router.put('/:supplierId/:categoryId', updateSupplierCategory);
 
 // Delete a supplierCategory by supplierId and categoryId
 router.delete('/:supplierId/:categoryId', deleteSupplierCategory);
 
 // Get all supplierCategories (protected route)
-router.get('/', authMiddleware, getAllSupplierCategories);
+// router.get('/', authMiddleware, getAllSupplierCategories);
 
 module.exports = router;

@@ -1,84 +1,72 @@
 // Import the SupplierCategory model
 const { SupplierCategory } = require('../models');
 
-// Create a new supplierCategory
 const createSupplierCategory = async (req, res) => {
+  const { supplierId, categoryId } = req.body;
   try {
-    const supplierCategoryData = req.body;
-    console.log('Received supplierCategory data:', supplierCategoryData);
-    const newSupplierCategory = await SupplierCategory.create(supplierCategoryData);
-    res.status(201).json(newSupplierCategory);
+    const supplierCategory = await SupplierCategory.create({ supplierId, categoryId });
+    res.status(201).json(supplierCategory);
   } catch (error) {
-    console.log('Error creating supplierCategory!', error);
-    res.status(400).json({ message: 'Error creating supplierCategory!', error });
+    res.status(400).json({ message: 'Error creating supplier-category relation' });
   }
 };
 
-// Get all supplierCategories
+const getSupplierCategoryById = async (req, res) => {
+  const { supplierId, categoryId } = req.params;
+  try {
+    const supplierCategory = await SupplierCategory.findOne({
+      where: { supplierId, categoryId }
+    });
+    if (supplierCategory) {
+      res.status(200).json(supplierCategory);
+    } else {
+      res.status(404).json({ message: 'Supplier-category relation not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error retrieving supplier-category relation' });
+  }
+};
+
+const updateSupplierCategory = async (req, res) => {
+  const { supplierId, categoryId } = req.params;
+  try {
+    const supplierCategory = await SupplierCategory.update(req.body, {
+      where: { supplierId, categoryId }
+    });
+    if (supplierCategory[0] !== 0) {
+      res.status(200).json({ message: 'Supplier-category relation updated successfully' });
+    } else {
+      res.status(404).json({ message: 'Supplier-category relation not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating supplier-category relation' });
+  }
+};
+
+const deleteSupplierCategory = async (req, res) => {
+  const { supplierId, categoryId } = req.params;
+  try {
+    const deletedRows = await SupplierCategory.destroy({
+      where: { supplierId, categoryId }
+    });
+    if (deletedRows !== 0) {
+      res.status(200).json({ message: 'Supplier-category relation deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'Supplier-category relation not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting supplier-category relation' });
+  }
+};
+
 const getAllSupplierCategories = async (req, res) => {
   try {
     const supplierCategories = await SupplierCategory.findAll();
     res.status(200).json(supplierCategories);
   } catch (error) {
-    console.log('error stack', error.stack);
-    console.error('error stack', error.stack);
-    console.error('Error fetching supplierCategories:', error.message);
-    res.status(400).json({ message: 'Error fetching supplierCategories', error: error.message });
+    res.status(500).json({ message: 'Error retrieving supplier-category relations' });
   }
 };
-
-// Get a single supplierCategory by ID
-const getSupplierCategoryById = async (req, res) => {
-  try {
-    const supplierCategory = await SupplierCategory.findByPk(req.params.id);
-    if (!supplierCategory) {
-      return res.status(404).json({ message: 'SupplierCategory not found' });
-    }
-    res.status(200).json(supplierCategory);
-  } catch (error) {
-    res.status(400).json({ message: 'Error fetching supplierCategory', error });
-  }
-};
-
-// Update a supplierCategory by ID
-const updateSupplierCategory = async (req, res) => {
-  try {
-    const [rowsUpdated] = await SupplierCategory.update(req.body, {
-      where: { id: req.params.id },
-    });
-
-    if (!rowsUpdated) {
-      return res.status(404).json({ message: 'SupplierCategory not found' });
-    }
-
-    const updatedSupplierCategory = await SupplierCategory.findByPk(req.params.id);
-    res.status(200).json(updatedSupplierCategory);
-  } catch (error) {
-    res.status(400).json({ message: 'Error updating supplierCategory', error });
-  }
-};
-
-// Delete a supplierCategory by ID
-const deleteSupplierCategory = async (req, res) => {
-  try {
-      const { supplierId, categoryId } = req.params;
-      const rowsDeleted = await SupplierCategory.destroy({ 
-          where: { 
-              supplierId: supplierId, 
-              categoryId: categoryId 
-          } 
-      });
-
-      if (!rowsDeleted) {
-          return res.status(404).json({ message: 'SupplierCategory not found' });
-      }
-
-      res.status(204).json({ message: 'SupplierCategory deleted successfully' });
-  } catch (error) {
-      res.status(400).json({ message: 'Error deleting supplierCategory', error });
-  }
-};
-
 
 
 // Export the CRUD functions for use in routes
