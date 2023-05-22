@@ -182,7 +182,7 @@ const SuppliersPage = () => {
   ];
 
   return (
-    <Box style={{width: '90%', marginTop: '20px'}}>
+    <Box style={{width: '88%', marginTop: '20px', boxSizing: 'border-box'}}>
       <Box style={{display: 'flex', justifyContent: 'space-between'}}>
         <Typography variant="h4">Suppliers</Typography>
         <Button
