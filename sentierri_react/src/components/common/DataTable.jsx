@@ -29,7 +29,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     position: 'sticky',
     left: 0,
     background: theme.palette.background.paper,
-    zIndex: 1,
+    zIndex: 2,
   },
 }));
 
