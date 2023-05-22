@@ -3,7 +3,9 @@ const { SupplierCategory } = require('../models');
 
 const createSupplierCategory = async (req, res) => {
   const { supplierId, categoryId } = req.params;
-
+  console.log('supplierCategoryController.js: createSupplierCategory - start');
+  console.log('supplierCategoryController.js: createSupplierCategory - supplierId', supplierId);
+  console.log('supplierCategoryController.js: createSupplierCategory - categoryId', categoryId);
   try {
     const newSupplierCategory = await SupplierCategory.create({
       supplierId: supplierId,

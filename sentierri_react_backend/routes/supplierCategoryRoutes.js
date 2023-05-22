@@ -19,7 +19,7 @@ const authMiddleware = require('../middleware/auth');
 
 const router = express.Router();
 
-
+console.log('supplierCategoryRoutes.js: router.get(/) - start');
 // Create a new supplierCategory
 router.post('/:supplierId/:categoryId', createSupplierCategory);
 
