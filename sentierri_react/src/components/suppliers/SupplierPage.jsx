@@ -178,7 +178,7 @@ const SupplierPage = () => {
         console.log('existingSupplierCategoryRelations', existingSupplierCategoryRelations);
         
         // Determine new SupplierCategory relations
-        const newSupplierCategoryRelations = selectedCategoryId.map((category) => category.id);
+        const newSupplierCategoryRelations = selectedCategoryId;
         console.log('newSupplierCategoryRelations', newSupplierCategoryRelations);
         
         // Add new SupplierCategory relations
