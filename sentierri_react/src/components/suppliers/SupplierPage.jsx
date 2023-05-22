@@ -11,7 +11,7 @@ import { fetchCategories } from '../../features/categories/categoriesSlice';
 import { SPO } from './SPO';
 import { SInvoices_dummy } from './SInvoices_dummy';
 import { QualityIssues_dummy } from './QualityIssues_dummy';
-import { addSupplierCategory, removeSupplierCategory } from '../../features/supplierCategories/supplierCategoriesSlice';
+import { fetchSupplierCategories, addSupplierCategory, removeSupplierCategory } from '../../features/supplierCategories/supplierCategoriesSlice';
 
 // TODOs:
 
@@ -59,7 +59,7 @@ const SupplierPage = () => {
     const suppliers = useSelector(state => state.suppliers.data);
     const supplier = useSelector(state => state.suppliers.data.find(supplier => supplier.id === numId));
     const supplierCategories = useSelector(state => state.supplierCategories.data);
-    console.log('supplier in SupplierPage', supplier);
+    console.log('supplierCategories', supplierCategories);
     const [selectedCategoryId, setSelectedCategoryId] = useState([]);
     const agentRelations = useSelector(state => state.agentRelations.data);   
     console.log('agentRelations in SupplierPage', agentRelations);
@@ -89,6 +89,7 @@ const SupplierPage = () => {
             dispatch(fetchCategories());
             dispatch(fetchSuppliers());
             dispatch(fetchAgentRelations());}
+            dispatch(fetchSupplierCategories());
             fetchData();
     }, [dispatch]);
 
@@ -174,9 +175,11 @@ const SupplierPage = () => {
         const existingSupplierCategoryRelations = supplierCategories.filter(
             (relation) => relation.supplierId === numId
         );
+        console.log('existingSupplierCategoryRelations', existingSupplierCategoryRelations);
         
         // Determine new SupplierCategory relations
-        const newSupplierCategoryRelations = formValues.categories.map((category) => category.id);
+        const newSupplierCategoryRelations = selectedCategoryId.map((category) => category.id);
+        console.log('newSupplierCategoryRelations', newSupplierCategoryRelations);
         
         // Add new SupplierCategory relations
         for (let newSupplierCategoryRelation of newSupplierCategoryRelations) {
@@ -185,6 +188,8 @@ const SupplierPage = () => {
                 (relation) => relation.categoryId === newSupplierCategoryRelation
             )
             ) {
+                console.log('newSupplierCategoryRelation', newSupplierCategoryRelation);
+                console.log('numId', numId);
             dispatch(addSupplierCategory(numId, newSupplierCategoryRelation));
             }
         }
