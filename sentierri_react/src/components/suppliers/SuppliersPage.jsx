@@ -195,9 +195,7 @@ const SuppliersPage = () => {
       {suppliers.loading ? (
         <CircularProgress />
       ) : suppliers.length > 0 ? (
-        <div style={{ overflowX: 'auto', width: '100%', position: 'relative', maxWidth: '100%' }}>
           <DataTable key={suppliers.length} columns={columns} data={suppliers} />
-        </div>
       ) : (
         <p>No suppliers found</p>
       )}

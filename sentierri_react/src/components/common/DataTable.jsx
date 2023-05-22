@@ -83,70 +83,74 @@ const DataTable = ({ columns, data }) => {
       <div style={{ position: 'relative', overflowX: 'hidden' }}>
         <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
           <TableContainer>
-            <StyledTable {...getTableProps()}>
-              <TableHead>
-                {headerGroups.map((headerGroup) => (
-                  <TableRow {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.map((column) => (
-                      <StyledTableCell 
-                        {...column.getHeaderProps(column.getSortByToggleProps())} 
-                        className={column.id === 'name' ? 'frozen' : ''}
-                      >
-                        {column.render('Header')}
-                        {column.canGroupBy ? (
-                          <span {...column.getGroupByToggleProps()}>
-                            {column.isGrouped ? '✖ ' : '⊞ '}
-                          </span>
-                        ) : null}
-                        {column.isSorted ? (
-                          <TableSortLabel active direction={column.isSortedDesc ? 'desc' : 'asc'} />
-                        ) : null}
-                        <div>{column.canFilter ? column.render('Filter') : null}</div>
-                      </StyledTableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </TableHead>
-              <TableBody {...getTableBodyProps()}>
-                {rows.map((row, i) => {
-                  prepareRow(row);
-                  return (
-                    <TableRow {...row.getRowProps()}>
-                      {row.cells.map((cell) => {
-                        return (
-                          <TableCell
-                            {...cell.getCellProps()}
-                            onClick={() => handleCellClick(cell.row.original.id)}
-                            style={{
-                              background: cell.isGrouped
-                                ? '#0aff0082'
-                                : cell.isAggregated
-                                ? '#ffa50078'
-                                : cell.isPlaceholder
-                                ? '#ff000042'
-                                : 'white',
-                            }}
-                          >
-                            {cell.isGrouped ? (
-                              <>
-                                <span {...row.getToggleRowExpandedProps()}>
-                                  {row.isExpanded ? '👇' : '👉'}
-                                </span>{' '}
-                                {cell.render('Cell')} ({row.subRows.length})
-                              </>
-                            ) : cell.isAggregated ? (
-                              cell.render('Aggregated')
-                            ) : cell.isPlaceholder ? null : (
-                              cell.render('Cell')
-                            )}
-                          </TableCell>
-                        );
-                      })}
+            <div style={{ overflow: 'auto', height: '400px' }}>
+              <StyledTable {...getTableProps()} style={{ width: '100%', position: 'relative' }}>
+                <TableHead>
+                  {headerGroups.map((headerGroup) => (
+                    <TableRow {...headerGroup.getHeaderGroupProps()}>
+                      {headerGroup.headers.map((column) => (
+                        <StyledTableCell 
+                          style={{ position: 'sticky' }}
+                          {...column.getHeaderProps(column.getSortByToggleProps())} 
+                          className={column.id === 'name' ? 'frozen' : ''}
+                        >
+                          {column.render('Header')}
+                          {column.canGroupBy ? (
+                            <span {...column.getGroupByToggleProps()}>
+                              {column.isGrouped ? '✖ ' : '⊞ '}
+                            </span>
+                          ) : null}
+                          {column.isSorted ? (
+                            <TableSortLabel active direction={column.isSortedDesc ? 'desc' : 'asc'} />
+                          ) : null}
+                          <div>{column.canFilter ? column.render('Filter') : null}</div>
+                        </StyledTableCell>
+                      ))}
                     </TableRow>
-                  );
-                })}
-              </TableBody>
-            </StyledTable>
+                  ))}
+                </TableHead>
+                <TableBody {...getTableBodyProps()}>
+                  {rows.map((row, i) => {
+                    prepareRow(row);
+                    return (
+                      <TableRow {...row.getRowProps()}>
+                        {row.cells.map((cell) => {
+                          return (
+                            <TableCell
+                              {...cell.getCellProps()}
+                              className={cell.column.id === 'name' ? 'frozen' : ''}
+                              onClick={() => handleCellClick(cell.row.original.id)}
+                              style={{
+                                background: cell.isGrouped
+                                  ? '#0aff0082'
+                                  : cell.isAggregated
+                                  ? '#ffa50078'
+                                  : cell.isPlaceholder
+                                  ? '#ff000042'
+                                  : 'white',
+                              }}
+                            >
+                              {cell.isGrouped ? (
+                                <>
+                                  <span {...row.getToggleRowExpandedProps()}>
+                                    {row.isExpanded ? '👇' : '👉'}
+                                  </span>{' '}
+                                  {cell.render('Cell')} ({row.subRows.length})
+                                </>
+                              ) : cell.isAggregated ? (
+                                cell.render('Aggregated')
+                              ) : cell.isPlaceholder ? null : (
+                                cell.render('Cell')
+                              )}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </StyledTable>
+            </div>
           </TableContainer>
         </div>
       </div>
