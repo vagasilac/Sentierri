@@ -58,6 +58,7 @@ const SupplierPage = () => {
     const categories = useSelector(state => state.categories.data);
     const suppliers = useSelector(state => state.suppliers.data);
     const supplier = useSelector(state => state.suppliers.data.find(supplier => supplier.id === numId));
+    const supplierCategories = useSelector(state => state.supplierCategories.data);
     console.log('supplier in SupplierPage', supplier);
     const [selectedCategoryId, setSelectedCategoryId] = useState([]);
     const agentRelations = useSelector(state => state.agentRelations.data);   
@@ -169,13 +170,32 @@ const SupplierPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(updateSupplier(formValues));
-        dispatch(removeSupplierCategory(numId));
-        if (selectedCategoryId.length > 0) {
-            selectedCategoryId.forEach(categoryId => {
-                console.log('supplierId', numId, 'categoryId', categoryId);
-                dispatch(addSupplierCategory(numId, categoryId));
-            });
-        }        
+        // Fetch existing SupplierCategory relations for the current supplier
+        const existingSupplierCategoryRelations = supplierCategories.filter(
+            (relation) => relation.supplierId === numId
+        );
+        
+        // Determine new SupplierCategory relations
+        const newSupplierCategoryRelations = formValues.categories.map((category) => category.id);
+        
+        // Add new SupplierCategory relations
+        for (let newSupplierCategoryRelation of newSupplierCategoryRelations) {
+            if (
+            !existingSupplierCategoryRelations.some(
+                (relation) => relation.categoryId === newSupplierCategoryRelation
+            )
+            ) {
+            dispatch(addSupplierCategory(numId, newSupplierCategoryRelation));
+            }
+        }
+        
+        // Remove old SupplierCategory relations
+        for (let existingSupplierCategoryRelation of existingSupplierCategoryRelations) {
+            if (!newSupplierCategoryRelations.includes(existingSupplierCategoryRelation.categoryId)) {
+            dispatch(removeSupplierCategory(existingSupplierCategoryRelation.id));
+            }
+        }
+         
         dispatch(removeAgentRelation(agentRelationsId));
 
         // Fetch existing agent relations for the current supplier
