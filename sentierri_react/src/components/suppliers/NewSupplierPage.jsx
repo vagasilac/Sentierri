@@ -162,8 +162,7 @@ const NewSupplierPage = () => {
       
         try {
           const result = await dispatch(addSupplier(formValues));
-          if (result && result.payload) {
-            const supplierId = result.payload.id;
+          if (result) {
       
             for (let category of selectedCategoryId) {
               if (category) {
