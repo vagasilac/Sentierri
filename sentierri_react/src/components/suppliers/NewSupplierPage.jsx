@@ -34,6 +34,7 @@ const NewSupplierPage = () => {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [submissionSuccessful, setSubmissionSuccessful] = useState(false);    
     const classes = useStyles();
+    const [associateAgents, setAssociateAgents] = useState([]);
     const [formValues, setFormValues] = useState({
         name: '',
         abbreviation: '',
@@ -158,13 +159,22 @@ const NewSupplierPage = () => {
                 console.log('supplierId', supplierId, 'categoryId', categoryId);
                 dispatch(addSupplierCategory(supplierId, categoryId));
             });
-        }        
-
-        for (let supplier of formValues.associateSuppliers) {
-            if (supplier) {
-              console.log('adding agentRelaion agent Id', supplierId, 'associate id', supplier.id);
-              dispatch(addAgentRelation(supplierId, supplier.id));
-            }
+        }
+                
+        if (formValues.isAgent) {
+            formValues.associateSuppliers.forEach((supplier) => {
+              if (supplier) {
+                console.log('adding agentRelation agent Id', supplierId, 'associate id', supplier.id);
+                dispatch(addAgentRelation(supplierId, supplier.id));
+              }
+            });
+          } else {
+            associateAgents.forEach((agent) => {
+              if (agent) {
+                console.log('adding agentRelation agent Id', agent.id, 'associate id', supplierId);
+                dispatch(addAgentRelation(agent.id, supplierId));
+              }
+            });
           }
 
         setSelectedCategoryId('');
@@ -407,30 +417,45 @@ const NewSupplierPage = () => {
                                 >
                             </Switch>
                         </Grid>
-                        {formValues.isAgent && (
                         <Grid item sm={12} md={6} > 
-                                <Autocomplete
-                                    multiple
-                                    id="associate-suppliers"
-                                    options={filteredSuppliers}
-                                    getOptionLabel={(option) => option.name}
-                                    isOptionEqualToValue={(option, value) => option.id === value.id}
-                                    onChange={(e, value) => {
-                                        setFormValues((prev) => ({
-                                        ...prev,
-                                        associateSuppliers: value,
-                                        }));
-                                    }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                        {...params}
-                                        label="Associate Suppliers"
-                                        placeholder="Associate Suppliers"
-                                        />
-                                    )}
-                                />
-                            </Grid>                   
+                        {!formValues.isAgent && (
+                            <Autocomplete
+                                multiple
+                                id="associate-agents"
+                                options={filteredSuppliers}
+                                getOptionLabel={(option) => option.name}
+                                value={associateAgents}
+                                onChange={(event, newValue) => {
+                                setAssociateAgents(newValue);
+                                }}
+                                renderInput={(params) => (
+                                <TextField {...params} variant="outlined" label="Associate Agents" />
+                                )}
+                            />
                         )}
+                        {formValues.isAgent && (
+                            <Autocomplete
+                                multiple
+                                id="associate-suppliers"
+                                options={filteredSuppliers}
+                                getOptionLabel={(option) => option.name}
+                                isOptionEqualToValue={(option, value) => option.id === value.id}
+                                onChange={(e, value) => {
+                                    setFormValues((prev) => ({
+                                    ...prev,
+                                    associateSuppliers: value,
+                                    }));
+                                }}
+                                renderInput={(params) => (
+                                    <TextField
+                                    {...params}
+                                    label="Associate Suppliers"
+                                    placeholder="Associate Suppliers"
+                                    />
+                                )}
+                            />
+                            )}
+                        </Grid>                   
                         <Grid item sm={12} md={6} > 
                         <Button
                             type="submit"
