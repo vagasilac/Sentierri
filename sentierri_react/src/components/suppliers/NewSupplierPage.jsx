@@ -35,6 +35,7 @@ const NewSupplierPage = () => {
     const navigate = useNavigate();
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const [submissionSuccessful, setSubmissionSuccessful] = useState(false);    
     const classes = useStyles();
     const [associateAgents, setAssociateAgents] = useState([]);
@@ -218,7 +219,7 @@ const NewSupplierPage = () => {
             });
             } catch (err) {
                 console.log('err', err);
-                setError(error.message);
+                setErrorMessage(err.message);
                 setErrorSnackbarOpen(true);
             };
         };
@@ -509,7 +510,7 @@ const NewSupplierPage = () => {
                     onClose={handleCloseSnackbar}
                     >
                     <Alert onClose={handleCloseSnackbar} severity="error">
-                        {error}
+                        {errorMessage}
                     </Alert>
                 </Snackbar>
             </Paper>
