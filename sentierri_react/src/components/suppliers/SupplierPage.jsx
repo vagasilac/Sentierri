@@ -11,7 +11,7 @@ import { fetchCategories } from '../../features/categories/categoriesSlice';
 import { SPO } from './SPO';
 import { SInvoices_dummy } from './SInvoices_dummy';
 import { QualityIssues_dummy } from './QualityIssues_dummy';
-import { fetchSupplierCategories } from '../../features/supplierCategories/supplierCategoriesSlice';
+import { addSupplierCategory, removeSupplierCategory } from '../../features/supplierCategories/supplierCategoriesSlice';
 
 // TODOs:
 
@@ -178,18 +178,42 @@ const SupplierPage = () => {
         }        
         dispatch(removeAgentRelation(agentRelationsId));
 
-        for (let supplier of formValues.associateSuppliers) {
-            if (supplier) {
-              console.log('adding agentRelaion agent Id', numId, 'associate id', supplier.id);
-              dispatch(addAgentRelation(numId, supplier.id));
+        // Fetch existing agent relations for the current supplier
+        const existingAgentRelations = agentRelations.filter(
+            (relation) => relation.agentId === numId || relation.supplierId === numId
+        );
+        
+        // Determine new agent relations
+        const newAgentRelations = [
+            ...formValues.associateSuppliers.map((supplier) => supplier.id),
+            ...formValues.associateAgents.map((agent) => agent.id),
+        ];
+        
+        // Add new agent relations
+        for (let newAgentRelation of newAgentRelations) {
+            if (
+            !existingAgentRelations.some(
+                (relation) =>
+                relation.agentId === newAgentRelation || relation.supplierId === newAgentRelation
+            )
+            ) {
+            if (formValues.isAgent) {
+                dispatch(addAgentRelation(numId, newAgentRelation));
+            } else {
+                dispatch(addAgentRelation(newAgentRelation, numId));
             }
-        };
-        for (let agent of formValues.associateAgents) {
-            if (agent) {
-              console.log('adding agentRelation agent Id', agent.id, 'associate id', numId);
-              dispatch(addAgentRelation(agent.id, numId));
             }
-          }
+        }
+        
+        // Remove old agent relations
+        for (let existingAgentRelation of existingAgentRelations) {
+            if (
+            !newAgentRelations.includes(existingAgentRelation.agentId) &&
+            !newAgentRelations.includes(existingAgentRelation.supplierId)
+            ) {
+            dispatch(removeAgentRelation(existingAgentRelation.id));
+            }
+        }
     }
 
     const handleBack = () => {
