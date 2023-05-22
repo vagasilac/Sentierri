@@ -1,5 +1,5 @@
 // Import the Supplier model
-const { Supplier, Category } = require('../models');
+const { Supplier, Category, AgentRelations } = require('../models');
 
 // Create a new supplier
 const createSupplier = async (req, res) => {
@@ -14,10 +14,8 @@ const createSupplier = async (req, res) => {
   }
 };
 
-// Get all suppliers
 const getAllSuppliers = async (req, res) => {
   try {
-    // const suppliers = await Supplier.findAll();
     const suppliers = await Supplier.findAll({
       include: [{
         model: Category,
@@ -25,8 +23,28 @@ const getAllSuppliers = async (req, res) => {
         as: 'categories'
       }]
     });
-    // console.log('supplierController getAllSuppliers suppliers', suppliers);
-    res.status(200).json(suppliers);
+
+    // Fetch the agent relations data
+    const agentRelations = await AgentRelations.findAll();
+
+    // Modify the supplier data to include the associated suppliers or agent
+    const modifiedSuppliers = await Promise.all(suppliers.map(async supplier => {
+      if (supplier.isAgent) {
+        // The supplier is an agent, fetch the associated suppliers
+        const associatedSuppliers = agentRelations
+          .filter(relation => relation.agentId === supplier.id)
+          .map(relation => relation.supplierId);
+        return { ...supplier.toJSON(), associatedEntity: associatedSuppliers };
+      } else {
+        // The supplier is not an agent, fetch the associated agent
+        const associatedAgentRelation = agentRelations
+          .find(relation => relation.supplierId === supplier.id);
+        const associatedAgent = associatedAgentRelation ? associatedAgentRelation.agentId : null;
+        return { ...supplier.toJSON(), associatedEntity: associatedAgent };
+      }
+    }));
+
+    res.status(200).json(modifiedSuppliers);
   } catch (error) {
     console.log('error stack', error.stack);
     console.error('error stack', error.stack);
@@ -34,6 +52,7 @@ const getAllSuppliers = async (req, res) => {
     res.status(400).json({ message: 'Error fetching suppliers', error: error.message });
   }
 };
+
 
 // Get a single supplier by ID
 const getSupplierById = async (req, res) => {

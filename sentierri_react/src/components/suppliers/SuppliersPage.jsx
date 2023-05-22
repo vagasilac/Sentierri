@@ -34,6 +34,28 @@ const SuppliersPage = () => {
         filter: true,
         sort: true,
       }},
+      { accessor: 'abbreviation',
+      Header: 'Abbreviation',
+      options: {
+        filter: true,
+        sort: true,
+      }},
+    { accessor: 'isAgent',
+      Header: 'Agent?',
+      Cell: ({value}) => value ? 'Yes' : 'No',
+      options: {
+        filter: true,
+        sort: true,
+      }
+    },
+    { accessor: 'associatedEntity',
+      Header: 'Associated Entity',
+      Cell: ({value}) => value ? value.join(', ') : 'None',
+      options: {
+        filter: true,
+        sort: true,
+      }
+    },
     { accessor: 'telephone',
       Header: 'Telephone',
       options: {
