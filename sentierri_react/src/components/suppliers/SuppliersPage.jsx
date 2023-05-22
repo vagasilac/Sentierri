@@ -182,7 +182,7 @@ const SuppliersPage = () => {
   ];
 
   return (
-    <Box style={{width: '100%', marginTop: '20px'}}>
+    <Box style={{width: '90%', marginTop: '20px'}}>
       <Box style={{display: 'flex', justifyContent: 'space-between'}}>
         <Typography variant="h4">Suppliers</Typography>
         <Button
@@ -194,7 +194,9 @@ const SuppliersPage = () => {
       {suppliers.loading ? (
         <CircularProgress />
       ) : suppliers.length > 0 ? (
-        <DataTable key={suppliers.length} columns={columns} data={suppliers} />
+        <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
+          <DataTable key={suppliers.length} columns={columns} data={suppliers} />
+        </div>
       ) : (
         <p>No suppliers found</p>
       )}

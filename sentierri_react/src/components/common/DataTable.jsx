@@ -76,7 +76,7 @@ const DataTable = ({ columns, data }) => {
 
   return (
     <Paper>
-      <div style={{ overflowX: 'auto' }}>
+      <div style={{ position: 'relative', overflowX: 'scroll', maxWidth: '100%' }}>
         <TableContainer style={{ width: '100%', overflowX: 'auto' }}>
           <StyledTable {...getTableProps()}>
             <TableHead>
