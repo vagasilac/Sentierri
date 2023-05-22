@@ -73,17 +73,18 @@ export const fetchSupplierCategories = () => {
 };
 
 // addSupplierCategory
-export const addSupplierCategory = createAsyncThunk(
-  'supplierCategories/addSupplierCategory',
-  async ({ supplierId, categoryId }, { rejectWithValue }) => {
+export const addSupplierCategory = (supplierId, categoryId) => {
+  return async (dispatch) => {
+    dispatch(addSupplierCategoryRequest());
     try {
       const response = await supplierCategoryService.addSupplierCategory(supplierId, categoryId);
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err.response.data);
+      dispatch(addSupplierCategorySuccess(response.data));
+    } catch (error) {
+      dispatch(addSupplierCategoryFailure(error));
     }
-  }
-);
+  };
+};
+
 
 
 // removeSupplierCategory
