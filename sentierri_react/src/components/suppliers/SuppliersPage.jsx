@@ -112,28 +112,14 @@ const SuppliersPage = () => {
         filter: true,
         sort: true,
       }},
-    { accessor: 'contact_person_firstname',
-    Header: () => (
-      <Box>
-        <Typography variant="body1"
-          style={{fontWeight: 'bold'}}>Contact</Typography>
-        <Typography variant="body1"
-          style={{fontWeight: 'bold'}}>name 1</Typography>
-      </Box>
-    ),
+      { accessor: 'contact_person_firstname',
+      Header: 'Contact name 1',
       options: {
         filter: true,
         sort: true,
       }},
     { accessor: 'contact_person_familyname',
-    Header: () => (
-      <Box>
-        <Typography variant="body1"
-          style={{fontWeight: 'bold'}}>Contact</Typography>
-        <Typography variant="body1"
-          style={{fontWeight: 'bold'}}>name 2</Typography>
-      </Box>
-    ),
+      Header: 'Contact name 2',
       options: {
         filter: true,
         sort: true,
@@ -145,14 +131,7 @@ const SuppliersPage = () => {
         sort: true,
       }},
     { accessor: 'lead_time',
-    Header: () => (
-      <Box>
-        <Typography variant="body1"
-          style={{fontWeight: 'bold'}}>Lead</Typography>
-        <Typography variant="body1"
-          style={{fontWeight: 'bold'}}>Time</Typography>
-      </Box>
-    ),
+      Header: 'Lead time (days)',
       options: {
         filter: true,
         sort: true,
