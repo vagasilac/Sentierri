@@ -14,6 +14,27 @@ const createSupplier = async (req, res) => {
   }
 };
 
+// Get all suppliers
+// const getAllSuppliers = async (req, res) => {
+//   try {
+//     // const suppliers = await Supplier.findAll();
+//     const suppliers = await Supplier.findAll({
+//       include: [{
+//         model: Category,
+//         through: { attributes: [] },
+//         as: 'categories'
+//       }]
+//     });
+//     // console.log('supplierController getAllSuppliers suppliers', suppliers);
+//     res.status(200).json(suppliers);
+//   } catch (error) {
+//     console.log('error stack', error.stack);
+//     console.error('error stack', error.stack);
+//     console.error('Error fetching suppliers:', error.message);
+//     res.status(400).json({ message: 'Error fetching suppliers', error: error.message });
+//   }
+// };
+
 const getAllSuppliers = async (req, res) => {
   try {
     const suppliers = await Supplier.findAll({

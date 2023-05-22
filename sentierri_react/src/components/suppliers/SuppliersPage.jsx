@@ -14,11 +14,17 @@ import StartIcon from '@mui/icons-material/Start';
 // 2. Add grouping by category
 
 const SuppliersPage = () => {
-  const suppliers = useSelector(state => state.suppliers.data.map(supplier => ({
-    ...supplier,
-    categories: supplier.categories.map(category => category.name).join(', ')
-  })));
-    console.log('useSelector suppliers in SuppliersPage', suppliers);
+  const suppliers = useSelector(state => {
+    try {
+      return state.suppliers.data.map(supplier => ({
+        ...supplier,
+        categories: supplier.categories.map(category => category.name).join(', ')
+      }));
+    } catch (error) {
+      console.error('Error transforming suppliers data:', error);
+      return [];
+    }
+  });  
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
