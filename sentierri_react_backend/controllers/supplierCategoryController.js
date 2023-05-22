@@ -11,7 +11,7 @@ const createSupplierCategory = async (req, res) => {
       supplierId: supplierId,
       categoryId: categoryId
     });
-
+    console.log('supplierCategoryController.js: createSupplierCategory - newSupplierCategory', newSupplierCategory);
     res.status(201).json({
       message: 'SupplierCategory relation created successfully.',
       supplierCategory: newSupplierCategory

@@ -16,8 +16,7 @@ import { Autocomplete } from '@mui/material';
 import { set } from 'date-fns';
 
 // TODO:
-// - when adding a new supplier and there is an error with e.g. selected categories no error message is shown and
-// the supplier is added without categories
+// - error handling on form submission (supplier-category, agent-supplier relations)
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,8 +33,6 @@ const useStyles = makeStyles((theme) => ({
 const NewSupplierPage = () => {
     const navigate = useNavigate();
     const [openSnackbar, setOpenSnackbar] = useState(false);
-    const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
     const [submissionSuccessful, setSubmissionSuccessful] = useState(false);    
     const classes = useStyles();
     const [associateAgents, setAssociateAgents] = useState([]);
@@ -60,10 +57,10 @@ const NewSupplierPage = () => {
         associateSuppliers: [],
     });
 
-    const categories = useSelector(state => state.categories.data);
-    const suppliers = useSelector(state => state.suppliers.data);
+    const categories = useSelector(state => state.categories?.data);
+    const suppliers = useSelector(state => state.suppliers?.data);
     console.log('useSelector(suppliers)', suppliers);
-    const agentRelations = useSelector(state => state.agentRelations.data);
+    const agentRelations = useSelector(state => state.agentRelations?.data);
     console.log('useSelector agentRelations', agentRelations);
     const filteredSuppliers = suppliers.filter(supplier => {
         if (supplier.isAgent) {
@@ -128,7 +125,6 @@ const NewSupplierPage = () => {
         }
       
         setOpenSnackbar(false);
-        setErrorSnackbarOpen(false);
       };      
 
     const handleChange = (e) => {
@@ -157,51 +153,55 @@ const NewSupplierPage = () => {
         navigate('/suppliers');
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-      
-        try {
-          const result = await dispatch(addSupplier(formValues));
-          if (result) {
-      
-            for (let category of selectedCategoryId) {
-              if (category) {
-                const response = await dispatch(addSupplierCategory(supplierId, category.id));
-                if (response.error) {
-                  throw new Error('Error adding supplier category');
-                }
-              }
-            }
-      
-            for (let supplier of formValues.associateSuppliers) {
-              if (supplier) {
-                const response = await dispatch(addAgentRelation(supplierId, supplier.id));
-                if (response.error) {
-                  throw new Error('Error adding agent relation');
-                }
-              }
-            }
-      
-            for (let agent of formValues.associateAgents) {
-              if (agent) {
-                const response = await dispatch(addAgentRelation(agent.id, supplierId));
-                if (response.error) {
-                  throw new Error('Error adding agent relation');
-                }
-              }
-            }
-      
-            setSnackbarOpen(true);
-            setFormValues(initialFormState);
-          } else {
-            throw new Error('Error adding supplier');
-          }
-        } catch (error) {
-          console.error(error);
-          setError(error.message);
-          setErrorSnackbarOpen(true); // Open the error Snackbar
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(addSupplier(formValues));
+        if (selectedCategoryId.length > 0) {
+            selectedCategoryId.forEach(categoryId => {
+                console.log('supplierId', supplierId, 'categoryId', categoryId);
+                dispatch(addSupplierCategory(supplierId, categoryId));
+            });
         }
-      };
+
+        if (formValues.isAgent) {
+            formValues.associateSuppliers.forEach((supplier) => {
+              if (supplier) {
+                console.log('adding agentRelation agent Id', supplierId, 'associate id', supplier.id);
+                dispatch(addAgentRelation(supplierId, supplier.id));
+              }
+            });
+          } else {
+            associateAgents.forEach((agent) => {
+              if (agent) {
+                console.log('adding agentRelation agent Id', agent.id, 'associate id', supplierId);
+                dispatch(addAgentRelation(agent.id, supplierId));
+              }
+            });
+          }
+
+        setSelectedCategoryId('');
+        setFormValues({
+            name: '',
+            abbreviation: '',
+            telephone: '',
+            email: '',
+            street_address_1: '',
+            street_address_2: '',
+            city: '',
+            zip: '',
+            county: '',
+            country: '',
+            vat: '',
+            reg_com: '',
+            contact_person_firstname: '',
+            contact_person_familyname: '',
+            lead_time: '',
+            swift: '',
+            iban: '',
+            isAgent: false,
+            associateSuppliers: [],
+        });
+    };
       
 
 
@@ -483,15 +483,6 @@ const NewSupplierPage = () => {
                         An error occurred when adding the supplier.
                     </Alert>
                     )}
-                </Snackbar>
-                <Snackbar
-                    open={errorSnackbarOpen}
-                    autoHideDuration={6000}
-                    onClose={handleCloseSnackbar}
-                    >
-                    <Alert onClose={handleCloseSnackbar} severity="error">
-                        {errorMessage}
-                    </Alert>
                 </Snackbar>
             </Paper>
         </Container>
