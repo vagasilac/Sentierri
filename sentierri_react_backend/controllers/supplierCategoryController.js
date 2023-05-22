@@ -2,14 +2,26 @@
 const { SupplierCategory } = require('../models');
 
 const createSupplierCategory = async (req, res) => {
-  const { supplierId, categoryId } = req.body;
+  const { supplierId, categoryId } = req.params;
+
   try {
-    const supplierCategory = await SupplierCategory.create({ supplierId, categoryId });
-    res.status(201).json(supplierCategory);
+    const newSupplierCategory = await SupplierCategory.create({
+      supplierId: supplierId,
+      categoryId: categoryId
+    });
+
+    res.status(201).json({
+      message: 'SupplierCategory relation created successfully.',
+      supplierCategory: newSupplierCategory
+    });
   } catch (error) {
-    res.status(400).json({ message: 'Error creating supplier-category relation' });
+    res.status(500).json({
+      message: 'Error creating supplierCategory relation.',
+      error: error
+    });
   }
 };
+
 
 const getSupplierCategoryById = async (req, res) => {
   const { supplierId, categoryId } = req.params;
@@ -45,19 +57,26 @@ const updateSupplierCategory = async (req, res) => {
 
 const deleteSupplierCategory = async (req, res) => {
   const { supplierId, categoryId } = req.params;
+
   try {
-    const deletedRows = await SupplierCategory.destroy({
-      where: { supplierId, categoryId }
+    await SupplierCategory.destroy({
+      where: {
+        supplierId: supplierId,
+        categoryId: categoryId
+      }
     });
-    if (deletedRows !== 0) {
-      res.status(200).json({ message: 'Supplier-category relation deleted successfully' });
-    } else {
-      res.status(404).json({ message: 'Supplier-category relation not found' });
-    }
+
+    res.status(200).json({
+      message: 'SupplierCategory relation deleted successfully.'
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting supplier-category relation' });
+    res.status(500).json({
+      message: 'Error deleting supplierCategory relation.',
+      error: error
+    });
   }
 };
+
 
 const getAllSupplierCategories = async (req, res) => {
   try {
