@@ -13,8 +13,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import { Autocomplete } from '@mui/material';
+import { set } from 'date-fns';
 
 // TODO:
+// - when adding a new supplier and there is an error with e.g. selected categories no error message is shown and
+// the supplier is added without categories
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 const NewSupplierPage = () => {
     const navigate = useNavigate();
     const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
     const [submissionSuccessful, setSubmissionSuccessful] = useState(false);    
     const classes = useStyles();
     const [associateAgents, setAssociateAgents] = useState([]);
@@ -123,6 +127,7 @@ const NewSupplierPage = () => {
         }
       
         setOpenSnackbar(false);
+        setErrorSnackbarOpen(false);
       };      
 
     const handleChange = (e) => {
@@ -144,61 +149,80 @@ const NewSupplierPage = () => {
         }
     
         setError(errors);
+        
     };
     
     const handleBack = () => {
         navigate('/suppliers');
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(addSupplier(formValues));
-        if (selectedCategoryId.length > 0) {
-            selectedCategoryId.forEach(categoryId => {
-                console.log('supplierId', supplierId, 'categoryId', categoryId);
-                dispatch(addSupplierCategory(supplierId, categoryId));
-            });
-        }
+        
+        try {
+            const response = await dispatch(addSupplier(formValues));
+            const supplierId = response.payload.id;
 
-        if (formValues.isAgent) {
-            formValues.associateSuppliers.forEach((supplier) => {
-              if (supplier) {
-                console.log('adding agentRelation agent Id', supplierId, 'associate id', supplier.id);
-                dispatch(addAgentRelation(supplierId, supplier.id));
-              }
-            });
-          } else {
-            associateAgents.forEach((agent) => {
-              if (agent) {
-                console.log('adding agentRelation agent Id', agent.id, 'associate id', supplierId);
-                dispatch(addAgentRelation(agent.id, supplierId));
-              }
-            });
-          }
+            for (let category of selectedCategoryId) {
+                if (category) {
+                    const response = await dispatch(addSupplierCategory(supplierId, category.id));
+                    if (response.error) {
+                        throw new Error('Error adding category to supplier');
+                    }
+                }
+            }
+        // if (selectedCategoryId.length > 0) {
+        //     selectedCategoryId.forEach(categoryId => {
+        //         console.log('supplierId', supplierId, 'categoryId', categoryId);
+        //         dispatch(addSupplierCategory(supplierId, categoryId));
+        //     });
+        // }
 
-        setSelectedCategoryId('');
-        setFormValues({
-            name: '',
-            abbreviation: '',
-            telephone: '',
-            email: '',
-            street_address_1: '',
-            street_address_2: '',
-            city: '',
-            zip: '',
-            county: '',
-            country: '',
-            vat: '',
-            reg_com: '',
-            contact_person_firstname: '',
-            contact_person_familyname: '',
-            lead_time: '',
-            swift: '',
-            iban: '',
-            isAgent: false,
-            associateSuppliers: [],
-        });
-    };
+            if (formValues.isAgent) {
+                formValues.associateSuppliers.forEach((supplier) => {
+                if (supplier) {
+                    console.log('adding agentRelation agent Id', supplierId, 'associate id', supplier.id);
+                    dispatch(addAgentRelation(supplierId, supplier.id));
+                }
+                });
+            } else {
+                associateAgents.forEach((agent) => {
+                if (agent) {
+                    console.log('adding agentRelation agent Id', agent.id, 'associate id', supplierId);
+                    dispatch(addAgentRelation(agent.id, supplierId));
+                }
+                });
+            }
+
+            setSelectedCategoryId('');
+            setFormValues({
+                name: '',
+                abbreviation: '',
+                telephone: '',
+                email: '',
+                street_address_1: '',
+                street_address_2: '',
+                city: '',
+                zip: '',
+                county: '',
+                country: '',
+                vat: '',
+                reg_com: '',
+                contact_person_firstname: '',
+                contact_person_familyname: '',
+                lead_time: '',
+                swift: '',
+                iban: '',
+                isAgent: false,
+                associateSuppliers: [],
+            });
+            } catch (err) {
+                console.log('err', err);
+                setError(error.message);
+                setErrorSnackbarOpen(true);
+            };
+        };
+
 
     return (
         <Container
@@ -478,6 +502,15 @@ const NewSupplierPage = () => {
                         An error occurred when adding the supplier.
                     </Alert>
                     )}
+                </Snackbar>
+                <Snackbar
+                    open={errorSnackbarOpen}
+                    autoHideDuration={6000}
+                    onClose={handleCloseSnackbar}
+                    >
+                    <Alert onClose={handleCloseSnackbar} severity="error">
+                        {error}
+                    </Alert>
                 </Snackbar>
             </Paper>
         </Container>
