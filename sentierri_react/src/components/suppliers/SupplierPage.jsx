@@ -197,7 +197,7 @@ const SupplierPage = () => {
         // Remove old SupplierCategory relations
         for (let existingSupplierCategoryRelation of existingSupplierCategoryRelations) {
             if (!newSupplierCategoryRelations.includes(existingSupplierCategoryRelation.categoryId)) {
-            dispatch(removeSupplierCategory(existingSupplierCategoryRelation.id));
+                dispatch(removeSupplierCategory(existingSupplierCategoryRelation.supplierId, existingSupplierCategoryRelation.categoryId));
             }
         }
          

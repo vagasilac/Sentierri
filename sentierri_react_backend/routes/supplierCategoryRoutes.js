@@ -32,8 +32,8 @@ router.get('/:id', getSupplierCategoryById);
 // Update a supplierCategory by ID
 router.put('/:id', updateSupplierCategory);
 
-// Delete a supplierCategory by ID
-router.delete('/:id', deleteSupplierCategory);
+// Delete a supplierCategory by supplierId and categoryId
+router.delete('/:supplierId/:categoryId', deleteSupplierCategory);
 
 // Get all supplierCategories (protected route)
 router.get('/', authMiddleware, getAllSupplierCategories);
