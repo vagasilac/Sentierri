@@ -53,6 +53,7 @@ const SupplierPage = () => {
         lead_time: '',
         isAgent: false,
         associateSuppliers: [],
+        associateAgents: [],
     });
     const categories = useSelector(state => state.categories.data);
     const suppliers = useSelector(state => state.suppliers.data);
@@ -62,6 +63,7 @@ const SupplierPage = () => {
     const agentRelations = useSelector(state => state.agentRelations.data);   
     console.log('agentRelations in SupplierPage', agentRelations);
     const [associateSuppliers, setAssociateSuppliers] = useState([]);
+    const [associateAgents, setAssociateAgents] = useState([]);
     console.log('associateSuppliers in SupplierPage', associateSuppliers);
     const filteredSuppliers = suppliers.filter(supplier => {
         if (supplier.isAgent) {
@@ -71,6 +73,10 @@ const SupplierPage = () => {
           return relation.agentId === supplier.id || relation.supplierId === supplier.id;
         });
     });
+    const filteredAgents = suppliers.filter(supplier => {
+        return supplier.isAgent;
+      });
+
     console.log('filteredSuppliers in SupplierPage', filteredSuppliers);
     console.log('associateSuppliers', associateSuppliers);
     console.log('associateSuppliers.map(supplier => supplier.name)', associateSuppliers.map(supplier => supplier.name));
@@ -108,6 +114,20 @@ const SupplierPage = () => {
     useEffect(() => {
         setFormValues((prev) => ({ ...prev, associateSuppliers: associateSuppliers }));
     }, [associateSuppliers]);
+
+    useEffect(() => {
+        setFormValues((prev) => ({ ...prev, associateAgents: associateAgents }));
+      }, [associateAgents]);      
+
+    useEffect(() => {
+        if (agentRelations.length > 0 && suppliers.length > 0) {
+          setAssociateAgents(
+            agentRelations
+              .filter(agentRelation => agentRelation.supplierId === numId)
+              .map(agentRelation => suppliers.find(supplier => supplier.id === agentRelation.agentId))
+          );
+        }
+      }, [agentRelations, suppliers, numId]);   
 
     // VALIDATION
         // Check if supplier exists by name
@@ -162,14 +182,20 @@ const SupplierPage = () => {
                 dispatch(addSupplierCategory(numId, categoryId));
             });
         }        
-
         dispatch(removeAgentRelation(agentRelationsId));
+
         for (let supplier of formValues.associateSuppliers) {
             if (supplier) {
               console.log('adding agentRelaion agent Id', numId, 'associate id', supplier.id);
               dispatch(addAgentRelation(numId, supplier.id));
             }
         };
+        for (let agent of formValues.associateAgents) {
+            if (agent) {
+              console.log('adding agentRelation agent Id', agent.id, 'associate id', numId);
+              dispatch(addAgentRelation(agent.id, numId));
+            }
+          }
     }
 
     const handleBack = () => {
@@ -398,30 +424,58 @@ const SupplierPage = () => {
                                     />
                                 </Grid>
                                 <Grid item sm={12} md={6}>
-                                    <Autocomplete
-                                    multiple
-                                    id="tags-outlined"
-                                    options={filteredSuppliers}
-                                    getOptionLabel={(option) => option.name}
-                                    getOptionSelected={(option, value) =>
-                                        option.id === value.id
-                                      }
-                                    value={associateSuppliers}
-                                    onChange={(e, value) => {
-                                        setFormValues((prev) => ({
-                                        ...prev,
-                                        associateSuppliers: value,
-                                        }));
-                                    }}
-                                    renderInput={(params) => (
-                                        <TextField
-                                        {...params}
-                                        variant="outlined"
-                                        label="Associate Suppliers"
-                                        placeholder="Associate Suppliers"
+                                    {formValues.isAgent && (
+                                        <Autocomplete
+                                        multiple
+                                        id="tags-outlined"
+                                        options={filteredSuppliers}
+                                        getOptionLabel={(option) => option.name}
+                                        getOptionSelected={(option, value) =>
+                                            option.id === value.id
+                                        }
+                                        value={associateSuppliers}
+                                        onChange={(e, value) => {
+                                            setFormValues((prev) => ({
+                                            ...prev,
+                                            associateSuppliers: value,
+                                            }));
+                                        }}
+                                        renderInput={(params) => (
+                                            <TextField
+                                            {...params}
+                                            variant="outlined"
+                                            label="Associate Suppliers"
+                                            placeholder="Associate Suppliers"
+                                            />
+                                        )}
                                         />
                                     )}
-                                    />
+                                    {!formValues.isAgent && (
+                                        <Autocomplete
+                                        multiple
+                                        id="tags-outlined"
+                                        options={filteredAgents} // You need to define this array of agents
+                                        getOptionLabel={(option) => option.name}
+                                        getOptionSelected={(option, value) =>
+                                            option.id === value.id
+                                        }
+                                        value={associateAgents}
+                                        onChange={(e, value) => {
+                                            setFormValues((prev) => ({
+                                            ...prev,
+                                            associateAgents: value,
+                                            }));
+                                        }}
+                                        renderInput={(params) => (
+                                            <TextField
+                                            {...params}
+                                            variant="outlined"
+                                            label="Associate Agents"
+                                            placeholder="Associate Agents"
+                                            />
+                                        )}
+                                        />
+                                    )}
                                 </Grid>
                                 <Grid item sm={12} md={6} > 
                                     <CategorySelector

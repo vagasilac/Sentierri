@@ -6,8 +6,7 @@ import { fetchSuppliers } from '../../features/suppliers/suppliersSlice';
 import { addSupplier } from '../../features/suppliers/suppliersSlice';
 import { addSupplierCategory } from '../../features/supplierCategories/supplierCategoriesSlice';
 import { fetchCategories } from '../../features/categories/categoriesSlice';
-import { addAgentRelation } from '../../features/agentRelations/agentRelationsSlice';
-import { fetchAgentRelations } from '../../features/agentRelations/agentRelationsSlice';
+import { addAgentRelation, fetchAgentRelations } from '../../features/agentRelations/agentRelationsSlice';
 import CategorySelector from '../common/CategorySelector';
 import Switch from '@mui/material/Switch';
 import { useSelector, useDispatch } from 'react-redux';
@@ -160,7 +159,7 @@ const NewSupplierPage = () => {
                 dispatch(addSupplierCategory(supplierId, categoryId));
             });
         }
-                
+
         if (formValues.isAgent) {
             formValues.associateSuppliers.forEach((supplier) => {
               if (supplier) {
