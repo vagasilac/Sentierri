@@ -31,15 +31,18 @@ const getAllSuppliers = async (req, res) => {
     const modifiedSuppliers = await Promise.all(suppliers.map(async supplier => {
       if (supplier.isAgent) {
         // The supplier is an agent, fetch the associated suppliers
-        const associatedSuppliers = agentRelations
+        const associatedSuppliers = await Promise.all(agentRelations
           .filter(relation => relation.agentId === supplier.id)
-          .map(relation => relation.supplierId);
+          .map(async relation => {
+            const associatedSupplier = await Supplier.findByPk(relation.supplierId);
+            return associatedSupplier.name;
+          }));
         return { ...supplier.toJSON(), associatedEntity: associatedSuppliers };
       } else {
         // The supplier is not an agent, fetch the associated agent
         const associatedAgentRelation = agentRelations
           .find(relation => relation.supplierId === supplier.id);
-        const associatedAgent = associatedAgentRelation ? associatedAgentRelation.agentId : null;
+        const associatedAgent = associatedAgentRelation ? (await Supplier.findByPk(associatedAgentRelation.agentId)).name : null;
         return { ...supplier.toJSON(), associatedEntity: associatedAgent };
       }
     }));
@@ -52,6 +55,7 @@ const getAllSuppliers = async (req, res) => {
     res.status(400).json({ message: 'Error fetching suppliers', error: error.message });
   }
 };
+
 
 
 // Get a single supplier by ID
