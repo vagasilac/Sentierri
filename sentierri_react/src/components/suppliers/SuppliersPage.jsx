@@ -10,7 +10,8 @@ import StartIcon from '@mui/icons-material/Start';
 
 
 // TODOs: 
-// 1. Add grouping by category
+// 1. Sort by isAgent doesn't work
+// 2. Add grouping by category
 
 const SuppliersPage = () => {
   const suppliers = useSelector(state => state.suppliers.data.map(supplier => ({

@@ -7,6 +7,7 @@ DONE:
 src\components\suppliers\SuppliersPage.jsx
 TODO:
 - Add grouping by category
+- Sort by isAgent doesn't work
 DONE:
 
 src\components\suppliers\SupplierPage.jsx
