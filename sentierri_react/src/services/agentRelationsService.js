@@ -36,3 +36,13 @@ export const getAllAgentRelations = async () => {
     return null;
   }
 };
+
+export const removeAgentRelation = async (id) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/agentrelations/${id}`);
+    return response.status === 204; // No Content
+  } catch (error) {
+    console.error('Error removing agentRelation!', error);
+    return false;
+  }
+}

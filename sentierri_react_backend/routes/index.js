@@ -8,6 +8,7 @@ const subCategoryRoutes = require('./subCategoryRoutes');
 const supplierRoutes = require('./supplierRoutes');
 const supplierCategoryRoutes = require('./supplierCategoryRoutes');
 const agentRelationRoutes = require('./agentRelationRoutes');
+const customerRoutes = require('./customerRoutes');
 
 // Use your entity routes
 router.use('/materials', materialRoutes);
@@ -16,6 +17,7 @@ router.use('/subcategories', subCategoryRoutes);
 router.use('/suppliers', supplierRoutes);
 router.use('/suppliercategories', supplierCategoryRoutes);
 router.use('/agentrelations', agentRelationRoutes);
+router.use('/customers', customerRoutes);
 
 // Add other entity routes here
 
