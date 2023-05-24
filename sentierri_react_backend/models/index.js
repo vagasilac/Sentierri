@@ -6,13 +6,13 @@ const Sequelize = require('sequelize');
 const process = require('process');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
+const config = require('../config/config').default;
 const db = {};
 const Category = require('./category');
 const Subcategory = require('./subcategory');
 const Supplier = require('./supplier');
 const Material = require('./material');
-const AgentRelations = require('./agentrelations')
+const AgentRelations = require('./agentrelations');
 
 let sequelize;
 if (config.use_env_variable) {
@@ -36,11 +36,11 @@ fs
     db[model.name] = model;
   });
 
-  Object.keys(db).forEach(modelName => {
-    if (db[modelName].associate) {
-      db[modelName].associate(db);
-    }
-  });
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
