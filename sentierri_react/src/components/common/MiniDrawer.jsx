@@ -18,6 +18,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import { Link } from 'react-router-dom';
+import Collapse from '@mui/material/Collapse';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 
 const drawerWidth = 240;
 
@@ -129,22 +132,25 @@ export default function MiniDrawer({ sections, open, setOpen }) {
         <List>
           {sections.map((section) => (
             <React.Fragment key={section.label}>
-              <ListItem>
+              <ListItemButton onClick={() => handleClick(section.label)}>
                 <ListItemIcon>
                   <section.icon />
                 </ListItemIcon>
                 <ListItemText primary={section.label} />
-              </ListItem>
-              {section.items.map((item) => (
-                <List component="div" disablePadding key={item.label}>
-                  <ListItemButton component={Link} to={item.link}>
-                    <ListItemIcon>
-                      <item.icon />
-                    </ListItemIcon>
-                    <ListItemText primary={item.label} />
-                  </ListItemButton>
+                {open ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+              <Collapse in={open} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  {section.items.map((item) => (
+                    <ListItemButton component={Link} to={item.link} key={item.label}>
+                      <ListItemIcon>
+                        <item.icon />
+                      </ListItemIcon>
+                      <ListItemText primary={item.label} />
+                    </ListItemButton>
+                  ))}
                 </List>
-              ))}
+              </Collapse>
             </React.Fragment>
           ))}
         </List>
@@ -170,7 +176,7 @@ export default function MiniDrawer({ sections, open, setOpen }) {
         }}
       >
         <DrawerHeader />
-
+        {/* Content of the page goes here */}
       </Box>
     </Box>
   );
