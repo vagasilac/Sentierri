@@ -1,11 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './components/dashboard/Dashboard';
-import Sidebar from './components/common/Sidebar';
 import sections from './components/sections/sections';
 import './App.css';
-import Navbar from './components/common/Navbar';
-import actions from './navbarActions/navbarActions';
+import MiniDrawer from './components/common/MiniDrawer'; // import the new MiniDrawer component
 import RawMaterialsPage from './components/raw_materials/RawMaterialsPage';
 import RawMaterialPage from './components/raw_materials/RawMaterialPage';
 import NewRawMaterialPage from './components/raw_materials/NewRawMaterialPage';
@@ -20,9 +18,8 @@ function App() {
 
   return (
     <Router>
-      <Navbar brand={brand} actions={actions} />
+      <MiniDrawer sections={sections} /> {/* use the MiniDrawer component */}
       <div className='main light-theme'> 
-        <Sidebar sections={sections} />
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/raw-materials/" element={<RawMaterialsPage />} />
