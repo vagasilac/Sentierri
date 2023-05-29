@@ -88,7 +88,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function MiniDrawer() {
+export default function MiniDrawer({ open, setOpen }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -129,26 +129,28 @@ export default function MiniDrawer() {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        {sections.map((section) => (
-          <List key={section.label}>
-            <ListItem>
-              <ListItemIcon>
-                <section.icon />
-              </ListItemIcon>
-              <ListItemText primary={section.label} />
-            </ListItem>
-            {section.items.map((item) => (
-              <ListItem key={item.label} disablePadding>
-                <ListItemButton component={Link} to={item.link}>
-                  <ListItemIcon>
-                    <item.icon />
-                  </ListItemIcon>
-                  <ListItemText primary={item.label} />
-                </ListItemButton>
+        <List>
+          {sections.map((section) => (
+            <React.Fragment key={section.label}>
+              <ListItem>
+                <ListItemIcon>
+                  <section.icon />
+                </ListItemIcon>
+                <ListItemText primary={section.label} />
               </ListItem>
-            ))}
-          </List>
-        ))}
+              {section.items.map((item) => (
+                <List component="div" disablePadding key={item.label}>
+                  <ListItemButton component={Link} to={item.link}>
+                    <ListItemIcon>
+                      <item.icon />
+                    </ListItemIcon>
+                    <ListItemText primary={item.label} />
+                  </ListItemButton>
+                </List>
+              ))}
+            </React.Fragment>
+          ))}
+        </List>
         <Divider />
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
