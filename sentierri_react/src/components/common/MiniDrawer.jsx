@@ -142,7 +142,8 @@ export default function MiniDrawer({ sections, open, setOpen }) {
             <React.Fragment key={section.label}>
               <ListItemButton onClick={() => handleClick(section.label)}>
                 <ListItemIcon>
-                  <section.icon sx={{ color: open ? 'inherit' : 'primary.main' }} />
+                  {/* <section.icon sx={{ color: open ? 'primary.main' : 'inherit' }} /> */}
+                  <section.icon sx={{ color: 'primary.main' }} />
                 </ListItemIcon>
                 <ListItemText primary={section.label} />
                 {openSections[section.label] ? <ExpandLess /> : <ExpandMore />}
@@ -151,18 +152,18 @@ export default function MiniDrawer({ sections, open, setOpen }) {
                 <List component="div" disablePadding>
                   {section.items.map((item) => (
                     <ListItemButton
-                      component={Link}
-                      to={item.link}
-                      key={item.label}
-                      sx={{
-                        backgroundColor: open ? 'action.hover' : 'inherit',
-                        pl: open ? 4 : 0,
-                      }}
-                    >
-                      <ListItemIcon>
-                        <item.icon sx={{ color: open ? 'secondary.main' : 'inherit' }} />
-                      </ListItemIcon>
-                      <ListItemText primary={item.label} />
+                        component={Link}
+                        to={item.link}
+                        key={item.label}
+                        sx={{
+                            backgroundColor: open ? 'action.hover' : 'inherit',
+                            pl: open ? 4 : 2,
+                        }}
+                        >
+                        <ListItemIcon sx={{ display: 'flex', alignItems: 'center' }}>
+                            <item.icon sx={{ color: 'secondary.main' }} />
+                        </ListItemIcon>
+                        {open && <ListItemText primary={item.label} />}
                     </ListItemButton>
                   ))}
                 </List>
