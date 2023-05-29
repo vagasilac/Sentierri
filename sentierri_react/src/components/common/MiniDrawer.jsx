@@ -91,6 +91,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function MiniDrawer({ sections, open, setOpen }) {
   const theme = useTheme();
+  const [openSections, setOpenSections] = useState({});
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -98,6 +99,13 @@ export default function MiniDrawer({ sections, open, setOpen }) {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleClick = (label) => {
+    setOpenSections((prevOpenSections) => ({
+      ...prevOpenSections,
+      [label]: !prevOpenSections[label],
+    }));
   };
 
   return (
@@ -137,9 +145,9 @@ export default function MiniDrawer({ sections, open, setOpen }) {
                   <section.icon />
                 </ListItemIcon>
                 <ListItemText primary={section.label} />
-                {open ? <ExpandLess /> : <ExpandMore />}
+                {openSections[section.label] ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
-              <Collapse in={open} timeout="auto" unmountOnExit>
+              <Collapse in={openSections[section.label]} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                   {section.items.map((item) => (
                     <ListItemButton component={Link} to={item.link} key={item.label}>
