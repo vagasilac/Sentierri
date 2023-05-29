@@ -1,0 +1,110 @@
+y = https://github.com/vagasilac/Sentierri/tree/master/sentierri_react
+x = https://github.com/vagasilac/Sentierri/blob/master/sentierri_react
+
+|   .dockerignore (x/.dockerignore)
+|   .gitignore (x/.gitignore)
+|   Dockerfile (x/Dockerfile)
+|   index.html (x/index.html)
+|   package-lock.json (x/package-lock.json)
+|   package.json (x/package.json)
+|   vite.config.js (x/vite.config.js)
+|   
++---dist (y/dist)
+|       
++---public (y/public)
+|       vite.svg (x/public/vite.svg)
+|       
+\---src (y/src)
+    |   App.css (x/src/App.css)
+    |   App.jsx (x/src/App.jsx)
+    |   config.js (x/src/config.js)
+    |   global.css (x/src/global.css)
+    |   index.css (x/src/index.css)
+    |   main.jsx (x/src/main.jsx)
+    |   
+    +---assets (y/src/assets)
+    |       react.svg 
+    |       
+    +---components (y/src/components)
+    |   +---auth (y/src/components/auth)
+    |   +---categories (y/src/components/categories)
+    |   |       Categories.jsx (x/src/components/categories/Categories.jsx)
+    |   |       Category.jsx (x/src/components/categories/Category.jsx)
+    |   |       NewCategory.jsx (x/src/components/categories/NewCategory.jsx)
+    |   |       NewSubCategory.jsx (x/src/components/categories/NewSubCategory.jsx)
+    |   |       SubCategories.jsx (x/src/components/categories/SubCategories.jsx)
+    |   |       
+    |   +---charts (y/src/components/charts)
+    |   |       SalesTrendsChart.jsx (x/src/components/charts/SalesTrendsChart.jsx)
+    |   |       
+    |   +---common (y/src/components/common)
+    |   |       CategorySelector.jsx (x/src/components/common/CategorySelector.jsx)
+    |   |       Checkbox.jsx (x/src/components/common/Checkbox.jsx)
+    |   |       ComboBox.jsx (x/src/components/common/ComboBox.jsx)
+    |   |       DataTable.css (x/src/components/common/DataTable.css)
+    |   |       DataTable.jsx (x/src/components/common/DataTable.jsx)
+    |   |       DataTable_cat.jsx (x/src/components/common/DataTable_cat.jsx)
+    |   |       Navbar.jsx (x/src/components/common/Navbar.jsx)
+    |   |       Sidebar.jsx (x/src/components/common/Sidebar.jsx)
+    |   |       
+    |   +---customers (y/src/components/customers)
+    |   |       NewCustomerPage.jsx (x/src/components/customers/NewCustomerPage.jsx)
+    |   |       
+    |   +---dashboard (y/src/components/dashboard)
+    |   |       Dashboard.css (x/src/components/dashboard/Dashboard.css)   
+    |   |       Dashboard.jsx (x/src/components/dashboard/Dashboard.jsx)
+    |   |       
+    |   +---inventory (y/src/components/inventory)
+    |   +---materials (y/src/components/materials)
+    |   +---production (y/src/components/production)
+    |   +---raw_materials (y/src/components/raw_materials)
+    |   |       NewRawMaterialPage.jsx (x/src/components/raw_materials/NewRawMaterialPage.jsx)
+    |   |       RawMaterialPage.jsx (x/src/components/raw_materials/RawMaterialPage.jsx)
+    |   |       RawMaterialsPage.jsx (x/src/components/raw_materials/RawMaterialsPage.jsx)
+    |   |       RawMaterialUpdateForm.jsx (x/src/components/raw_materials/RawMaterialUpdateForm.jsx)
+    |   |       
+    |   +---recentActivity (y/src/components/recentActivity)
+    |   |       recentActivity.css (x/src/components/recentActivity/recentActivity.css)
+    |   |       RecentActivity.jsx (x/src/components/recentActivity/RecentActivity.jsx)
+    |   |       
+    |   +---reports (y/src/components/reports)
+    |   +---sales (y/src/components/sales)
+    |   +---sections (y/src/components/sections)
+    |   |       sections.jsx (x/src/components/sections/sections.jsx)
+    |   |       
+    |   \---suppliers (y/src/components/suppliers)
+    |           NewSupplierPage.jsx (x/src/components/suppliers/NewSupplierPage.jsx)
+    |           QualityIssues_dummy.jsx (x/src/components/suppliers/QualityIssues_dummy.jsx)
+    |           SInvoices_dummy.jsx (x/src/components/suppliers/SInvoices_dummy.jsx)
+    |           SPO.jsx (x/src/components/suppliers/SPO.jsx)
+    |           SupplierPage orig.jsx (x/src/components/suppliers/SupplierPage.jsx)
+    |           SupplierPage.jsx (x/src/components/suppliers/SupplierPage.jsx)
+    |           SuppliersPage.jsx (x/src/components/suppliers/SuppliersPage.jsx)
+    |           
+    +---features (y/src/features)
+    |   +---agentRelations (y/src/features/agentRelations)
+    |   |       agentRelationsSlice.js (x/src/features/agentRelations/agentRelationsSlice.js)
+    |   |       
+    |   +---categories (y/src/features/categories)
+    |   |       categoriesSlice.js (x/src/features/categories/categoriesSlice.js)
+    |   |        
+    |   +---supplierCategories (y/src/features/supplierCategories)
+    |   |       supplierCategoriesSlice.js (x/src/features/supplierCategories/supplierCategoriesSlice.js)
+    |   |       
+    |   \---suppliers (y/src/features/suppliers)
+    |           suppliersSlice.js (x/src/features/suppliers/suppliersSlice.js)
+    |           
+    +---navbarActions (y/src/navbarActions)
+    |       navbarActions.jsx (x/src/navbarActions/navbarActions.jsx)
+    |       
+    +---services (y/src/services)
+    |       agentRelationsService.js (x/src/services/agentRelationsService.js)
+    |       categoryService.js (x/src/services/categoryService.js)
+    |       rawMaterialService.js (x/src/services/rawMaterialService.js)
+    |       subCategoryService.js (x/src/services/subCategoryService.js)
+    |       supplierCategoryService.js (x/src/services/supplierCategoryService.js)
+    |       supplierService.js (x/src/services/supplierService.js)
+    |       
+    \---store (y/src/store)
+            configureStore.js (x/src/store/configureStore.js)
+            rootReducer.js (x/src/store/rootReducer.js)
