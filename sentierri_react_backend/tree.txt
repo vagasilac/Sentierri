@@ -1,0 +1,52 @@
+x = https://github.com/vagasilac/Sentierri/blob/master/sentierri_react_backend
+y = https://github.com/vagasilac/Sentierri/tree/master/sentierri_react_backend
+
+|   .dockerignore (x/.dockerignore)
+|   .env (x/.env)
+|   app.js (x/app.js)
+|   Dockerfile (x/Dockerfile)
+|   package-lock.json (x/package-lock.json)
+|   package.json (x/package.json)
+|   server.js (x/server.js)
+|   
++---config (y/config)
+|       config.js (x/config/config.js)
+|       
++---controllers (y/controllers)
+|       agentRelationsController.js (x/controllers/agentRelationsController.js)
+|       categoryController.js (x/controllers/categoryController.js)
+|       customerController.js (x/controllers/customerController.js)
+|       materialController.js (x/controllers/materialController.js)
+|       subCategoryController.js (x/controllers/subCategoryController.js)
+|       supplierCategoryController.js (x/controllers/supplierCategoryController.js)
+|       supplierController.js (x/controllers/supplierController.js)
+|       
++---deploy (y/deploy)
+|   \---nginx (y/deploy/nginx)
++---middleware (y/middleware)
+|       auth.js (x/middleware/auth.js)
+|       passport.js (x/middleware/passport.js)
+|       
++---migrations (y/migrations)
+|       20230417171250-create-cat-table.js (x/migrations/20230417171250-create-cat-table.js)
+|       20230419120008-create-subcat-table.js (x/migrations/20230419120008-create-subcat-table.js)
+|
++---models (y/models)
+|       agentrelations.js (x/models/agentrelations.js)
+|       category.js (x/models/category.js)
+|       customer.js (x/models/customer.js)
+|       index.js (x/models/index.js)
+|       material.js (x/models/material.js)
+|       subcategory.js (x/models/subcategory.js)
+|       supplier.js (x/models/supplier.js)
+|       suppliercategory.js (x/models/suppliercategory.js)
+|            
++---routes (y/routes)
+|       agentRelationRoutes.js (x/routes/agentRelationRoutes.js)
+|       categoryRoutes.js (x/routes/categoryRoutes.js)
+|       customerRoutes.js (x/routes/customerRoutes.js)
+|       index.js (x/routes/index.js)
+|       materialRoutes.js (x/routes/materialRoutes.js)
+|       subCategoryRoutes.js (x/routes/subCategoryRoutes.js)
+|       supplierCategoryRoutes.js (x/routes/supplierCategoryRoutes.js)
+|       supplierRoutes.js (x/routes/supplierRoutes.js)
