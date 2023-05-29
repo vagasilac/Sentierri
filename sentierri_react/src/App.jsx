@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './components/dashboard/Dashboard';
 import sections from './components/sections/sections';
+import { styled, useTheme } from '@mui/material/styles';
 import './App.css';
 import MiniDrawer from './components/common/MiniDrawer';
 import RawMaterialsPage from './components/raw_materials/RawMaterialsPage';
@@ -13,24 +14,27 @@ import SuppliersPage from './components/suppliers/SuppliersPage';
 import NewSupplierPage from './components/suppliers/NewSupplierPage';
 import SupplierPage from './components/suppliers/SupplierPage';
 
+const drawerWidth = 240;
+const MainContent = styled('div', {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  flexGrow: 1,
+  marginLeft: open ? drawerWidth : '3rem',
+  transition: theme.transitions.create('marginLeft', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+}));
+
 function App() {
   const [open, setOpen] = useState(false);
+  const theme = useTheme();
 
   return (
     <Router>
       <MiniDrawer sections={sections} open={open} setOpen={setOpen} />
+      <MainContent open={open}>
       {/* <div className='main light-theme'>  */}
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          marginLeft: open ? drawerWidth : 0, // adjust the marginLeft property based on the open state
-          transition: theme.transitions.create('marginLeft', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
-        }}
-      >
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/raw-materials/" element={<RawMaterialsPage />} />
@@ -42,7 +46,7 @@ function App() {
           <Route path="/suppliers/:id" element={<SupplierPage />} />
           <Route path="/suppliers/new" element={<NewSupplierPage />} />
         </Routes>
-      </Box>
+      </MainContent>
       {/* </div> */}
     </Router>
   );
