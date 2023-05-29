@@ -13,7 +13,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import { Autocomplete } from '@mui/material';
-import { set } from 'date-fns';
 
 // TODO:
 // - error handling on form submission (supplier-category, agent-supplier relations)
