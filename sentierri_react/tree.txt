@@ -87,7 +87,8 @@ x = https://github.com/vagasilac/Sentierri/blob/master/sentierri_react
     |   |       
     |   +---categories (y/src/features/categories)
     |   |       categoriesSlice.js (x/src/features/categories/categoriesSlice.js)
-    |   |        
+    |   +---customers (y/src/features/customers)   
+    |           customersSlice.js (x/src/features/customers/customersSlice.js)     
     |   +---supplierCategories (y/src/features/supplierCategories)
     |   |       supplierCategoriesSlice.js (x/src/features/supplierCategories/supplierCategoriesSlice.js)
     |   |       
@@ -104,6 +105,7 @@ x = https://github.com/vagasilac/Sentierri/blob/master/sentierri_react
     |       subCategoryService.js (x/src/services/subCategoryService.js)
     |       supplierCategoryService.js (x/src/services/supplierCategoryService.js)
     |       supplierService.js (x/src/services/supplierService.js)
+    |       customerService.js (x/src/services/customerService.js)
     |       
     \---store (y/src/store)
             configureStore.js (x/src/store/configureStore.js)

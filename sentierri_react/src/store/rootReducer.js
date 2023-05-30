@@ -5,11 +5,13 @@ import agentRelationsSlice from '../features/agentRelations/agentRelationsSlice'
 // import rawMaterialsReducer from '../features/rawMaterials/rawMaterialSlice';
 // import subCategoriesReducer from '../features/subCategories/subCategorySlice';
 import supplierCategoriesReducer from '../features/supplierCategories/supplierCategoriesSlice';
+import customerReducer from '../features/customers/customersSlice';
 
 const rootReducer = combineReducers({
   suppliers: suppliersReducer,
   categories: categoriesReducer,
   agentRelations: agentRelationsSlice,
+  customers: customerReducer,
   // rawMaterials: rawMaterialsReducer,
   // subCategories: subCategoriesReducer,
   supplierCategories: supplierCategoriesReducer,
