@@ -102,10 +102,14 @@ export default function MiniDrawer({ sections, open, setOpen }) {
   };
 
   const handleClick = (label) => {
-    setOpenSections((prevOpenSections) => ({
-      ...prevOpenSections,
-      [label]: !prevOpenSections[label],
-    }));
+    setOpenSections((prevOpenSections) => {
+      const newOpenSections = { ...prevOpenSections };
+      Object.keys(newOpenSections).forEach((key) => {
+        newOpenSections[key] = false; // close all sections
+      });
+      newOpenSections[label] = !prevOpenSections[label]; // toggle the clicked section
+      return newOpenSections;
+    });
   };
 
   return (
