@@ -9,6 +9,8 @@ const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config')[process.env.USE_ENV_VARIABLE];
 const db = {};
 const Category = require('./category');
+const Customer = require('./customer');
+const Shop = require('./shop');
 const Subcategory = require('./subcategory');
 const Supplier = require('./supplier');
 const Material = require('./material');
@@ -43,11 +45,11 @@ db.Sequelize = Sequelize;
 
 db.Category.hasMany(db.Subcategory, { foreignKey: 'parentCategoryId' });
 db.Subcategory.belongsTo(db.Category, { foreignKey: 'parentCategoryId' });
-// db.Supplier.belongsToMany(db.Material, { through: 'SupplierMaterial' });
-// db.Material.belongsToMany(db.Supplier, { through: 'SupplierMaterial' });
 db.Supplier.belongsToMany(db.Category, { through: 'SupplierCategory', as: 'categories', foreignKey: 'supplierId', otherKey: 'categoryId' });
 db.Category.belongsToMany(db.Supplier, { through: 'SupplierCategory', as: 'suppliers', foreignKey: 'categoryId', otherKey: 'supplierId' });
 db.Supplier.belongsToMany(db.Supplier, { through: 'AgentRelations', as: 'agents', foreignKey: 'agentId', otherKey: 'supplierId' });
 db.Supplier.belongsToMany(db.Supplier, { through: 'AgentRelations', as: 'suppliers', foreignKey: 'supplierId', otherKey: 'agentId' });
+db.Customer.hasMany(db.Shop, { foreignKey: 'customerId' });
+db.Shop.belongsTo(db.Customer, { foreignKey: 'customerId' });
 
 module.exports = db;
