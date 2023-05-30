@@ -144,7 +144,7 @@ const RawMaterialsPage = () => {
   ];
 
   return (
-      <Box style={{width: '100%', marginTop: '20px'}}>
+      <Box style={{width: '100%', marginTop: '3rem', marginLeft: '3rem'}}>
         <Typography variant="h4">Raw Materials</Typography>
         <DataTable key={rawMaterials.length} columns={columns} data={rawMaterials} />
       </Box>
