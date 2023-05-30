@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Grid, Typography, TextField, Button, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { addCustomer } from '../../features/customers/customersSlice';
+import { addCustomer, fetchCustomers } from '../../features/customers/customersSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
@@ -26,6 +26,10 @@ const NewCustomerPage = () => {
     const [customerId, setCustomerId] = useState('');
     const [oldCustomerLength, setOldCustomerLength] = useState(customers.length);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchCustomers());
+    }, [dispatch]);
 
     useEffect(() => {
         if (customers.length > oldCustomerLength) {
