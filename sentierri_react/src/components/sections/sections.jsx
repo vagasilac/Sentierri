@@ -15,6 +15,7 @@ import WidgetsIcon from '@mui/icons-material/Widgets';
 import CategoryIcon from '@mui/icons-material/Category';
 import TuneIcon from '@mui/icons-material/Tune';
 
+
 const sections = [
     {
       icon: DashboardIcon,
@@ -40,6 +41,7 @@ const sections = [
         { icon: PeopleIcon, label: 'Customers' },
         { icon: ListAltIcon, label: 'Order Book' },
         { icon: AddBoxIcon, label: 'New CPO' },
+        { icon: AddBoxIcon, label: 'New Customer', link: '/customers/new' },
       ],
     },
     {

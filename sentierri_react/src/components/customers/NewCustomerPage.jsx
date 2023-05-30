@@ -22,6 +22,7 @@ const NewCustomerPage = () => {
     const [submissionSuccessful, setSubmissionSuccessful] = useState(false);    
     const classes = useStyles();
     const customers = useSelector(state => state.customers?.data);
+    console.log('customers: ', customers);
     const [customerId, setCustomerId] = useState('');
     const [oldCustomerLength, setOldCustomerLength] = useState(customers.length);
     const dispatch = useDispatch();
