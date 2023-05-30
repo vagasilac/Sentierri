@@ -26,6 +26,7 @@ const NewCustomerPage = () => {
 
     const [formValues, setFormValues] = useState({
         name: '',
+        abbreviation: '',
         email: '',
         telephone: '',
         street_address_1: '',
@@ -36,6 +37,10 @@ const NewCustomerPage = () => {
         country: '',
         contact_person_firstname: '',
         contact_person_familyname: '',
+        vat: '',
+        reg_com: '',
+        swift: '',
+        iban: '',
     });
 
     const customers = useSelector(state => state.customers?.data);
@@ -89,6 +94,19 @@ const NewCustomerPage = () => {
                                 name="name"
                                 autoComplete="name"
                                 value={formValues.name}
+                                onChange={handleInputChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="abbreviation"
+                                label="Abbreviation"
+                                name="abbreviation"
+                                autoComplete="abbreviation"
+                                value={formValues.abbreviation}
                                 onChange={handleInputChange}
                             />
                         </Grid>
@@ -218,6 +236,54 @@ const NewCustomerPage = () => {
                                 name="contact_person_familyname"
                                 autoComplete="contact_person_familyname"
                                 value={formValues.contact_person_familyname}
+                                onChange={handleInputChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                fullWidth
+                                id="vat"
+                                label="VAT"
+                                name="vat"
+                                autoComplete="vat"
+                                value={formValues.vat}
+                                onChange={handleInputChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                fullWidth
+                                id="reg_com"
+                                label="Reg Com"
+                                name="reg_com"
+                                autoComplete="reg_com"
+                                value={formValues.reg_com}
+                                onChange={handleInputChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                fullWidth
+                                id="swift"
+                                label="Swift"
+                                name="swift"
+                                autoComplete="swift"
+                                value={formValues.swift}
+                                onChange={handleInputChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                fullWidth
+                                id="iban"
+                                label="Iban"
+                                name="iban"
+                                autoComplete="iban"
+                                value={formValues.iban}
                                 onChange={handleInputChange}
                             />
                         </Grid>
