@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Grid, Typography, TextField, Button, Switch, Paper, FormControlLabel } from '@material-ui/core';
+import { Container, Grid, Typography, TextField, Collapse, Button, Switch, Paper, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { fetchCustomers } from '../../features/customers/customersSlice';
 import { addCustomer } from '../../features/customers/customersSlice';
+import { addShop } from '../../features/shops/shopsSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
@@ -24,6 +25,9 @@ const NewCustomerPage = () => {
     const [customerId, setCustomerId] = useState(undefined);    
     const classes = useStyles();
     const dispatch = useDispatch();
+    const [sameAddress, setSameAddress] = useState(true);
+    const [showShopFields, setShowShopFields] = useState(false);
+    const [addedShops, setAddedShops] = useState({});
 
     const [formValues, setFormValues] = useState({
         name: '',
@@ -56,24 +60,23 @@ const NewCustomerPage = () => {
         country: '',
     });
 
-    const [sameAddress, setSameAddress] = useState(false);
-
     const handleSameAddressChange = (event) => {
         setSameAddress(event.target.checked);
+        setShowShopFields(!event.target.checked);
         if (event.target.checked) {
-            setShopValues(prevValues => ({
-                ...prevValues,
-                name: formValues.name,
-                telephone: formValues.telephone,
-                street_address_1: formValues.street_address_1,
-                street_address_2: formValues.street_address_2,
-                city: formValues.city,
-                zip: formValues.zip,
-                county: formValues.county,
-                country: formValues.country,
-            }));
+          setShopValues(prevValues => ({
+            ...prevValues,
+            name: formValues.name,
+            telephone: formValues.telephone,
+            street_address_1: formValues.street_address_1,
+            street_address_2: formValues.street_address_2,
+            city: formValues.city,
+            zip: formValues.zip,
+            county: formValues.county,
+            country: formValues.country,
+          }));
         }
-    };
+      };
 
     const handleShopChange = (event) => {
         setShopValues({
@@ -84,22 +87,21 @@ const NewCustomerPage = () => {
 
     const addShop = () => {
         setFormValues(prevValues => ({
-            ...prevValues,
-            shops: [...prevValues.shops, shopValues],
+          ...prevValues,
+          shops: [...prevValues.shops, shopValues],
         }));
-        console.log('SHOPS1', formValues);
+        setAddedShops(prevShops => [...prevShops, shopValues]);
         setShopValues({
-            name: '',
-            telephone: '',
-            street_address_1: '',
-            street_address_2: '',
-            city: '',
-            zip: '',
-            county: '',
-            country: '',
+          name: '',
+          telephone: '',
+          street_address_1: '',
+          street_address_2: '',
+          city: '',
+          zip: '',
+          county: '',
+          country: '',
         });
-        console.log('SHOPS2', formValues);
-    };
+      };    
 
     const customers = useSelector(state => state.customers?.data);
     const [oldCustomerLength, setOldCustomerLength] = useState(customers.length);
@@ -148,26 +150,14 @@ const NewCustomerPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         dispatch(addCustomer(formValues));
-        // empty form
-        setFormValues({
-            name: '',
-            abbreviation: '',
-            email: '',
-            telephone: '',
-            street_address_1: '',
-            street_address_2: '',
-            city: '',
-            zip: '',
-            county: '',
-            country: '',
-            contact_person_firstname: '',
-            contact_person_familyname: '',
-            vat: '',
-            reg_com: '',
-            swift: '',
-            iban: '',
-            shops: [],
-        });
+        for (const shop of addedShops) {
+            dispatch(addShop({
+              ...shop,
+              parentCustomerId: customerId,
+            }));
+          }
+        setFormValues(initialFormValues);
+        setAddedShops([]);
     };
 
     return (
@@ -375,105 +365,107 @@ const NewCustomerPage = () => {
                         </Grid>
                     </Grid>
                     <Typography component="h2" variant="h6">
-                        Shop(s)
+                        Shops
+                        {/* list all name property values of all added shop object items */}
+                        {addedShops.map((shop, index) => ( <div key={index}> <Typography component="h3" variant="h6">{shop.name}</Typography></div>))}
                     </Typography>
                     <Grid container spacing={3}>
                         {/* Shop input fields... */}
-                        <Grid item xs={12}>
-                            <FormControlLabel
-                                control={
-                                    <Switch
-                                        checked={sameAddress}
-                                        onChange={handleSameAddressChange}
-                                        name="sameAddress"
-                                        color="primary"
-                                    />
-                                }
-                                label="Shop address is the same as customer address"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                required
-                                fullWidth
-                                id="shopName"
-                                label="Shop Name"
-                                name="name"
-                                value={shopValues.name}
-                                onChange={handleShopChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                required
-                                fullWidth
-                                id="shopTelephone"
-                                label="Shop Telephone"
-                                name="telephone"
-                                value={shopValues.telephone}
-                                onChange={handleShopChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                id="shopStreetAddress1"
-                                label="Shop Street Address 1"
-                                name="street_address_1"
-                                value={shopValues.street_address_1}
-                                onChange={handleShopChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                id="shopStreetAddress2"
-                                label="Shop Street Address 2"
-                                name="street_address_2"
-                                value={shopValues.street_address_2}
-                                onChange={handleShopChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                id="shopCity"
-                                label="Shop City"
-                                name="city"
-                                value={shopValues.city}
-                                onChange={handleShopChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                id="shopZip"
-                                label="Shop Zip"
-                                name="zip"
-                                value={shopValues.zip}
-                                onChange={handleShopChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                id="shopCounty"
-                                label="Shop County"
-                                name="county"
-                                value={shopValues.county}
-                                onChange={handleShopChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                id="shopCountry"
-                                label="Shop Country"
-                                name="country"
-                                value={shopValues.country}
-                                onChange={handleShopChange}
-                            />
-                        </Grid>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={sameAddress}
+                                    onChange={handleSameAddressChange}
+                                    name="sameAddress"
+                                    color="primary"
+                                />
+                            }
+                            label="Shop address is the same as customer address"
+                        />
+                        <Collapse in={showShopFields}>
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="shopName"
+                                    label="Shop Name"
+                                    name="name"
+                                    value={shopValues.name}
+                                    onChange={handleShopChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="shopTelephone"
+                                    label="Shop Telephone"
+                                    name="telephone"
+                                    value={shopValues.telephone}
+                                    onChange={handleShopChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    id="shopStreetAddress1"
+                                    label="Shop Street Address 1"
+                                    name="street_address_1"
+                                    value={shopValues.street_address_1}
+                                    onChange={handleShopChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    id="shopStreetAddress2"
+                                    label="Shop Street Address 2"
+                                    name="street_address_2"
+                                    value={shopValues.street_address_2}
+                                    onChange={handleShopChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    id="shopCity"
+                                    label="Shop City"
+                                    name="city"
+                                    value={shopValues.city}
+                                    onChange={handleShopChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    id="shopZip"
+                                    label="Shop Zip"
+                                    name="zip"
+                                    value={shopValues.zip}
+                                    onChange={handleShopChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    id="shopCounty"
+                                    label="Shop County"
+                                    name="county"
+                                    value={shopValues.county}
+                                    onChange={handleShopChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    id="shopCountry"
+                                    label="Shop Country"
+                                    name="country"
+                                    value={shopValues.country}
+                                    onChange={handleShopChange}
+                                />
+                            </Grid>
+                        </Collapse>
                         <Grid item xs={12}>
                             <Button
                                 variant="contained"
