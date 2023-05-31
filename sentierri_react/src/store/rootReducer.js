@@ -6,6 +6,7 @@ import agentRelationsSlice from '../features/agentRelations/agentRelationsSlice'
 // import subCategoriesReducer from '../features/subCategories/subCategorySlice';
 import supplierCategoriesReducer from '../features/supplierCategories/supplierCategoriesSlice';
 import customerReducer from '../features/customers/customersSlice';
+import shopReducer from '../features/shops/shopsSlice';
 
 const rootReducer = combineReducers({
   suppliers: suppliersReducer,
@@ -15,7 +16,7 @@ const rootReducer = combineReducers({
   // rawMaterials: rawMaterialsReducer,
   // subCategories: subCategoriesReducer,
   supplierCategories: supplierCategoriesReducer,
-
+  shops: shopReducer,
 });
 
 export default rootReducer;
