@@ -51,6 +51,7 @@ x = https://github.com/vagasilac/Sentierri/blob/master/sentierri_react
     |   |       NewCustomerPage.jsx (x/src/components/customers/NewCustomerPage.jsx)
     |   |       CustomersPage.jsx (x/src/components/customers/CustomersPage.jsx)
     |   |       Shop.jsx (x/src/components/customers/Shop.jsx)
+    |   |       ShopsPage.jsx (x/src/components/customers/ShopsPage.jsx)
     |   |       
     |   +---dashboard (y/src/components/dashboard)
     |   |       Dashboard.css (x/src/components/dashboard/Dashboard.css)   

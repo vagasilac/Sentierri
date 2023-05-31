@@ -4,6 +4,7 @@ import { Container, Grid, Box, Typography, TextField, Button, Paper } from '@mat
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchShops, updateShop } from '../../features/shops/shopsSlice';
+import { fetchCustomers } from '../../features/customers/customersSlice';
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -114,8 +115,9 @@ const Shop = () => {
                                 <TextField
                                 required
                                 fullWidth
-                                label="Parent Customer ID"
-                                name="parentCustomerId"
+                                label="Customer"
+                                name="customer"
+                                // value should be the customer's name from customers where the id matches the parentCustomerId
                                 value={formValues.parentCustomerId}
                                 onChange={handleChange}
                                 />
