@@ -15,10 +15,10 @@ const createShop = async (req, res) => {
 const getAllShops = async (req, res) => {
   try {
     const shops = await Shop.findAll();
-    return res.status(200).json({ shops });
+    return res.status(200).json(shops);
   }
   catch (error) {
-    return res.status(500).send(error.message);
+    res.status(400).json({ message: 'Error fetching shops', error });
   }
 }
 
@@ -34,7 +34,7 @@ const getShopById = async (req, res) => {
     return res.status(404).send('Shop with the specified ID does not exists');
   }
   catch (error) {
-    return res.status(500).send(error.message);
+    return res.status(400).send(error.message);
   }
 }
 

@@ -16,6 +16,7 @@ import SupplierPage from './components/suppliers/SupplierPage';
 import NewCustomerPage from './components/customers/NewCustomerPage';
 import Shop from './components/customers/Shop.jsx';
 import CustomersPage from './components/customers/CustomersPage';
+import ShopsPage from './components/customers/ShopsPage';
 
 const drawerWidth = 240;
 const MainContent = styled('div', {
@@ -50,6 +51,7 @@ function App() {
           <Route path="/suppliers/new" element={<NewSupplierPage />} />
           <Route path="/customers/" element={<CustomersPage />} />
           <Route path="/customers/new" element={<NewCustomerPage />} />
+          <Route path="/shops/" element={<ShopsPage />} />
           <Route path="/shops/:id" element={<Shop />} />
         </Routes>
       </MainContent>
