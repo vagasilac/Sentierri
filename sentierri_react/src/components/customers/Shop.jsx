@@ -31,14 +31,20 @@ const Shop = () => {
         county: '',
         country: '',
     });
+
+    // get customers from redux store
+    const customers = useSelector(state => state.customers.data);
+    console.log('customers: ', customers);
     const shops = useSelector(state => state.shops.data);
     const shop = useSelector(state => state.shops.data.find(shop => shop.id === numId));
+    console.log('shop: ', shop);
 
     useEffect(() => {
         const fetchData = async () => {
             dispatch(fetchShops());
-            fetchData();
+            dispatch(fetchCustomers());
         }
+            fetchData();
     }, [dispatch]);
     
 
