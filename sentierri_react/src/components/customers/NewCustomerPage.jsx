@@ -4,7 +4,7 @@ import { Container, Grid, Typography, TextField, Collapse, Button, Switch, Paper
 import { makeStyles } from '@material-ui/core/styles';
 import { fetchCustomers } from '../../features/customers/customersSlice';
 import { addCustomer } from '../../features/customers/customersSlice';
-import { addShop } from '../../features/shops/shopsSlice';
+import { addShop, addShopAsync } from '../../features/shops/shopsSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
@@ -157,18 +157,43 @@ const NewCustomerPage = () => {
         // if sameAddress is false, add shops to shopsSlice, else add one shop to shopSlice and use formValues for the shop
         if (!sameAddress) {
             for (const shop of addedShops) {
-                dispatch(addShop({
+                dispatch(addShopAsync({
                   ...shop,
                   parentCustomerId: customerId,
                 }));
               }
         } else {
-            dispatch(addShop({
-                ...formValues,
+            dispatch(addShopAsync({
+                name: formValues.name,
+                telephone: formValues.telephone,
+                street_address_1: formValues.street_address_1,
+                street_address_2: formValues.street_address_2,
+                city: formValues.city,
+                zip: formValues.zip,
+                county: formValues.county,
+                country: formValues.country,
                 parentCustomerId: customerId,
             }));
         }
-        setFormValues(initialFormValues);
+        setFormValues({
+            name: '',
+            abbreviation: '',
+            email: '',
+            telephone: '',
+            street_address_1: '',
+            street_address_2: '',
+            city: '',
+            zip: '',
+            county: '',
+            country: '',
+            contact_person_firstname: '',
+            contact_person_familyname: '',
+            vat: '',
+            reg_com: '',
+            swift: '',
+            iban: '',
+            shops: [],
+        });
         setAddedShops([]);
     };
 

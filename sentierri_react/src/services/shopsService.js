@@ -17,7 +17,7 @@ export const addShop = async (shopData) => {
         const response = await axios.post(`${API_BASE_URL}/shops`, shopData);
         return response.status === 201; // Return true if the status code is 201 (Created)
     } catch (error) {
-        console.error('Error adding shop!', error);
+        console.error('Error adding shop:', error.stack);
         return false;
     }
 }

@@ -47,6 +47,9 @@ const shopsSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        shopAdded: (state, action) => {
+            state.push(action.payload);
+          },
     },
 });
 
@@ -60,6 +63,7 @@ export const {
     updateShopRequest,
     updateShopSuccess,
     updateShopFailure,
+    shopAdded,
 } = shopsSlice.actions;
 
 export const fetchShops = () => {
@@ -75,6 +79,15 @@ export const fetchShops = () => {
 }
 
 // addShop
+
+export const addShopAsync = (shopData) => async (dispatch) => {
+    const result = await shopsService.addShop(shopData);
+    if (result) {
+      dispatch(shopAdded(shopData));
+    }
+  };
+
+
 export const addShop = (shop) => {
     return async (dispatch) => {
         dispatch(addShopRequest());
