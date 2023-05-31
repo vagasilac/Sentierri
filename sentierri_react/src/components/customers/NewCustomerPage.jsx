@@ -63,6 +63,7 @@ const NewCustomerPage = () => {
 
     const handleSameAddressChange = (event) => {
         setSameAddress(event.target.checked);
+        console.log('sameAddress: ', event.target.checked);
         setShowShopFields(!event.target.checked);
         if (event.target.checked) {
           setShopValues(prevValues => ({
@@ -153,12 +154,20 @@ const NewCustomerPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         dispatch(addCustomer(formValues));
-        for (const shop of addedShops) {
+        // if sameAddress is false, add shops to shopsSlice, else add one shop to shopSlice and use formValues for the shop
+        if (!sameAddress) {
+            for (const shop of addedShops) {
+                dispatch(addShop({
+                  ...shop,
+                  parentCustomerId: customerId,
+                }));
+              }
+        } else {
             dispatch(addShop({
-              ...shop,
-              parentCustomerId: customerId,
+                ...formValues,
+                parentCustomerId: customerId,
             }));
-          }
+        }
         setFormValues(initialFormValues);
         setAddedShops([]);
     };
