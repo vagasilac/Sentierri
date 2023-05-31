@@ -8,12 +8,24 @@ import { fetchCustomers } from '../../features/customers/customersSlice';
 import CircularProgress from '@mui/material/CircularProgress';
 import StartIcon from '@mui/icons-material/Start';
 
+let customerNameMap = {};
+
 const ShopsPage = () => {
+    const dispatch = useDispatch();
+    
+    useEffect(() => {
+        dispatch(fetchShops());
+        dispatch(fetchCustomers());
+        customers.forEach(customer => {
+        customerNameMap[customer.id] = customer.name;
+        });
+    }, [dispatch]);
     const shops = useSelector(state => {
         try {
             console.log('state.shops.data:', state.shops.data);
             return state.shops.data.map(shop => ({
                 ...shop,
+                parentCustomerId: customerNameMap[shop.parentCustomerId] || 'N/A',
             }));
         } catch (error) {
             console.error('Error transforming shops data:', error);
@@ -34,13 +46,7 @@ const ShopsPage = () => {
     });
     console.log('customers:', customers);
 
-    const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        dispatch(fetchShops());
-        dispatch(fetchCustomers());
-    }, [dispatch]);
 
     const columns = [
         {
