@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Grid, Typography, TextField, Collapse, Button, Switch, Paper, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,7 +27,8 @@ const NewCustomerPage = () => {
     const dispatch = useDispatch();
     const [sameAddress, setSameAddress] = useState(true);
     const [showShopFields, setShowShopFields] = useState(false);
-    const [addedShops, setAddedShops] = useState({});
+    const [addedShops, setAddedShops] = useState([]);
+    const formRef = useRef(null);
 
     const [formValues, setFormValues] = useState({
         name: '',
@@ -118,6 +119,7 @@ const NewCustomerPage = () => {
         if (customers.length > 0) {
             const maxId = Math.max(...customers.map(customer => customer.id));
             console.log('maxId', maxId);
+            console.log('customers', customers);
             setCustomerId(maxId + 1);
             console.log('customerId', customerId);
         } else {
@@ -141,6 +143,7 @@ const NewCustomerPage = () => {
             ...formValues,
             [e.target.name]: e.target.value,
         });
+        console.log('formValues', formValues);
     };
 
     const handleBack = () => {
@@ -181,7 +184,7 @@ const NewCustomerPage = () => {
                 <Typography component="h1" variant="h4">
                     Add New Customer
                 </Typography>
-                <form className={classes.form} onSubmit={handleSubmit}>
+                <form ref={formRef} className={classes.form} onSubmit={handleSubmit}>
                     <Grid container spacing={3} style={{ marginBottom: '2rem',}}>
                         <Grid item sm={12} md={6} > 
                             <TextField
@@ -484,6 +487,7 @@ const NewCustomerPage = () => {
                 variant="contained"
                 color="primary"
                 className={classes.submitButton}
+                onClick={() => formRef.current && formRef.current.dispatchEvent(new Event('submit', { cancelable: true }))}
             >
                 Add Customer
             </Button>
