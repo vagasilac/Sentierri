@@ -227,7 +227,7 @@ const NewSupplierPage = () => {
                 }}
             >
                 {Object.values(error).map((err, index) => err && <Alert key={index} severity="error">{err}</Alert>)}
-                <Typography variant="h4">Add New Supplier</Typography>
+                <Typography component="h1" variant="h4">Add New Supplier</Typography>
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <Grid container spacing={3}>
                         <Grid item sm={12} md={6} > 

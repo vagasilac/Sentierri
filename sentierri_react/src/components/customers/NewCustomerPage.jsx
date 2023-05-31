@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Grid, Typography, TextField, Button, Paper } from '@material-ui/core';
+import { Container, Grid, Typography, TextField, Button, Checkbox, Paper, FormGroup, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { fetchCustomers } from '../../features/customers/customersSlice';
 import { addCustomer } from '../../features/customers/customersSlice';
@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
 const NewCustomerPage = () => {
     const navigate = useNavigate();
     const [openSnackbar, setOpenSnackbar] = useState(false);
-    const [submissionSuccessful, setSubmissionSuccessful] = useState(false);    
+    const [submissionSuccessful, setSubmissionSuccessful] = useState(false);
+    const [customerId, setCustomerId] = useState(undefined);    
     const classes = useStyles();
     const dispatch = useDispatch();
 
@@ -55,6 +56,17 @@ const NewCustomerPage = () => {
     }, [customers.length, oldCustomerLength]);
 
     useEffect(() => {
+        if (customers.length > 0) {
+            const maxId = Math.max(...customers.map(customer => customer.id));
+            console.log('maxId', maxId);
+            setCustomerId(maxId + 1);
+            console.log('customerId', customerId);
+        } else {
+            setCustomerId(undefined);
+        }
+    }, [customers]);
+
+    useEffect(() => {
         dispatch(fetchCustomers());
     }, [dispatch]);
 
@@ -64,6 +76,7 @@ const NewCustomerPage = () => {
         }
         setOpenSnackbar(false);
     };      
+
     const handleInputChange = (e) => {
         setFormValues({
             ...formValues,
@@ -81,7 +94,7 @@ const NewCustomerPage = () => {
     };
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main">
             <Button variant="contained" color="primary" onClick={handleBack}
                 style={{
                     marginTop: '1rem',
@@ -90,15 +103,21 @@ const NewCustomerPage = () => {
                 >
                 Back
             </Button>
-            <Paper elevation={3} className={classes.form}>
-                <Typography component="h1" variant="h5">
+            <Paper
+                elevation={4}
+                className={classes.paper}
+                style={{ 
+                    padding: '3rem',
+                    marginVertical: '2rem',
+                }}
+            >
+                <Typography component="h1" variant="h4">
                     Add New Customer
                 </Typography>
-                <form onSubmit={handleSubmit}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12}>
+                <form className={classes.form} onSubmit={handleSubmit}>
+                    <Grid container spacing={3}>
+                        <Grid item sm={12} md={6} > 
                             <TextField
-                                variant="outlined"
                                 required
                                 fullWidth
                                 id="name"
@@ -109,9 +128,8 @@ const NewCustomerPage = () => {
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item sm={12} md={6} > 
                             <TextField
-                                variant="outlined"
                                 required
                                 fullWidth
                                 id="abbreviation"
@@ -122,9 +140,8 @@ const NewCustomerPage = () => {
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item sm={12} md={6} > 
                             <TextField
-                                variant="outlined"
                                 required
                                 fullWidth
                                 id="email"
@@ -135,9 +152,8 @@ const NewCustomerPage = () => {
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item sm={12} md={6} > 
                             <TextField
-                                variant="outlined"
                                 required
                                 fullWidth
                                 id="telephone"
@@ -148,35 +164,30 @@ const NewCustomerPage = () => {
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item sm={12} md={6} > 
                             <TextField
-                                variant="outlined"
-                                required
                                 fullWidth
                                 id="street_address_1"
                                 label="Street Address 1"
                                 name="street_address_1"
-                                autoComplete="street_address_1"
+                                autoComplete="street-address-1"
                                 value={formValues.street_address_1}
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item sm={12} md={6} > 
                             <TextField
-                                variant="outlined"
                                 fullWidth
                                 id="street_address_2"
                                 label="Street Address 2"
                                 name="street_address_2"
-                                autoComplete="street_address_2"
+                                autoComplete="street-address-2"
                                 value={formValues.street_address_2}
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item sm={12} md={6} > 
                             <TextField
-                                variant="outlined"
-                                required
                                 fullWidth
                                 id="city"
                                 label="City"
@@ -186,23 +197,19 @@ const NewCustomerPage = () => {
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item sm={12} md={6} > 
                             <TextField
-                                variant="outlined"
-                                required
                                 fullWidth
                                 id="zip"
-                                label="ZIP"
+                                label="Zip"
                                 name="zip"
                                 autoComplete="zip"
                                 value={formValues.zip}
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item sm={12} md={6} > 
                             <TextField
-                                variant="outlined"
-                                required
                                 fullWidth
                                 id="county"
                                 label="County"
@@ -212,10 +219,8 @@ const NewCustomerPage = () => {
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item sm={12} md={6} > 
                             <TextField
-                                variant="outlined"
-                                required
                                 fullWidth
                                 id="country"
                                 label="Country"
@@ -225,35 +230,30 @@ const NewCustomerPage = () => {
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item sm={12} md={6} > 
                             <TextField
-                                variant="outlined"
-                                required
                                 fullWidth
                                 id="contact_person_firstname"
                                 label="Contact Person Firstname"
                                 name="contact_person_firstname"
-                                autoComplete="contact_person_firstname"
+                                autoComplete="contact-person-firstname"
                                 value={formValues.contact_person_firstname}
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item sm={12} md={6} > 
                             <TextField
-                                variant="outlined"
-                                required
                                 fullWidth
                                 id="contact_person_familyname"
                                 label="Contact Person Familyname"
                                 name="contact_person_familyname"
-                                autoComplete="contact_person_familyname"
+                                autoComplete="contact-person-familyname"
                                 value={formValues.contact_person_familyname}
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item sm={12} md={6} > 
                             <TextField
-                                variant="outlined"
                                 fullWidth
                                 id="vat"
                                 label="VAT"
@@ -263,9 +263,8 @@ const NewCustomerPage = () => {
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item sm={12} md={6} > 
                             <TextField
-                                variant="outlined"
                                 fullWidth
                                 id="reg_com"
                                 label="Reg Com"
@@ -275,55 +274,58 @@ const NewCustomerPage = () => {
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item sm={12} md={6} > 
                             <TextField
-                                variant="outlined"
                                 fullWidth
                                 id="swift"
-                                label="Swift"
+                                label="SWIFT"
                                 name="swift"
                                 autoComplete="swift"
                                 value={formValues.swift}
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item sm={12} md={6} > 
                             <TextField
-                                variant="outlined"
                                 fullWidth
                                 id="iban"
-                                label="Iban"
+                                label="IBAN"
                                 name="iban"
                                 autoComplete="iban"
                                 value={formValues.iban}
                                 onChange={handleInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className={classes.submitButton}
-                            >
-                                Add Customer
-                            </Button>
+                    </Grid>
+                    <Grid container spacing={3}>
+                        <Grid item sm={12} md={6} >
+                            <Typography component="h2" variant="h6">
+                                Shop(s)
+                            </Typography>
                         </Grid>
                     </Grid>
+                    <Grid item sm={12} md={6} > 
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            className={classes.submitButton}
+                        >
+                            Add Customer
+                        </Button>
+                    </Grid>
                 </form>
-                <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-                    {submissionSuccessful ? (
-                    <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
-                        Customer has been successfully added!
-                    </Alert>
-                    ) : (
-                    <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
-                        An error occurred when adding the customer.
-                    </Alert>
-                    )}
-                </Snackbar>
             </Paper>
+            <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+                {submissionSuccessful ? 
+                    <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+                        Customer successfully added!
+                    </Alert> :
+                    <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
+                        Error adding customer!
+                    </Alert>
+                }
+            </Snackbar>
         </Container>
     );
 };

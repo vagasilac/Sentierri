@@ -38,7 +38,7 @@ const sections = [
       icon: ContactMailIcon,
       label: 'CRM',
       items: [
-        { icon: PeopleIcon, label: 'Customers' },
+        { icon: PeopleIcon, label: 'Customers', link: '/customers/' },
         { icon: ListAltIcon, label: 'Order Book' },
         { icon: AddBoxIcon, label: 'New CPO' },
         { icon: AddBoxIcon, label: 'New Customer', link: '/customers/new' },
