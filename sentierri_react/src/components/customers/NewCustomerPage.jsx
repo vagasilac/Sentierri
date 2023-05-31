@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Grid, Typography, TextField, Button, Checkbox, Paper, FormGroup, FormControlLabel } from '@material-ui/core';
+import { Container, Grid, Typography, TextField, Button, Switch, Paper, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { fetchCustomers } from '../../features/customers/customersSlice';
 import { addCustomer } from '../../features/customers/customersSlice';
@@ -42,7 +42,64 @@ const NewCustomerPage = () => {
         reg_com: '',
         swift: '',
         iban: '',
+        shops: [],
     });
+
+    const [shopValues, setShopValues] = useState({
+        name: '',
+        telephone: '',
+        street_address_1: '',
+        street_address_2: '',
+        city: '',
+        zip: '',
+        county: '',
+        country: '',
+    });
+
+    const [sameAddress, setSameAddress] = useState(false);
+
+    const handleSameAddressChange = (event) => {
+        setSameAddress(event.target.checked);
+        if (event.target.checked) {
+            setShopValues(prevValues => ({
+                ...prevValues,
+                name: formValues.name,
+                telephone: formValues.telephone,
+                street_address_1: formValues.street_address_1,
+                street_address_2: formValues.street_address_2,
+                city: formValues.city,
+                zip: formValues.zip,
+                county: formValues.county,
+                country: formValues.country,
+            }));
+        }
+    };
+
+    const handleShopChange = (event) => {
+        setShopValues({
+            ...shopValues,
+            [event.target.name]: event.target.value,
+        });
+    };
+
+    const addShop = () => {
+        setFormValues(prevValues => ({
+            ...prevValues,
+            shops: [...prevValues.shops, shopValues],
+        }));
+        console.log('SHOPS1', formValues);
+        setShopValues({
+            name: '',
+            telephone: '',
+            street_address_1: '',
+            street_address_2: '',
+            city: '',
+            zip: '',
+            county: '',
+            country: '',
+        });
+        console.log('SHOPS2', formValues);
+    };
 
     const customers = useSelector(state => state.customers?.data);
     const [oldCustomerLength, setOldCustomerLength] = useState(customers.length);
@@ -91,6 +148,26 @@ const NewCustomerPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         dispatch(addCustomer(formValues));
+        // empty form
+        setFormValues({
+            name: '',
+            abbreviation: '',
+            email: '',
+            telephone: '',
+            street_address_1: '',
+            street_address_2: '',
+            city: '',
+            zip: '',
+            county: '',
+            country: '',
+            contact_person_firstname: '',
+            contact_person_familyname: '',
+            vat: '',
+            reg_com: '',
+            swift: '',
+            iban: '',
+            shops: [],
+        });
     };
 
     return (
@@ -115,7 +192,7 @@ const NewCustomerPage = () => {
                     Add New Customer
                 </Typography>
                 <form className={classes.form} onSubmit={handleSubmit}>
-                    <Grid container spacing={3}>
+                    <Grid container spacing={3} style={{ marginBottom: '2rem',}}>
                         <Grid item sm={12} md={6} > 
                             <TextField
                                 required
@@ -297,35 +374,127 @@ const NewCustomerPage = () => {
                             />
                         </Grid>
                     </Grid>
+                    <Typography component="h2" variant="h6">
+                        Shop(s)
+                    </Typography>
                     <Grid container spacing={3}>
-                        <Grid item sm={12} md={6} >
-                            <Typography component="h2" variant="h6">
-                                Shop(s)
-                            </Typography>
+                        {/* Shop input fields... */}
+                        <Grid item xs={12}>
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        checked={sameAddress}
+                                        onChange={handleSameAddressChange}
+                                        name="sameAddress"
+                                        color="primary"
+                                    />
+                                }
+                                label="Shop address is the same as customer address"
+                            />
                         </Grid>
-                    </Grid>
-                    <Grid item sm={12} md={6} > 
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            className={classes.submitButton}
-                        >
-                            Add Customer
-                        </Button>
+                        <Grid item xs={12}>
+                            <TextField
+                                required
+                                fullWidth
+                                id="shopName"
+                                label="Shop Name"
+                                name="name"
+                                value={shopValues.name}
+                                onChange={handleShopChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                required
+                                fullWidth
+                                id="shopTelephone"
+                                label="Shop Telephone"
+                                name="telephone"
+                                value={shopValues.telephone}
+                                onChange={handleShopChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                fullWidth
+                                id="shopStreetAddress1"
+                                label="Shop Street Address 1"
+                                name="street_address_1"
+                                value={shopValues.street_address_1}
+                                onChange={handleShopChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                fullWidth
+                                id="shopStreetAddress2"
+                                label="Shop Street Address 2"
+                                name="street_address_2"
+                                value={shopValues.street_address_2}
+                                onChange={handleShopChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                fullWidth
+                                id="shopCity"
+                                label="Shop City"
+                                name="city"
+                                value={shopValues.city}
+                                onChange={handleShopChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                fullWidth
+                                id="shopZip"
+                                label="Shop Zip"
+                                name="zip"
+                                value={shopValues.zip}
+                                onChange={handleShopChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                fullWidth
+                                id="shopCounty"
+                                label="Shop County"
+                                name="county"
+                                value={shopValues.county}
+                                onChange={handleShopChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                fullWidth
+                                id="shopCountry"
+                                label="Shop Country"
+                                name="country"
+                                value={shopValues.country}
+                                onChange={handleShopChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={addShop}
+                            >
+                                Add Shop
+                            </Button>
+                        </Grid>
                     </Grid>
                 </form>
             </Paper>
-            <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-                {submissionSuccessful ? 
-                    <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
-                        Customer successfully added!
-                    </Alert> :
-                    <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
-                        Error adding customer!
-                    </Alert>
-                }
-            </Snackbar>
+            <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submitButton}
+            >
+                Add Customer
+            </Button>
         </Container>
     );
 };
