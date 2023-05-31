@@ -13,6 +13,7 @@ const createShop = async (req, res) => {
 }
 
 const getAllShops = async (req, res) => {
+  console.log('getAllShops req.body:', req.body);
   try {
     const shops = await Shop.findAll();
     return res.status(200).json(shops);

@@ -36,13 +36,13 @@ export const updateShop = async (shopData) => {
 export const getAllShops = async () => {
     try {
         const response = await axios.get(`${API_BASE_URL}/shops`);
-        console.log('response.data:', response);
+        console.log('getAllShops response.data:', response.data);
         return response.data;
     } catch (error) {
         console.error('Error fetching shops:', error.stack);
         return null;
     }
-}
+};
 
 export const deleteShop = async (id) => {
     try {
