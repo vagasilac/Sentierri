@@ -71,6 +71,10 @@ const NewCustomerPage = () => {
         });
     };
 
+    const handleBack = () => {
+        navigate('/customers', { replace: true });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         dispatch(addCustomer(formValues));
@@ -78,6 +82,14 @@ const NewCustomerPage = () => {
 
     return (
         <Container component="main" maxWidth="xs">
+            <Button variant="contained" color="primary" onClick={handleBack}
+                style={{
+                    marginTop: '1rem',
+                    marginBottom: '1rem',
+                }}
+                >
+                Back
+            </Button>
             <Paper elevation={3} className={classes.form}>
                 <Typography component="h1" variant="h5">
                     Add New Customer

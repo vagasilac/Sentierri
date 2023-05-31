@@ -10,10 +10,10 @@ import StartIcon from '@mui/icons-material/Start';
 const CustomersPage = () => {
   const customers = useSelector(state => {
     try {
-      return state.customers.data.map(customer => ({
-        ...customer,
-        shops: customer.shops.map(shop => shop.name).join(', ')
-      }));
+        return state.customers.data.map(customer => ({
+            ...customer,
+            shops: customer.shops ? customer.shops.map(shop => shop.name).join(', ') : ''
+          }));          
     } catch (error) {
       console.error('Error transforming customers data:', error);
       return [];
@@ -144,7 +144,9 @@ const CustomersPage = () => {
   ];
 
   return (
-    <Box>
+    <Box
+        style={{ marginLeft: '3rem', }}
+    >
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Typography variant="h4" component="div">
           Customers
@@ -153,7 +155,7 @@ const CustomersPage = () => {
           variant="contained"
           color="primary"
           startIcon={<StartIcon />}
-          onClick={() => navigate('/newcustomer')}
+          onClick={() => navigate('/customers/new')}
         >
           Add New Customer
         </Button>
