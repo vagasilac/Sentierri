@@ -4,6 +4,7 @@ import DataTable from '../common/DataTable';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchShops } from '../../features/shops/shopsSlice';
+import { fetchCustomers } from '../../features/customers/customersSlice';
 import CircularProgress from '@mui/material/CircularProgress';
 import StartIcon from '@mui/icons-material/Start';
 
@@ -20,11 +21,25 @@ const ShopsPage = () => {
         }
     });
 
+    const customers = useSelector(state => {
+        try {
+            console.log('state.customers.data:', state.customers.data);
+            return state.customers.data.map(customer => ({
+                ...customer,
+            }));
+        } catch (error) {
+            console.error('Error transforming customers data:', error);
+            return [];
+        }
+    });
+    console.log('customers:', customers);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(fetchShops());
+        dispatch(fetchCustomers());
     }, [dispatch]);
 
     const columns = [

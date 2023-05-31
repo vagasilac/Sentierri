@@ -25,16 +25,15 @@ const StyledTable = styled(Table)({
 
 const DefaultColumnFilter = ({ column: { filterValue, setFilter } }) => {
   return (
-    <div className="search-input-container">
       <TextField
         value={filterValue || ''}
         onChange={(e) => {
           setFilter(e.target.value || undefined);
         }}
         placeholder={`filter`}
+        size="small"
       >
       </TextField>
-    </div>
   );
 };
 

@@ -117,8 +117,7 @@ const Shop = () => {
                                 fullWidth
                                 label="Customer"
                                 name="customer"
-                                // value should be the customer's name from customers where the id matches the parentCustomerId
-                                value={formValues.parentCustomerId}
+                                value={customers.find(customer => customer.id === formValues.parentCustomerId)?.name || ''}
                                 onChange={handleChange}
                                 />
                             </Grid>
