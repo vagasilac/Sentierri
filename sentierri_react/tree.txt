@@ -49,6 +49,8 @@ x = https://github.com/vagasilac/Sentierri/blob/master/sentierri_react
     |   |       
     |   +---customers (y/src/components/customers)
     |   |       NewCustomerPage.jsx (x/src/components/customers/NewCustomerPage.jsx)
+    |   |       CustomersPage.jsx (x/src/components/customers/CustomersPage.jsx)
+    |   |       Shop.jsx (x/src/components/customers/Shop.jsx)
     |   |       
     |   +---dashboard (y/src/components/dashboard)
     |   |       Dashboard.css (x/src/components/dashboard/Dashboard.css)   
@@ -91,6 +93,8 @@ x = https://github.com/vagasilac/Sentierri/blob/master/sentierri_react
     |           customersSlice.js (x/src/features/customers/customersSlice.js)     
     |   +---supplierCategories (y/src/features/supplierCategories)
     |   |       supplierCategoriesSlice.js (x/src/features/supplierCategories/supplierCategoriesSlice.js)
+    |   +---shops (y/src/features/shops)
+    |           shopsSlice.js (x/src/features/shops/shopsSlice.js)
     |   |       
     |   \---suppliers (y/src/features/suppliers)
     |           suppliersSlice.js (x/src/features/suppliers/suppliersSlice.js)
@@ -106,6 +110,7 @@ x = https://github.com/vagasilac/Sentierri/blob/master/sentierri_react
     |       supplierCategoryService.js (x/src/services/supplierCategoryService.js)
     |       supplierService.js (x/src/services/supplierService.js)
     |       customerService.js (x/src/services/customerService.js)
+    |       shopsService.js (x/src/services/shopsService.js)
     |       
     \---store (y/src/store)
             configureStore.js (x/src/store/configureStore.js)

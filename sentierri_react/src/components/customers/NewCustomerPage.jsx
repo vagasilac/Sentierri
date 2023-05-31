@@ -487,8 +487,9 @@ const NewCustomerPage = () => {
                 variant="contained"
                 color="primary"
                 className={classes.submitButton}
-                onClick={() => formRef.current && formRef.current.dispatchEvent(new Event('submit', { cancelable: true }))}
-            >
+                // onClick={() => formRef.current && formRef.current.dispatchEvent(new Event('submit', { cancelable: true }))}
+                onClick={handleSubmit}
+                >
                 Add Customer
             </Button>
         </Container>

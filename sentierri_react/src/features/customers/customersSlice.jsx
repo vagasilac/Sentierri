@@ -47,7 +47,7 @@ const customersSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
     },
-  },
+},
 });
 
 export const {
