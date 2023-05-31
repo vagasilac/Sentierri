@@ -49,7 +49,7 @@ db.Supplier.belongsToMany(db.Category, { through: 'SupplierCategory', as: 'categ
 db.Category.belongsToMany(db.Supplier, { through: 'SupplierCategory', as: 'suppliers', foreignKey: 'categoryId', otherKey: 'supplierId' });
 db.Supplier.belongsToMany(db.Supplier, { through: 'AgentRelations', as: 'agents', foreignKey: 'agentId', otherKey: 'supplierId' });
 db.Supplier.belongsToMany(db.Supplier, { through: 'AgentRelations', as: 'suppliers', foreignKey: 'supplierId', otherKey: 'agentId' });
-db.Customer.hasMany(db.Shop, { foreignKey: 'customerId' });
-db.Shop.belongsTo(db.Customer, { foreignKey: 'customerId' });
+db.Customer.hasMany(db.Shop, { foreignKey: 'parentCustomerId' });
+db.Shop.belongsTo(db.Customer, { foreignKey: 'parentCustomerId' });
 
 module.exports = db;
