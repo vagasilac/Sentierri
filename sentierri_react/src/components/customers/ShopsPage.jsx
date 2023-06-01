@@ -16,10 +16,9 @@ const ShopsPage = () => {
     useEffect(() => {
         dispatch(fetchShops());
         dispatch(fetchCustomers());
-        customers.forEach(customer => {
-        customerNameMap[customer.id] = customer.name;
-        });
     }, [dispatch]);
+    
+
     const shops = useSelector(state => {
         try {
             console.log('state.shops.data:', state.shops.data);
@@ -44,6 +43,13 @@ const ShopsPage = () => {
             return [];
         }
     });
+
+    useEffect(() => {
+        customers.forEach(customer => {
+        customerNameMap[customer.id] = customer.name;
+        });
+    }, [customers]);
+
     console.log('customers:', customers);
 
     const navigate = useNavigate();
