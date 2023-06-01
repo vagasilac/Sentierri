@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Grid, Typography, TextField, Collapse, Button, Switch, Paper, FormControlLabel } from '@material-ui/core';
+import { Container, Chip, Grid, Typography, TextField, Collapse, Button, Switch, Paper, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { fetchCustomers } from '../../features/customers/customersSlice';
 import { addCustomer } from '../../features/customers/customersSlice';
@@ -401,108 +401,116 @@ const NewCustomerPage = () => {
                             />
                         </Grid>
                     </Grid>
-                    <Typography component="h2" variant="h6">
-                        Shops
-                        {/* list all name property values of all added shop object items */}
-                        {addedShops.map((shop, index) => ( <div key={index}> <Typography component="h3" variant="h6">{shop.name}</Typography></div>))}
-                    </Typography>
                     <Grid container spacing={3}>
-                        {/* Shop input fields... */}
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    checked={sameAddress}
-                                    onChange={handleSameAddressChange}
-                                    name="sameAddress"
-                                    color="primary"
-                                />
-                            }
-                            label="Shop address is the same as customer address"
-                        />
-                        <Collapse in={showShopFields}>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="shopName"
-                                    label="Shop Name"
-                                    name="name"
-                                    value={shopValues.name}
-                                    onChange={handleShopChange}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="shopTelephone"
-                                    label="Shop Telephone"
-                                    name="telephone"
-                                    value={shopValues.telephone}
-                                    onChange={handleShopChange}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    fullWidth
-                                    id="shopStreetAddress1"
-                                    label="Shop Street Address 1"
-                                    name="street_address_1"
-                                    value={shopValues.street_address_1}
-                                    onChange={handleShopChange}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    fullWidth
-                                    id="shopStreetAddress2"
-                                    label="Shop Street Address 2"
-                                    name="street_address_2"
-                                    value={shopValues.street_address_2}
-                                    onChange={handleShopChange}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    fullWidth
-                                    id="shopCity"
-                                    label="Shop City"
-                                    name="city"
-                                    value={shopValues.city}
-                                    onChange={handleShopChange}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    fullWidth
-                                    id="shopZip"
-                                    label="Shop Zip"
-                                    name="zip"
-                                    value={shopValues.zip}
-                                    onChange={handleShopChange}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    fullWidth
-                                    id="shopCounty"
-                                    label="Shop County"
-                                    name="county"
-                                    value={shopValues.county}
-                                    onChange={handleShopChange}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    fullWidth
-                                    id="shopCountry"
-                                    label="Shop Country"
-                                    name="country"
-                                    value={shopValues.country}
-                                    onChange={handleShopChange}
-                                />
-                            </Grid>
-                        </Collapse>
+                        <Grid item xs={12}>
+                            <Typography component="h2" variant="h5">
+                                Shops
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            {/* list all name property values of all added shop object items, if no shop has been added display "no shop has been added" */}
+                            {addedShops.length > 0 ? addedShops.map((shop, index) => <Chip key={index} label={shop.name} />) : <Chip label="No shop has been added with different address" />}
+                        </Grid>
+                        <Grid item xs={12}>
+                            {/* Shop input fields... */}
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        checked={sameAddress}
+                                        onChange={handleSameAddressChange}
+                                        name="sameAddress"
+                                        color="primary"
+                                    />
+                                }
+                                label="Shop address is the same as customer address"
+                            />
+                            <Collapse in={showShopFields}>
+                                <Grid container spacing={3}>
+                                    <Grid item sm={12} md={6} > 
+                                        <TextField
+                                            required
+                                            fullWidth
+                                            id="shopName"
+                                            label="Shop Name"
+                                            name="name"
+                                            value={shopValues.name}
+                                            onChange={handleShopChange}
+                                        />
+                                    </Grid>
+                                    <Grid item sm={12} md={6} > 
+                                        <TextField
+                                            required
+                                            fullWidth
+                                            id="shopTelephone"
+                                            label="Shop Telephone"
+                                            name="telephone"
+                                            value={shopValues.telephone}
+                                            onChange={handleShopChange}
+                                        />
+                                    </Grid>
+                                    <Grid item sm={12} md={6} > 
+                                        <TextField
+                                            fullWidth
+                                            id="shopStreetAddress1"
+                                            label="Shop Street Address 1"
+                                            name="street_address_1"
+                                            value={shopValues.street_address_1}
+                                            onChange={handleShopChange}
+                                        />
+                                    </Grid>
+                                    <Grid item sm={12} md={6} > 
+                                        <TextField
+                                            fullWidth
+                                            id="shopStreetAddress2"
+                                            label="Shop Street Address 2"
+                                            name="street_address_2"
+                                            value={shopValues.street_address_2}
+                                            onChange={handleShopChange}
+                                        />
+                                    </Grid>
+                                    <Grid item sm={12} md={6} > 
+                                        <TextField
+                                            fullWidth
+                                            id="shopCity"
+                                            label="Shop City"
+                                            name="city"
+                                            value={shopValues.city}
+                                            onChange={handleShopChange}
+                                        />
+                                    </Grid>
+                                    <Grid item sm={12} md={6} > 
+                                        <TextField
+                                            fullWidth
+                                            id="shopZip"
+                                            label="Shop Zip"
+                                            name="zip"
+                                            value={shopValues.zip}
+                                            onChange={handleShopChange}
+                                        />
+                                    </Grid>
+                                    <Grid item sm={12} md={6} > 
+                                        <TextField
+                                            fullWidth
+                                            id="shopCounty"
+                                            label="Shop County"
+                                            name="county"
+                                            value={shopValues.county}
+                                            onChange={handleShopChange}
+                                        />
+                                    </Grid>
+                                    <Grid item sm={12} md={6} > 
+                                        <TextField
+                                            fullWidth
+                                            id="shopCountry"
+                                            label="Shop Country"
+                                            name="country"
+                                            value={shopValues.country}
+                                            onChange={handleShopChange}
+                                        />
+                                    </Grid>
+                                </Grid>
+                            </Collapse>
+                        </Grid>
                         <Grid item xs={12}>
                             <Button
                                 variant="contained"

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCustomers } from '../../features/customers/customersSlice';
 import CircularProgress from '@mui/material/CircularProgress';
-import StartIcon from '@mui/icons-material/Start';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 const CustomersPage = () => {
   const customers = useSelector(state => {
@@ -154,7 +154,7 @@ const CustomersPage = () => {
         <Button
           variant="contained"
           color="primary"
-          startIcon={<StartIcon />}
+          startIcon={<AddBoxIcon />}
           onClick={() => navigate('/customers/new')}
         >
           Add New Customer
