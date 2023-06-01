@@ -14,6 +14,7 @@ import ViewListIcon from '@mui/icons-material/ViewList';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import CategoryIcon from '@mui/icons-material/Category';
 import TuneIcon from '@mui/icons-material/Tune';
+import StorefrontIcon from '@mui/icons-material/Storefront';
 
 
 const sections = [
@@ -39,6 +40,7 @@ const sections = [
       label: 'CRM',
       items: [
         { icon: PeopleIcon, label: 'Customers', link: '/customers/' },
+        { icon: StorefrontIcon, label: 'Shops', link: '/shops/' },
         { icon: ListAltIcon, label: 'Order Book' },
         { icon: AddBoxIcon, label: 'New CPO' },
         { icon: AddBoxIcon, label: 'New Customer', link: '/customers/new' },

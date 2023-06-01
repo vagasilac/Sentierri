@@ -141,7 +141,13 @@ export default function MiniDrawer({ sections, open, setOpen }) {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
+        <List
+          sx={{
+            width: '100%',
+            maxWidth: 360,
+            bgcolor: 'background.paper',
+          }}
+        >
           {sections.map((section) => (
             <React.Fragment key={section.label}>
               <ListItemButton onClick={() => handleClick(section.label)}>
