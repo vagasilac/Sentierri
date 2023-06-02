@@ -21,7 +21,7 @@ const ColorPage = () => {
     const { id } = useParams();
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { colors } = useSelector((state) => state.colors);
+    const { colors, loading} = useSelector((state) => state.colors);
     const [formValues, setFormValues] = useState({
         name_en: '',
         name_ro: '',
@@ -30,15 +30,16 @@ const ColorPage = () => {
 
     useEffect(() => {
         dispatch(fetchColors());
-    }
-    , [dispatch]);
+    }, [dispatch]);
 
     useEffect(() => {
+        if (colors) {
         const color = colors.find((color) => color.id === Number(id));
         console.log('color: ', color, 'id: ', id, 'colors: ', colors);
         if (color) {
             setFormValues(color);
         }
+    }
     }, [colors, id]);
 
     const handleChange = (e) => {
