@@ -10,6 +10,7 @@ const supplierCategoryRoutes = require('./supplierCategoryRoutes');
 const agentRelationRoutes = require('./agentRelationRoutes');
 const customerRoutes = require('./customerRoutes');
 const shopRoutes = require('./shopRoutes');
+const colorRoutes = require('./colorRoutes');
 
 // Use your entity routes
 router.use('/materials', materialRoutes);
@@ -20,6 +21,7 @@ router.use('/suppliercategories', supplierCategoryRoutes);
 router.use('/agentrelations', agentRelationRoutes);
 router.use('/customers', customerRoutes);
 router.use('/shops', shopRoutes);
+router.use('/colors', colorRoutes);
 
 // Add other entity routes here
 

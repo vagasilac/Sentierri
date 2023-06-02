@@ -15,7 +15,7 @@ import Snackbar from '@mui/material/Snackbar';
 import { Autocomplete } from '@mui/material';
 
 // TODO:
-// - error handling on form submission (supplier-category, agent-supplier relations)
+// - error handling on form submission (supplier-category issue, agent-supplier relations issue)
 
 
 const useStyles = makeStyles((theme) => ({

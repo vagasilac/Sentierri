@@ -1,6 +1,3 @@
-y = https://github.com/vagasilac/Sentierri/tree/master/sentierri_react
-x = https://github.com/vagasilac/Sentierri/blob/master/sentierri_react
-
 |   .dockerignore (x/.dockerignore)
 |   .gitignore (x/.gitignore)
 |   Dockerfile (x/Dockerfile)
@@ -116,3 +113,7 @@ x = https://github.com/vagasilac/Sentierri/blob/master/sentierri_react
     \---store (y/src/store)
             configureStore.js (x/src/store/configureStore.js)
             rootReducer.js (x/src/store/rootReducer.js)
+
+where:
+y = https://github.com/vagasilac/Sentierri/tree/master/sentierri_react
+x = https://github.com/vagasilac/Sentierri/blob/master/sentierri_react

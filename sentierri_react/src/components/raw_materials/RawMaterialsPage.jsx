@@ -62,19 +62,12 @@ const RawMaterialsPage = () => {
         filter: true,
         sort: true,
       }},
-    { accessor: 'supplier_color',
-      Header: () => (
-        <Box>
-          <Typography variant="body1"
-            style={{fontWeight: 'bold'}}>Supplier</Typography>
-          <Typography variant="body1"
-            style={{fontWeight: 'bold'}}>color</Typography>
-        </Box>
-      ),
+      { accessor: 'supplier_color',
+      Header: 'Supplier color',
       options: {
         filter: true,
         sort: true,
-      }},
+        }},
     { accessor: 'size',
       Header: 'Size',
       options: {
@@ -94,29 +87,13 @@ const RawMaterialsPage = () => {
         sort: true,
       }},
     { accessor: 'price_per_unit',
-    Header: () => (
-      <Box>
-        <Typography variant="body1"
-          style={{fontWeight: 'bold'}}>Price</Typography>
-        <Typography variant="body1"
-          style={{fontWeight: 'bold'}}>per</Typography>
-        <Typography variant="body1"
-          style={{fontWeight: 'bold'}}>unit</Typography>
-      </Box>
-    ),
+      Header: 'Price per unit',
       options: {
         filter: true,
         sort: true,
-       }},
+      }},
     { accessor: 'lead_time',
-    Header: () => (
-      <Box>
-        <Typography variant="body1"
-          style={{fontWeight: 'bold'}}>Lead</Typography>
-        <Typography variant="body1"
-          style={{fontWeight: 'bold'}}>time</Typography>
-      </Box>
-    ),
+      Header: 'Lead time',
       options: {
         filter: true,
         sort: true,

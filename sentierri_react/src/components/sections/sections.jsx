@@ -70,6 +70,7 @@ const sections = [
       link: '/settings',
       items: [
         { icon: CategoryIcon, label: 'Categories', link: '/settings/categories' },
+        { icon: CategoryIcon, label: 'Colors', link: '/settings/colors' },
       ],
     },
   ];

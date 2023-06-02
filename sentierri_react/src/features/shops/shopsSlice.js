@@ -48,7 +48,7 @@ const shopsSlice = createSlice({
             state.error = action.payload;
         },
         shopAdded: (state, action) => {
-            state.data = [...state.data, action.payload];
+            state.push(action.payload);
           },
     },
 });
