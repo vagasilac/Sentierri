@@ -18,6 +18,7 @@ import Shop from './components/customers/Shop.jsx';
 import CustomersPage from './components/customers/CustomersPage';
 import ShopsPage from './components/customers/ShopsPage';
 import Colors from './components/colors/Colors';
+import ColorPage from './components/colors/ColorPage';
 
 const drawerWidth = 240;
 const MainContent = styled('div', {
@@ -48,6 +49,7 @@ function App() {
           <Route path="/settings/categories/" element={<Categories />} />
           <Route path="/settings/categories/:id" element={<Category />} />
           <Route path="/settings/colors/" element={<Colors />} />
+          <Route path="/settings/colors/:id" element={<ColorPage />} />
           <Route path="/suppliers/" element={<SuppliersPage />} />
           <Route path="/suppliers/:id" element={<SupplierPage />} />
           <Route path="/suppliers/new" element={<NewSupplierPage />} />

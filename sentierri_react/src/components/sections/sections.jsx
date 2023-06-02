@@ -15,6 +15,7 @@ import WidgetsIcon from '@mui/icons-material/Widgets';
 import CategoryIcon from '@mui/icons-material/Category';
 import TuneIcon from '@mui/icons-material/Tune';
 import StorefrontIcon from '@mui/icons-material/Storefront';
+import ColorLensIcon from '@mui/icons-material/ColorLens';
 
 
 const sections = [
@@ -70,7 +71,7 @@ const sections = [
       link: '/settings',
       items: [
         { icon: CategoryIcon, label: 'Categories', link: '/settings/categories' },
-        { icon: CategoryIcon, label: 'Colors', link: '/settings/colors' },
+        { icon: ColorLensIcon, label: 'Colors', link: '/settings/colors' },
       ],
     },
   ];
