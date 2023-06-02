@@ -34,7 +34,8 @@ const ColorPage = () => {
     , [dispatch]);
 
     useEffect(() => {
-        const color = colors.find((color) => color.id === id);
+        const color = colors.find((color) => color.id === Number(id));
+        console.log('color: ', color, 'id: ', id, 'colors: ', colors);
         if (color) {
             setFormValues(color);
         }

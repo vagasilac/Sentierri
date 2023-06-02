@@ -78,6 +78,8 @@ C:.
 |   |   |           @material-ui_icons_Delete.js.map
 |   |   |           @material-ui_icons_Edit.js
 |   |   |           @material-ui_icons_Edit.js.map
+|   |   |           @material-ui_lab.js
+|   |   |           @material-ui_lab.js.map
 |   |   |           @mui_icons-material_AddBox.js
 |   |   |           @mui_icons-material_AddBox.js.map
 |   |   |           @mui_icons-material_Bolt.js
@@ -90,12 +92,16 @@ C:.
 |   |   |           @mui_icons-material_ChevronLeft.js.map
 |   |   |           @mui_icons-material_ChevronRight.js
 |   |   |           @mui_icons-material_ChevronRight.js.map
+|   |   |           @mui_icons-material_ColorLens.js
+|   |   |           @mui_icons-material_ColorLens.js.map
 |   |   |           @mui_icons-material_ContactMail.js
 |   |   |           @mui_icons-material_ContactMail.js.map
 |   |   |           @mui_icons-material_Dashboard.js
 |   |   |           @mui_icons-material_Dashboard.js.map
 |   |   |           @mui_icons-material_Dns.js
 |   |   |           @mui_icons-material_Dns.js.map
+|   |   |           @mui_icons-material_Edit.js
+|   |   |           @mui_icons-material_Edit.js.map
 |   |   |           @mui_icons-material_ExpandLess.js
 |   |   |           @mui_icons-material_ExpandLess.js.map
 |   |   |           @mui_icons-material_ExpandMore.js
@@ -186,6 +192,8 @@ C:.
 |   |   |           chunk-7PGW7CNY.js.map
 |   |   |           chunk-7SPUJR2V.js
 |   |   |           chunk-7SPUJR2V.js.map
+|   |   |           chunk-A4ARBCER.js
+|   |   |           chunk-A4ARBCER.js.map
 |   |   |           chunk-AES7INMG.js
 |   |   |           chunk-AES7INMG.js.map
 |   |   |           chunk-AMVCYS7Y.js
@@ -43872,6 +43880,7 @@ C:.
 |       |   main.jsx
 |       |   
 |       +---assets
+|       |       group.svg
 |       |       react.svg
 |       |       
 |       +---components
@@ -43888,6 +43897,7 @@ C:.
 |       |   |       SalesTrendsChart.jsx
 |       |   |       
 |       |   +---colors
+|       |   |       ColorPage.jsx
 |       |   |       Colors.jsx
 |       |   |       
 |       |   +---common
