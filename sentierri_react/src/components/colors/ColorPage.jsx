@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Paper, Typography, Box, Grid, TextField, Button, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchColorById, updateColor } from '../../features/colors/colorsSlice';
-import { HexColorPicker } from 'react-colorful';
+import { SketchPicker } from 'react-color';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ColorPage = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     console.log('id: ', id);
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -54,6 +56,10 @@ const ColorPage = () => {
         }));
     }
 
+    const handleBack = () => {
+        navigate('/settings/colors/');
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(updateColor(formValues));
@@ -61,6 +67,14 @@ const ColorPage = () => {
 
     return (
         <Container maxWidth="md">
+            <Button variant="contained" color="primary" onClick={handleBack}
+                style={{
+                    marginTop: '1rem',
+                    marginBottom: '1rem',
+                }}
+                >
+                Back
+            </Button>
             <Paper className={classes.root}>
                 <Typography variant="h5" gutterBottom>
                     Update Color
@@ -100,16 +114,14 @@ const ColorPage = () => {
                         <Grid item sm={12} md={6}>
                         {/* if formValues.display_color_code is loaded show this */}
                         { formValues.display_color_code && (
-                            <HexColorPicker
-                            name="hex_color_code"
-                            value={colorPickerValue}
-                            onChange={(color) => {
-                                setColorPickerValue(color);
-                                setFormValues((prev) => ({
-                                    ...prev,
-                                    display_color_code: color,
-                                }));
-                            }}
+                            <SketchPicker
+                                color={formValues.display_color_code}
+                                onChange={(color) => {
+                                    setFormValues((prev) => ({
+                                        ...prev,
+                                        display_color_code: color.hex,
+                                    }));
+                                }}
                             />
                         )
                         || ( <CircularProgress /> )
