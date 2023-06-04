@@ -39,6 +39,7 @@ const ColorPage = () => {
     useEffect(() => {
             if (color) {
                 setFormValues(color);
+                setSelectedColor(color.display_color_code);
             }
         }, [color]);
 
@@ -46,8 +47,7 @@ const ColorPage = () => {
         const { name, value } = e.target;
         setFormValues((prev) => ({
             ...prev,
-            [name]: value,
-            hex_color_code: name === 'display_color_code' ? value : prev.color_code,
+            display_color_code: selectedColor,
         }));
     }
 
@@ -88,21 +88,16 @@ const ColorPage = () => {
                             label="Display Color Code"
                             name="display_color_code"
                             value={formValues.display_color_code || ''}
-                            onChange={(e) => setFormValues((prev) => ({
-                                ...prev,
-                                display_color_code: e.target.value,
-                                hex_color_code: e.target.value,
-                            }))}
+                            onChange={handleChange}
                             />
                         </Grid>
                         <Grid item sm={12} md={6}>
                             <HexColorPicker
                                 name="hex_color_code"
-                                defaultValue={formValues.display_color_code || ''}
-                                value={formValues.display_color_code || ''}
+                                defaultValue={selectedColor}
+                                value={selectedColor}
                                 onChange={(color) => setFormValues((prev) => ({
                                     ...prev,
-                                    hex_color_code: color,
                                     display_color_code: color,
                                 }))}
                             />
