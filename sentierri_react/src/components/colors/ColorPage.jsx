@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Paper, Typography, Box, Grid, TextField, Button, Switch } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
+import { Container, Paper, Typography, Box, Grid, TextField, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchColors, updateColor } from '../../features/colors/colorsSlice';
@@ -21,25 +20,24 @@ const ColorPage = () => {
     const { id } = useParams();
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { colors, loading} = useSelector((state) => state.colors);
+    const { colors } = useSelector((state) => state.colors);
     const [formValues, setFormValues] = useState({
         name_en: '',
         name_ro: '',
         display_color_code: '',
-    });
+    });  
 
     useEffect(() => {
         dispatch(fetchColors());
     }, [dispatch]);
 
     useEffect(() => {
-        if (colors) {
-        const color = colors.find((color) => color.id === Number(id));
-        console.log('color: ', color, 'id: ', id, 'colors: ', colors);
-        if (color) {
-            setFormValues(color);
+        if (colors && colors.length > 0) {
+            const color = colors.find((color) => color.id === Number(id));
+            if (color) {
+                setFormValues(color);
+            }
         }
-    }
     }, [colors, id]);
 
     const handleChange = (e) => {
@@ -68,7 +66,7 @@ const ColorPage = () => {
                             fullWidth
                             label="Name (English)"
                             name="name_en"
-                            value={formValues.name_en}
+                            value={formValues.name_en || ''}
                             onChange={handleChange}
                             />
                         </Grid>
@@ -77,7 +75,7 @@ const ColorPage = () => {
                             fullWidth
                             label="Name (Romanian)"
                             name="name_ro"
-                            value={formValues.name_ro}
+                            value={formValues.name_ro || ''}
                             onChange={handleChange}
                             />
                         </Grid>
@@ -86,7 +84,7 @@ const ColorPage = () => {
                             fullWidth
                             label="Display Color Code"
                             name="display_color_code"
-                            value={formValues.display_color_code}
+                            value={formValues.display_color_code || ''}
                             onChange={handleChange}
                             />
                         </Grid>

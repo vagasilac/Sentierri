@@ -1,0 +1,162 @@
+Folder PATH listing
+Volume serial number is 84B3-52A1
+C:.
+    .dockerignore
+    .gitignore
+    Dockerfile
+    folder_structure.txt
+    index.html
+    package-lock.json
+    package.json
+    tree_front.txt
+    vite.config.js
+    
++---dist
++---mod
+        actions.js
+        actionTypes.js
+        categoriesReducer.js
+        rawMaterialsReducer.js
+        reducers.js
+        subCategoriesReducer.js
+        supplierCategoriesReducer.js
+        suppliersReducer.js
+        TODOS.txt
+                
++---public
+        vite.svg
+        
+\---src
+        App.css
+        App.jsx
+        config.js
+        global.css
+        index.css
+        main.jsx
+        
+    +---assets
+            group.svg
+            react.svg
+            
+    +---components
+        +---auth
+        +---categories
+                Categories.jsx
+                Category orig.jsx
+                Category.jsx
+                NewCategory.jsx
+                NewSubCategory.jsx
+                SubCategories.jsx
+                
+        +---charts
+                SalesTrendsChart.jsx
+                
+        +---colors
+                ColorPage.jsx
+                Colors.jsx
+                
+        +---common
+                Avatar.jsx
+                Breadcrumbs.jsx
+                Button.jsx
+                CardComponent.jsx
+                CategorySelector.jsx
+                Checkbox.jsx
+                ColorPicker.jsx
+                ComboBox.jsx
+                DataTable orig.jsx
+                DataTable.css
+                DataTable.jsx
+                DataTable_cat.jsx
+                DataTable_original.jsx
+                DatePicker.jsx
+                Dropdown.jsx
+                Input.jsx
+                LoadingComponent.jsx
+                MiniDrawer.jsx
+                Modal.jsx
+                Navbar.jsx
+                Notification.jsx
+                Pagination.jsx
+                Radio.jsx
+                Sidebar.jsx
+                TextArea.jsx
+                Tooltip.jsx
+                
+        +---customers
+                CustomersPage.jsx
+                NewCustomerPage.jsx
+                Shop.jsx
+                ShopsPage.jsx
+                
+        +---dashboard
+                Dashboard.css
+                Dashboard.jsx
+                
+        +---inventory
+        +---materials
+        +---production
+        +---raw_materials
+                NewRawMaterialPage.jsx
+                RawMaterialPage.jsx
+                RawMaterialsPage.jsx
+                RawMaterialUpdateForm.jsx
+                
+        +---recentActivity
+                recentActivity.css
+                RecentActivity.jsx
+                
+        +---reports
+        +---sales
+        +---sections
+                sections.jsx
+                
+        \---suppliers
+                NewSupplierPage.jsx
+                QualityIssues_dummy.jsx
+                SInvoices_dummy.jsx
+                SPO.jsx
+                SupplierPage orig.jsx
+                SupplierPage.jsx
+                SuppliersPage.jsx
+                
+    +---features
+        +---agentRelations
+                agentRelationsSlice.js
+                
+        +---categories
+                categoriesSlice.js
+                
+        +---colors
+                colorsSlice.js
+                
+        +---customers
+                customersSlice.js
+                
+        +---shops
+                shopsSlice.js
+                
+        +---supplierCategories
+                supplierCategoriesSlice.js
+                
+        \---suppliers
+                suppliersSlice.js
+                
+    +---navbarActions
+            navbarActions.jsx
+            
+    +---services
+            agentRelationsService.js
+            categoryService.js
+            colorService.js
+            customerService.js
+            rawMaterialService.js
+            shopsService.js
+            subCategoryService.js
+            supplierCategoryService.js
+            supplierService.js
+            
+    \---store
+            configureStore.js
+            rootReducer.js
+            
