@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Container, Paper, Typography, Box, Grid, TextField, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchColors, updateColor } from '../../features/colors/colorsSlice';
+import { fetchColorById, updateColor } from '../../features/colors/colorsSlice';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,9 +18,13 @@ const useStyles = makeStyles((theme) => ({
 
 const ColorPage = () => {
     const { id } = useParams();
+    console.log('id: ', id);
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { colors } = useSelector((state) => state.colors);
+    const color = useSelector((state) => state.colors.currentColor);
+    console.log('currentColor: ', color);
+    // use useSelector to get the color belonging to the id from the url
+    // put code here
     const [formValues, setFormValues] = useState({
         name_en: '',
         name_ro: '',
@@ -28,17 +32,14 @@ const ColorPage = () => {
     });  
 
     useEffect(() => {
-        dispatch(fetchColors());
+        dispatch(fetchColorById(id));
     }, [dispatch]);
 
     useEffect(() => {
-        if (colors && colors.length > 0) {
-            const color = colors.find((color) => color.id === Number(id));
             if (color) {
                 setFormValues(color);
             }
-        }
-    }, [colors, id]);
+        }, [color]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;

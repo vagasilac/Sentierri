@@ -21,6 +21,18 @@ const colorsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
     },
+    fetchColorByIdRequest: (state) => {
+        state.loading = true;
+    },
+    fetchColorByIdSuccess: (state, action) => {
+        state.loading = false;
+        state.data = action.payload;
+        state.error = null;
+    },
+    fetchColorByIdFailure: (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+    },
     addColorRequest: (state) => {
         state.loading = true;
         },
@@ -52,6 +64,9 @@ export const {
     fetchColorsRequest,
     fetchColorsSuccess,
     fetchColorsFailure,
+    fetchColorByIdRequest,
+    fetchColorByIdSuccess,
+    fetchColorByIdFailure,
     addColorRequest,
     addColorSuccess,
     addColorFailure,
@@ -68,6 +83,18 @@ export const fetchColors = () => {
       dispatch(fetchColorsSuccess(colors));
     } catch (error) {
       dispatch(fetchColorsFailure(error));
+    }
+  };
+}
+
+export const fetchColorById = (id) => {
+  return async (dispatch) => {
+    dispatch(fetchColorByIdRequest());
+    try {
+      const color = await colorService.getColor(id);
+      dispatch(fetchColorByIdSuccess(color));
+    } catch (error) {
+      dispatch(fetchColorByIdFailure(error));
     }
   };
 }
