@@ -47,7 +47,7 @@ const ColorPage = () => {
         setFormValues((prev) => ({
             ...prev,
             [name]: value,
-            color_code: name === 'display_color_code' ? value : prev.color_code,
+            hex_color_code: name === 'display_color_code' ? value : prev.color_code,
         }));
     }
 
@@ -91,18 +91,18 @@ const ColorPage = () => {
                             onChange={(e) => setFormValues((prev) => ({
                                 ...prev,
                                 display_color_code: e.target.value,
-                                color_code: e.target.value,
+                                hex_color_code: e.target.value,
                             }))}
                             />
                         </Grid>
                         <Grid item sm={12} md={6}>
                             <HexColorPicker
-                                name="color_code"
+                                name="hex_color_code"
                                 defaultValue={formValues.display_color_code || ''}
                                 value={formValues.display_color_code || ''}
                                 onChange={(color) => setFormValues((prev) => ({
                                     ...prev,
-                                    color_code: color,
+                                    hex_color_code: color,
                                     display_color_code: color,
                                 }))}
                             />
