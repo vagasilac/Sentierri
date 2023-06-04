@@ -4,7 +4,7 @@ import { Container, Paper, Typography, Box, Grid, TextField, Button } from '@mat
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchColorById, updateColor } from '../../features/colors/colorsSlice';
-import ColorPicker from '../../components/common/ColorPicker'
+import { HexColorPicker } from 'react-colorful';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -47,6 +47,7 @@ const ColorPage = () => {
         setFormValues((prev) => ({
             ...prev,
             [name]: value,
+            color_code: name === 'display_color_code' ? value : prev.color_code,
         }));
     }
 
@@ -87,18 +88,23 @@ const ColorPage = () => {
                             label="Display Color Code"
                             name="display_color_code"
                             value={formValues.display_color_code || ''}
-                            onChange={handleChange}
+                            onChange={(e) => setFormValues((prev) => ({
+                                ...prev,
+                                display_color_code: e.target.value,
+                                color_code: e.target.value,
+                            }))}
                             />
                         </Grid>
                         <Grid item sm={12} md={6}>
-                            <ColorPicker
-                            name="color_code"
-                            defaultValue={formValues.display_color_code || ''}
-                            value={formValues.display_color_code || ''}
-                            onChange={(color) => setFormValues((prev) => ({
-                                ...prev,
-                                color_code: color,
-                            }))}
+                            <HexColorPicker
+                                name="color_code"
+                                defaultValue={formValues.display_color_code || ''}
+                                value={formValues.display_color_code || ''}
+                                onChange={(color) => setFormValues((prev) => ({
+                                    ...prev,
+                                    color_code: color,
+                                    display_color_code: color,
+                                }))}
                             />
                         </Grid>
                         <Grid item sm={12} md={6}>
