@@ -93,12 +93,25 @@ const ColorPage = () => {
                         <Grid item sm={12} md={6}>
                             <HexColorPicker
                                 name="hex_color_code"
-                                defaultValue={formValues.display_color_code || ''}
-                                value={formValues.display_color_code || ''}
+                                defaultValue={
+                                    // if formValues.display_color_code is not empty, use it, otherwise wait for color to load
+                                    formValues.display_color_code
+                                        ? formValues.display_color_code
+                                        : color
+                                        ? color.display_color_code
+                                        : '#ffffff'
+                                }
+                                value={
+                                    // if formValues.display_color_code is not empty, use it, otherwise wait for color to load
+                                    formValues.display_color_code
+                                        ? formValues.display_color_code
+                                        : color
+                                        ? color.display_color_code
+                                        : '#ffffff'
+                                }
                                 onChange={(color) => setFormValues((prev) => ({
                                     ...prev,
                                     display_color_code: color,
-                                    hex_color_code: color,
                                 }))}
                             />
                         </Grid>
