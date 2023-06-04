@@ -4,6 +4,7 @@ import { Container, Paper, Typography, Box, Grid, TextField, Button } from '@mat
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchColorById, updateColor } from '../../features/colors/colorsSlice';
+import ColorPicker from '../../components/common/ColorPicker'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,7 +34,7 @@ const ColorPage = () => {
 
     useEffect(() => {
         dispatch(fetchColorById(id));
-    }, [dispatch]);
+    }, [dispatch, id]);
 
     useEffect(() => {
             if (color) {
@@ -87,6 +88,17 @@ const ColorPage = () => {
                             name="display_color_code"
                             value={formValues.display_color_code || ''}
                             onChange={handleChange}
+                            />
+                        </Grid>
+                        <Grid item sm={12} md={6}>
+                            <ColorPicker
+                            name="color_code"
+                            defaultValue={formValues.display_color_code || ''}
+                            value={formValues.display_color_code || ''}
+                            onChange={(color) => setFormValues((prev) => ({
+                                ...prev,
+                                color_code: color,
+                            }))}
                             />
                         </Grid>
                         <Grid item sm={12} md={6}>

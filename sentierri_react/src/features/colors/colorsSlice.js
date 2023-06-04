@@ -6,6 +6,7 @@ const colorsSlice = createSlice({
   initialState: {
     loading: false,
     data: [],
+    currentColor: null,
     error: null,
   },
   reducers: {
@@ -26,7 +27,7 @@ const colorsSlice = createSlice({
     },
     fetchColorByIdSuccess: (state, action) => {
         state.loading = false;
-        state.data = action.payload;
+        state.currentColor = action.payload;
         state.error = null;
     },
     fetchColorByIdFailure: (state, action) => {
