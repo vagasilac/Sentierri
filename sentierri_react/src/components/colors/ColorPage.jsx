@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Paper, Typography, Box, Grid, TextField, Button } from '@material-ui/core';
+import { Container, Paper, Typography, Box, Grid, TextField, Button, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchColorById, updateColor } from '../../features/colors/colorsSlice';
@@ -24,12 +24,10 @@ const ColorPage = () => {
     const dispatch = useDispatch();
     const color = useSelector((state) => state.colors.currentColor);
     console.log('currentColor: ', color);
-    // use useSelector to get the color belonging to the id from the url
-    // put code here
     const [formValues, setFormValues] = useState({
         name_en: '',
         name_ro: '',
-        display_color_code: '',
+        display_color_code: null,
     });  
 
     useEffect(() => {
@@ -41,6 +39,12 @@ const ColorPage = () => {
                 setFormValues(color);
             }
         }, [color]);
+
+    const [colorPickerValue, setColorPickerValue] = useState('');
+
+    useEffect(() => {
+        setColorPickerValue(formValues.display_color_code);
+    }, [formValues.display_color_code]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -87,33 +91,29 @@ const ColorPage = () => {
                             label="Display Color Code"
                             name="display_color_code"
                             value={formValues.display_color_code || ''}
-                            onChange={handleChange}
+                            onChange={(e) => {
+                                handleChange(e);
+                                setColorPickerValue(e.target.value);
+                            }}
                             />
                         </Grid>
                         <Grid item sm={12} md={6}>
+                        {/* if formValues.display_color_code is loaded show this */}
+                        { formValues.display_color_code && (
                             <HexColorPicker
-                                name="hex_color_code"
-                                defaultValue={
-                                    // if formValues.display_color_code is not empty, use it, otherwise wait for color to load
-                                    formValues.display_color_code
-                                        ? formValues.display_color_code
-                                        : color
-                                        ? color.display_color_code
-                                        : '#ffffff'
-                                }
-                                value={
-                                    // if formValues.display_color_code is not empty, use it, otherwise wait for color to load
-                                    formValues.display_color_code
-                                        ? formValues.display_color_code
-                                        : color
-                                        ? color.display_color_code
-                                        : '#ffffff'
-                                }
-                                onChange={(color) => setFormValues((prev) => ({
+                            name="hex_color_code"
+                            value={colorPickerValue}
+                            onChange={(color) => {
+                                setColorPickerValue(color);
+                                setFormValues((prev) => ({
                                     ...prev,
                                     display_color_code: color,
-                                }))}
+                                }));
+                            }}
                             />
+                        )
+                        || ( <CircularProgress /> )
+                        }
                         </Grid>
                         <Grid item sm={12} md={6}>
                             <Button
