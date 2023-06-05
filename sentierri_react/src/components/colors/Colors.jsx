@@ -12,6 +12,7 @@ import EditIcon from '@mui/icons-material/Edit';
 const ColorsPage = () => {
   const colors = useSelector(state => {
     try {
+      console.log('state.colors.data: ', state.colors.data);
       return state.colors.data.map(color => ({
         ...color,
       }));
@@ -49,25 +50,33 @@ const ColorsPage = () => {
           filter: false,
           sort: false,
         },
-        Cell: ({ value }) => (
-          <div  style={
+        Cell: ({ value, row }) => {
+          const colorStyle = row.original.gradient ? 
             {
+              background: `linear-gradient(180deg, ${row.original.display_color_code} 0%, #000000 100%)`
+            } : 
+            {
+              backgroundColor: value
+            };
+      
+          return (
+            <div style={{
               width: '100%',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-            }
-          }>
-            <div style={{
-              backgroundColor: value,
-              width: '5rem',
-              height: '5rem',
-              borderRadius: '50%',
-              boxShadow: 'inset rgba(0, 0, 0, 0.2) -2px 1px 3px 1px, inset rgba(255, 255, 255, 0.5) 2px 1px 3px 1px',
-            }} />
-          </div>
-        ),
-      },
+            }}>
+              <div style={{
+                ...colorStyle,
+                width: '5rem',
+                height: '5rem',
+                borderRadius: '50%',
+                boxShadow: 'inset rgba(0, 0, 0, 0.2) -2px 1px 3px 1px, inset rgba(255, 255, 255, 0.5) 2px 1px 3px 1px',
+              }} />
+            </div>
+          );
+        },
+      },      
       {accessor: 'actions',
         Header: '',
       Cell: ({row}) => (

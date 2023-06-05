@@ -19,6 +19,10 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        gradient: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+        },
     },
     {
         sequelize,
