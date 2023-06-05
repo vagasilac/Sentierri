@@ -15,7 +15,10 @@ import { addRawMaterial } from '../../services/rawMaterialService';
 import { getAllCategories } from '../../services/categoryService';
 import { getAllSubCategories } from '../../services/subCategoryService';
 import { getAllSuppliers } from '../../services/supplierService';
+import { fetchColors } from '../../features/colors/colorsSlice';
+import { useSelector, useDispatch } from 'react-redux';
 import ComboBox from '../common/ComboBox';
+
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -29,7 +32,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 const NewRawMaterialPage = () => {
- 
+    const dispatch = useDispatch();
+    const colors = useSelector((state) => state.colors.data);
     const classes = useStyles();
     const [formValues, setFormValues] = useState({
         material_id: '',
@@ -52,6 +56,11 @@ const NewRawMaterialPage = () => {
     const [selectedCategoryId, setSelectedCategoryId] = useState('');
     const [filteredSubCategories, setFilteredSubCategories] = useState([]);
     const [suppliers, setSuppliers] = useState([]);
+
+    useEffect(() => {
+        dispatch(fetchColors());
+        console.log('Colors fetched - useEffect materials', colors);
+    }, [dispatch]);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -87,6 +96,7 @@ const NewRawMaterialPage = () => {
         fetchSuppliers();
       }, []);
 
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormValues((prev) => ({ ...prev, [name]: value }));
@@ -95,6 +105,13 @@ const NewRawMaterialPage = () => {
             setSelectedCategoryId(value);
             console.log('selectedCategoryId', selectedCategoryId);
         };
+        if (name === 'color') {
+            const selectedColor = colors.find((color) => color.name_ro === value);
+            setFormValues((prev) => ({
+                ...prev,
+                color: selectedColor,
+            }));
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -128,7 +145,7 @@ const NewRawMaterialPage = () => {
         <Typography variant="h4">Add New Raw Material</Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
             <Grid container spacing={3}>
-                <Grid item xs={6}> 
+                <Grid item xs={12} md={6}> 
                     <TextField
                     required
                     fullWidth
@@ -138,7 +155,7 @@ const NewRawMaterialPage = () => {
                     onChange={handleChange}
                     />
                 </Grid>
-                <Grid item xs={6}> 
+                <Grid item xs={12} md={6}> 
                     <TextField
                     required
                     fullWidth
@@ -148,7 +165,7 @@ const NewRawMaterialPage = () => {
                     onChange={handleChange}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}> 
                     <TextField
                     required
                     fullWidth
@@ -158,7 +175,7 @@ const NewRawMaterialPage = () => {
                     onChange={handleChange}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}> 
                     <TextField
                     required
                     fullWidth
@@ -168,7 +185,7 @@ const NewRawMaterialPage = () => {
                     onChange={handleChange}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}> 
                     <FormControl required fullWidth>
                         <InputLabel id="material-category-label">Category</InputLabel>
                         <Select
@@ -185,7 +202,7 @@ const NewRawMaterialPage = () => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}> 
                     <FormControl required fullWidth>
                         <InputLabel id="material-subcategory-label">Subcategory</InputLabel>
                         <Select
@@ -202,17 +219,24 @@ const NewRawMaterialPage = () => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={6}>
-                    <TextField
-                    required
-                    fullWidth
-                    label="Color"
-                    name="color"
-                    value={formValues.color}
-                    onChange={handleChange}
-                    />
+                <Grid item xs={12} md={6}> 
+                    <FormControl required fullWidth>
+                        <InputLabel id="color-label">Color</InputLabel>
+                        <Select
+                            labelId="color-label"
+                            name="color"
+                            value={formValues.color || ''}
+                            onChange={handleChange}
+                        >
+                            {colors.map((color) => (
+                                <MenuItem key={color.id} value={color.name_ro}>
+                                    {color.name_ro}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}> 
                     <TextField
                     required
                     fullWidth
@@ -222,7 +246,7 @@ const NewRawMaterialPage = () => {
                     onChange={handleChange}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}> 
                     <TextField
                     required
                     fullWidth
@@ -235,7 +259,7 @@ const NewRawMaterialPage = () => {
                 {/* 
                 Only show the roll width field if the type is roll
                 */}
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}> 
                     <TextField
                     required
                     fullWidth
@@ -246,7 +270,7 @@ const NewRawMaterialPage = () => {
                     onChange={handleChange}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}> 
                     <TextField
                     required
                     fullWidth
@@ -256,7 +280,7 @@ const NewRawMaterialPage = () => {
                     onChange={handleChange}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}> 
                     <TextField
                     required
                     fullWidth
@@ -267,7 +291,7 @@ const NewRawMaterialPage = () => {
                     onChange={handleChange}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}> 
                     <TextField
                     required
                     fullWidth
@@ -278,7 +302,7 @@ const NewRawMaterialPage = () => {
                     onChange={handleChange}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}> 
                     <ComboBox options={suppliers} label="Main Supplier"/>
                 </Grid>            
                 <Grid item xs={6}>
