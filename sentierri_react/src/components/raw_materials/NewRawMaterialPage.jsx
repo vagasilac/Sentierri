@@ -9,6 +9,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Box,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { addRawMaterial } from '../../services/rawMaterialService';
@@ -110,6 +111,12 @@ const NewRawMaterialPage = () => {
             setFormValues((prev) => ({
                 ...prev,
                 color: selectedColor,
+            }));
+        }
+        else {
+            setFormValues((prev) => ({
+                ...prev,
+                [name]: value,
             }));
         }
     };
@@ -219,22 +226,46 @@ const NewRawMaterialPage = () => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} md={6}> 
-                    <FormControl required fullWidth>
-                        <InputLabel id="color-label">Color</InputLabel>
-                        <Select
-                            labelId="color-label"
-                            name="color"
-                            value={formValues.color || ''}
-                            onChange={handleChange}
-                        >
-                            {colors.map((color) => (
-                                <MenuItem key={color.id} value={color.name_ro}>
-                                    {color.name_ro}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
+                <Grid item xs={12} md={6}
+                    style={
+                        {
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                        }
+                    }>
+                        <FormControl
+                            required
+                            style={{ 
+                                width: '100%',
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                display: 'flex',
+                            }}
+                            >
+                            <InputLabel id="color-label">Color</InputLabel>
+                            <Select
+                                labelId="color-label"
+                                name="color"
+                                value={formValues.color ? formValues.color.name_ro : ''}
+                                onChange={handleChange}
+                            >
+                                {colors.map((color) => (
+                                    <MenuItem key={color.id} value={color.name_ro}>
+                                        {color.name_ro}
+                                    </MenuItem>
+                                ))}
+                                
+                            </Select>
+                            <div style={{
+                                    backgroundColor: formValues.color ? formValues.color.name_en : '',
+                                    width: '50px',
+                                    height: '50px',
+                                    borderRadius: '25%',
+                                }}>
+                            </div>
+                        </FormControl>
                 </Grid>
                 <Grid item xs={12} md={6}> 
                     <TextField
