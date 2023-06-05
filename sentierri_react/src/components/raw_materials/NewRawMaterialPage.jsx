@@ -247,21 +247,23 @@ const NewRawMaterialPage = () => {
                                 onChange={handleChange}
                             >
                                 {colors.map((color) => (
-                                    <MenuItem key={color.id} value={color.name_ro}>
-                                        <Box 
-                                            display="flex"
-                                            alignItems="center"
+                                    <MenuItem key={color.id} value={color.name_ro} >
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                flexDirection: 'row',
+                                                width: '100%',
+                                                justifyContent: 'space-between',
+                                            }}
                                         >
-                                            <div>
-                                                {color.name_ro}
-                                            </div>
+                                            {color.name_ro}
                                             <div style={{
                                                 backgroundColor: color.display_color_code,
                                                 width: '1.5rem',
                                                 height: '1.5rem',
                                                 borderRadius: '50%',
                                             }}/>
-                                        </Box>
+                                        </div>
                                     </MenuItem>
                                 ))}
                             </Select>

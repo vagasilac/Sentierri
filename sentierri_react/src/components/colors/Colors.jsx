@@ -50,17 +50,35 @@ const ColorsPage = () => {
           sort: false,
         },
         Cell: ({ value }) => (
-          <div style={{ backgroundColor: value,
-            width: '100px',
-            height: '100px',
-            borderRadius: '25%',
+          <div  style={
+            {
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }
+          }>
+            <div style={{
+            backgroundColor: value,
+            width: '5rem',
+            height: '5rem',
+            borderRadius: '50%',
+            boxShadow: 'inset rgba(0, 0, 0, 0.2) -2px 1px 3px 1px, inset rgba(255, 255, 255, 0.5) 2px 1px 3px 1px',
            }} />
+           </div>
         ),
       },
       {accessor: 'actions',
         Header: '',
       Cell: ({row}) => (
-        <div>
+        <div 
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <Button 
             variant="contained"
             color="primary"
@@ -79,7 +97,7 @@ const ColorsPage = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => navigate('/colors/new')}>Add New</Button>
+            onClick={() => navigate('new/')}>Add New</Button>
         </Box>
         {colors.loading ? (
           <CircularProgress />
