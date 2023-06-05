@@ -44,7 +44,7 @@ const ColorsPage = () => {
       }},
       {
         accessor: 'display_color_code',
-        Header: 'Color Code',
+        Header: 'Sample',
         options: {
           filter: false,
           sort: false,
@@ -59,13 +59,13 @@ const ColorsPage = () => {
             }
           }>
             <div style={{
-            backgroundColor: value,
-            width: '5rem',
-            height: '5rem',
-            borderRadius: '50%',
-            boxShadow: 'inset rgba(0, 0, 0, 0.2) -2px 1px 3px 1px, inset rgba(255, 255, 255, 0.5) 2px 1px 3px 1px',
-           }} />
-           </div>
+              backgroundColor: value,
+              width: '5rem',
+              height: '5rem',
+              borderRadius: '50%',
+              boxShadow: 'inset rgba(0, 0, 0, 0.2) -2px 1px 3px 1px, inset rgba(255, 255, 255, 0.5) 2px 1px 3px 1px',
+            }} />
+          </div>
         ),
       },
       {accessor: 'actions',
