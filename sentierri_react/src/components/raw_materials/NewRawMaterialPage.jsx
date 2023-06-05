@@ -19,6 +19,7 @@ import { getAllSuppliers } from '../../services/supplierService';
 import { fetchColors } from '../../features/colors/colorsSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import ComboBox from '../common/ComboBox';
+import { Style } from '@material-ui/icons';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -236,13 +237,7 @@ const NewRawMaterialPage = () => {
                         }
                     }>
                         <FormControl
-                            required
-                            style={{ 
-                                width: '100%',
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                                display: 'flex',
-                            }}
+                            required fullWidth
                             >
                             <InputLabel id="color-label">Color</InputLabel>
                             <Select
@@ -252,19 +247,34 @@ const NewRawMaterialPage = () => {
                                 onChange={handleChange}
                             >
                                 {colors.map((color) => (
-                                    <MenuItem key={color.id} value={color.name_ro}>
-                                        {color.name_ro}
+                                    <MenuItem
+                                        key={color.id}
+                                        value={color.name_ro}
+                                        style={{
+                                            display: 'flex',
+                                            flexDirection: 'row',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                        }}
+                                        >
+                                        <div style={{
+                                            display: 'flex',
+                                            flexDirection: 'row',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                            }}>
+                                            {color.name_ro}
+                                        </div>
+                                        <div style={{
+                                            backgroundColor: color.display_color_code,
+                                            display: 'flex',
+                                            width: '1.5rem',
+                                            height: '1.5rem',
+                                            borderRadius: '50%',
+                                        }}/>
                                     </MenuItem>
                                 ))}
-                                
                             </Select>
-                            <div style={{
-                                    backgroundColor: formValues.color ? formValues.color.name_en : '',
-                                    width: '50px',
-                                    height: '50px',
-                                    borderRadius: '25%',
-                                }}>
-                            </div>
                         </FormControl>
                 </Grid>
                 <Grid item xs={12} md={6}> 
