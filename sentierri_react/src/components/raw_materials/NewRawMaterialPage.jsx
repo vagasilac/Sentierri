@@ -250,8 +250,7 @@ const NewRawMaterialPage = () => {
                                     <MenuItem key={color.id} value={color.name_ro}>
                                         <Box 
                                             display="flex"
-                                            flexDirection="row"
-                                            width="100%"
+                                            alignItems="center"
                                         >
                                             <div>
                                                 {color.name_ro}
