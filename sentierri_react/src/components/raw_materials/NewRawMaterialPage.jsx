@@ -247,31 +247,22 @@ const NewRawMaterialPage = () => {
                                 onChange={handleChange}
                             >
                                 {colors.map((color) => (
-                                    <MenuItem
-                                        key={color.id}
-                                        value={color.name_ro}
-                                        style={{
-                                            display: 'flex',
-                                            flexDirection: 'row',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center',
-                                        }}
+                                    <MenuItem key={color.id} value={color.name_ro}>
+                                        <Box 
+                                            display="flex"
+                                            flexDirection="row"
+                                            width="100%"
                                         >
-                                        <div style={{
-                                            display: 'flex',
-                                            flexDirection: 'row',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center',
-                                            }}>
-                                            {color.name_ro}
-                                        </div>
-                                        <div style={{
-                                            backgroundColor: color.display_color_code,
-                                            display: 'flex',
-                                            width: '1.5rem',
-                                            height: '1.5rem',
-                                            borderRadius: '50%',
-                                        }}/>
+                                            <div>
+                                                {color.name_ro}
+                                            </div>
+                                            <div style={{
+                                                backgroundColor: color.display_color_code,
+                                                width: '1.5rem',
+                                                height: '1.5rem',
+                                                borderRadius: '50%',
+                                            }}/>
+                                        </Box>
                                     </MenuItem>
                                 ))}
                             </Select>
