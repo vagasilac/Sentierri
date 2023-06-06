@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   useTable,
   useGroupBy,
@@ -17,7 +17,10 @@ import {
   Paper,
   TableSortLabel,
   TextField,
+  Select,
+  MenuItem,
 } from '@mui/material';
+
 
 
 const StyledTable = styled(Table)({
@@ -26,19 +29,21 @@ const StyledTable = styled(Table)({
 
 const DefaultColumnFilter = ({ column: { filterValue, setFilter } }) => {
   return (
-      <TextField
+    <TextField
         value={filterValue || ''}
         onChange={(e) => {
           setFilter(e.target.value || undefined);
         }}
         placeholder={`filter`}
         size="small"
-      >
+        >
       </TextField>
   );
 };
 
 const DataTable = ({ columns, data }) => {
+  const [globalFilter, setGlobalFilter] = useState('');
+  const [columnsToFilter, setColumnsToFilter] = useState([]);
   const {
     getTableProps,
     getTableBodyProps,
@@ -66,6 +71,22 @@ const DataTable = ({ columns, data }) => {
 
   return (
     <Paper>
+      <TextField 
+          value={globalFilter} 
+          onChange={e => setGlobalFilter(e.target.value)} 
+          placeholder="Global search..." 
+      />
+      <Select
+        multiple
+        value={columnsToFilter}
+        onChange={e => setColumnsToFilter(e.target.value)}
+    >
+        {columns.map((column) => (
+            <MenuItem key={column.id} value={column.id}>
+                {column.Header}
+            </MenuItem>
+        ))}
+    </Select>
       <StyledTable {...getTableProps()}>
         <TableHead>
           {headerGroups.map((headerGroup) => (
@@ -81,7 +102,7 @@ const DataTable = ({ columns, data }) => {
                     {column.isSorted ? (
                       <TableSortLabel active direction={column.isSortedDesc ? 'desc' : 'asc'} />
                     ) : null}
-                  <div>{column.canFilter ? column.render('Filter') : null}</div>
+                  {/* <div>{column.canFilter ? column.render('Filter') : null}</div> */}
                 </TableCell>
               ))}
             </TableRow>
