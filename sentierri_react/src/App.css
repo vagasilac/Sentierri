@@ -1,18 +1,5 @@
 .main {
     display: flex;
+    background: linear-gradient(to right, #eef1f6, #ffffff); /* Change the colors as per your preference */
+    min-height: 100vh; /* This makes sure the gradient background covers the full height of the viewport */ 
 }
-
-:root {
-    --background-color1: #fff;
-    --background-color2: #eb0808;
-    --text-color: #333;
-  }
-  
-  .light-theme {
-    background-color: linear-gradient(
-      to right,
-      var(--background-color1),
-      var(--background-color2)
-    );
-    color: var(--text-color);
-  }

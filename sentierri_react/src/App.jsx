@@ -44,7 +44,7 @@ function App() {
     <Router>
       <MiniDrawer sections={sections} open={open} setOpen={setOpen} />
       <MainContent open={open}>
-        <div className='main light-theme'> 
+        <div className='main'> 
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/raw-materials/" element={<RawMaterialsPage />} />

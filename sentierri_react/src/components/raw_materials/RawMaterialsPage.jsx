@@ -123,10 +123,14 @@ const RawMaterialsPage = () => {
   return (
       <Container
         maxWidth="xl"
-        style={{ marginTop: '3rem', marginBottom: '4rem', marginLeft: '3rem' }}
+        style={{ paddingTop: '3rem', paddingBottom: '4rem', marginLeft: '3rem' }}
       >
         <Box>
-          <Typography variant="h4">Raw Materials</Typography>
+          <Typography
+            variant="h4"
+            style={{ marginBottom: '2rem' }}
+          >
+            Raw Materials</Typography>
           <DataTable key={rawMaterials.length} columns={columns} data={rawMaterials} />
         </Box>
     </Container>
