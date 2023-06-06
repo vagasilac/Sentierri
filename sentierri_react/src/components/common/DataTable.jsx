@@ -48,17 +48,16 @@ const DataTable = ({ columns, data }) => {
   const [filteredData, setFilteredData] = useState(data);
 
   useEffect(() => {
-      if (!globalFilter) {
-          setFilteredData(data);
-      } else {
-          setFilteredData(data.filter(row => 
-              columnsToFilter.some(columnId => 
-                  row[columnId].toString().toLowerCase().includes(globalFilter.toLowerCase())
-              )
-          ));
-      }
+    if (!globalFilter) {
+        setFilteredData(data);
+    } else {
+        setFilteredData(data.filter(row => 
+            columnsToFilter.some(columnId => 
+                row[columnId] && row[columnId].toString().toLowerCase().includes(globalFilter.toLowerCase())
+            )
+        ));
+    }
   }, [globalFilter, columnsToFilter]);
-
 
   const getFilteredRows = () => {
     if (!globalFilter) return data; // If there's no filter, return all data
@@ -96,10 +95,14 @@ const DataTable = ({ columns, data }) => {
 
   return (
     <Paper>
-      <TextField 
+      <TextField
+          // variant not outlined, filled, standard
+          variant='standard'
+          size='small'
           value={globalFilter} 
           onChange={e => setGlobalFilter(e.target.value)} 
-          placeholder="Global search..." 
+          placeholder="Global search..."
+          style={{margin: '1rem'}} 
       />
       <Select
         multiple
@@ -115,7 +118,9 @@ const DataTable = ({ columns, data }) => {
       <StyledTable {...getTableProps()}>
         <TableHead>
           {headerGroups.map((headerGroup) => (
-            <TableRow {...headerGroup.getHeaderGroupProps()}>
+            <TableRow
+              style={{ backgroundColor: '#eef1f6', fontSize: '15rem' }}
+              {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <TableCell {...column.getHeaderProps(column.getSortByToggleProps())}>
                   {column.render('Header')}
