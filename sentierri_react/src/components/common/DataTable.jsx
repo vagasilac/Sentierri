@@ -48,14 +48,21 @@ const DataTable = ({ columns, data }) => {
   const [filteredData, setFilteredData] = useState(data);
 
   useEffect(() => {
+    console.log('Global Filter:', globalFilter);
+    console.log('Columns to Filter:', columnsToFilter);
+    console.log('data:', data);
     if (!globalFilter) {
       setFilteredData(data);
     } else {
-      setFilteredData(data.filter(row => 
-        (columnsToFilter.length === 0 ? columns : columnsToFilter).some(columnId => 
+      setFilteredData(data.filter(row => {
+        const passesFilter = (columnsToFilter.length === 0 ? columns : columnsToFilter).some(columnId => 
           row[columnId] && row[columnId].toString().toLowerCase().includes(globalFilter.toLowerCase())
-        )
-      ));
+        );
+        if (passesFilter) {
+          console.log('Passes Filter:', row);
+        }
+        return passesFilter;
+      }));
     }
   }, [globalFilter, columnsToFilter]); 
 
