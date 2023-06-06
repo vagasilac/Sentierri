@@ -9,6 +9,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import {
+  Box,
   Table,
   TableBody,
   TableCell,
@@ -109,31 +110,48 @@ const DataTable = ({ columns, data }) => {
 
   return (
     <Paper>
-      <TextField
-          // variant not outlined, filled, standard
-          variant='standard'
+      <Box
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+        }}
+      >
+        <TextField
+            // variant not outlined, filled, standard
+            variant='standard'
+            size='small'
+            value={globalFilter} 
+            onChange={handleFilterChange} 
+            placeholder="Global search..."
+            style={{margin: '1rem'}} 
+        />
+        <FormControl
+          variant="filled"
           size='small'
-          value={globalFilter} 
-          onChange={handleFilterChange} 
-          placeholder="Global search..."
-          style={{margin: '1rem'}} 
-      />
-      <FormControl>
-        <InputLabel id="columns-select-label">Columns</InputLabel>
-        <Select
-          labelId="columns-select-label"
-          id="columns-select"
-          multiple
-          value={columnsToFilter}
-          onChange={handleColumnFilterChange}
+          style={{
+            marginRight: '1rem',
+            minWidth: '200px',
+          }}
         >
-          {columns.map((column) => (
-            <MenuItem key={column.accessor} value={column.accessor}>
-              {column.Header}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+          <InputLabel id="columns-select-label">What to filter?</InputLabel>
+          <Select
+            labelId="columns-select-label"
+            id="columns-select"
+            size='small'
+            multiple
+            style={{display: 'flex', flexWrap: 'wrap'}}
+            value={columnsToFilter}
+            onChange={handleColumnFilterChange}
+          >
+            {columns.map((column) => (
+              <MenuItem key={column.accessor} value={column.accessor}>
+                {column.Header}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
       <StyledTable {...getTableProps()}>
         <TableHead>
           {headerGroups.map((headerGroup) => (

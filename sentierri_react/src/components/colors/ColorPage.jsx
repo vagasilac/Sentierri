@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Paper, Typography, Box, Grid, TextField, Button, CircularProgress } from '@material-ui/core';
+import { Container, Paper, FormControlLabel,Typography, Box, Switch, Grid, TextField, Button, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchColorById, updateColor } from '../../features/colors/colorsSlice';
@@ -77,7 +77,12 @@ const ColorPage = () => {
     }
 
     return (
-        <Container maxWidth="md">
+        <Container
+            maxWidth="md"
+            style={{
+                paddingTop: '2rem',
+            }}
+            >
                 <div style={{
                     display: 'flex',
                     justifyContent: 'space-between',
@@ -121,6 +126,19 @@ const ColorPage = () => {
                             name="name_ro"
                             value={formValues.name_ro || ''}
                             onChange={handleChange}
+                            />
+                        </Grid>
+                        <Grid item sm={12} md={6}>
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        checked={gradient}
+                                        onChange={(event) => setGradient(event.target.checked)}
+                                        name="gradient"
+                                        color="primary"
+                                    />
+                                }
+                                label="Gradient"
                             />
                         </Grid>
                         <Grid item sm={12} md={6}>

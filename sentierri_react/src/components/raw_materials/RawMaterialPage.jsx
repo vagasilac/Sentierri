@@ -227,10 +227,14 @@ const RawMaterialPage = () => {
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <UnitOfMeasureSelector
-                                        unit_of_measure={formValues.unit_of_measure}
-                                        handleInputChange={handleInputChange}
-                                    />
+                                    {/* Select Unit of Measure */}
+                                    <TextField
+                                        id="unit_of_measure"
+                                        name="unit_of_measure"
+                                        label="Unit of Measure"
+                                        value={formValues.unit_of_measure}
+                                        onChange={handleInputChange}
+                                    />                                   
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <SupplierSelector

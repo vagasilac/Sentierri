@@ -115,7 +115,7 @@ export default function MiniDrawer({ sections, open, setOpen }) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} style={{ background: 'linear-gradient(90deg, #93002D 20%, #ACAEB1 70%)' }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -129,7 +129,7 @@ export default function MiniDrawer({ sections, open, setOpen }) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h5" noWrap component="div">
+          <Typography variant="h5" noWrap component="div" style={{color: '#D4D5D6', fontWeight: 'bold', fontSize: '1.6rem' }}>
             Sentierri ERP
           </Typography>
         </Toolbar>

@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 
 function Navbar({ brand, actions }) {
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{ backgroundColor: 'red' }}>
       <Toolbar>
         <Typography variant="h6" style={{ flexGrow: 1 }}>
           {brand}
