@@ -17,6 +17,8 @@ import {
   Paper,
   TableSortLabel,
   TextField,
+  FormControl,
+  InputLabel,
   Select,
   MenuItem,
 } from '@mui/material';
@@ -49,26 +51,18 @@ const DataTable = ({ columns, data }) => {
   const [filteredData, setFilteredData] = useState(data);
 
   useEffect(() => {
-    console.log('Global Filter:', globalFilter);
-    console.log('Columns to Filter:', columnsToFilter);
-    console.log('data:', data);
-    if (!globalFilter) {
-      setFilteredData(data);
+    if (globalFilter) {
+      setFilteredData(
+        data.filter(row =>
+          columnsToFilter.some(column =>
+            row[column].toString().toLowerCase().includes(globalFilter.toLowerCase())
+          )
+        )
+      );
     } else {
-      setFilteredData(data.filter(row => {
-        const passesFilter = (row) => {
-          const rowValues = columnsToFilter.map((columnId) => row[columnId]);
-          console.log('Row Values:', rowValues);
-          return rowValues.some((value) => value.toString().includes(globalFilter));
-        };
-        
-        if (passesFilter) {
-          console.log('Passes Filter:', row);
-        }
-        return passesFilter;
-      }));
+      setFilteredData(data);
     }
-  }, [globalFilter, columnsToFilter]); 
+  }, [data, globalFilter, columnsToFilter]);
 
   const getFilteredRows = () => {
     if (!globalFilter) return data; // If there's no filter, return all data
@@ -99,11 +93,11 @@ const DataTable = ({ columns, data }) => {
   );
 
   const handleFilterChange = (event) => {
-    setGlobalFilter(event.target.value || undefined);
+    setGlobalFilter(event.target.value || "");
   };
 
   const handleColumnFilterChange = (event) => {
-    setColumnsToFilter(event.target.value || []);
+    setColumnsToFilter(event.target.value.length > 0 ? event.target.value : columns.map(col => col.accessor));
   };
   
 
@@ -124,17 +118,22 @@ const DataTable = ({ columns, data }) => {
           placeholder="Global search..."
           style={{margin: '1rem'}} 
       />
-      <Select
-        multiple
-        value={columnsToFilter}
-        onChange={handleColumnFilterChange}
-    >
-        {columns.map((column) => (
-            <MenuItem key={column.id} value={column.id}>
-                {column.Header}
+      <FormControl>
+        <InputLabel id="columns-select-label">Columns</InputLabel>
+        <Select
+          labelId="columns-select-label"
+          id="columns-select"
+          multiple
+          value={columnsToFilter}
+          onChange={handleColumnFilterChange}
+        >
+          {columns.map((column) => (
+            <MenuItem key={column.accessor} value={column.accessor}>
+              {column.Header}
             </MenuItem>
-        ))}
-    </Select>
+          ))}
+        </Select>
+      </FormControl>
       <StyledTable {...getTableProps()}>
         <TableHead>
           {headerGroups.map((headerGroup) => (
