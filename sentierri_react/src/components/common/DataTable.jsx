@@ -98,6 +98,15 @@ const DataTable = ({ columns, data }) => {
     useExpanded
   );
 
+  const handleFilterChange = (event) => {
+    setGlobalFilter(event.target.value || undefined);
+  };
+
+  const handleColumnFilterChange = (event) => {
+    setColumnsToFilter(event.target.value || []);
+  };
+  
+
   const navigate = useNavigate();
     // const handleCellClick = (id) => {
   //   navigate(`/settings/categories/${id}`);
@@ -111,14 +120,14 @@ const DataTable = ({ columns, data }) => {
           variant='standard'
           size='small'
           value={globalFilter} 
-          onChange={e => setGlobalFilter(e.target.value)} 
+          onChange={handleFilterChange} 
           placeholder="Global search..."
           style={{margin: '1rem'}} 
       />
       <Select
         multiple
         value={columnsToFilter}
-        onChange={e => setColumnsToFilter(e.target.value)}
+        onChange={handleColumnFilterChange}
     >
         {columns.map((column) => (
             <MenuItem key={column.id} value={column.id}>
