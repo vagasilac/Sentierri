@@ -42,6 +42,7 @@ const DefaultColumnFilter = ({ column: { filterValue, setFilter } }) => {
 };
 
 const DataTable = ({ columns, data }) => {
+  console.log('Columns:', columns);
   const [globalFilter, setGlobalFilter] = useState('');
   const [columnsToFilter, setColumnsToFilter] = useState([]);
 
@@ -55,9 +56,12 @@ const DataTable = ({ columns, data }) => {
       setFilteredData(data);
     } else {
       setFilteredData(data.filter(row => {
-        const passesFilter = (columnsToFilter.length === 0 ? columns : columnsToFilter).some(columnId => 
-          row[columnId] && row[columnId].toString().toLowerCase().includes(globalFilter.toLowerCase())
-        );
+        const passesFilter = (row) => {
+          const rowValues = columnsToFilter.map((columnId) => row[columnId]);
+          console.log('Row Values:', rowValues);
+          return rowValues.some((value) => value.toString().includes(globalFilter));
+        };
+        
         if (passesFilter) {
           console.log('Passes Filter:', row);
         }
