@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   useTable,
   useGroupBy,
@@ -44,6 +44,22 @@ const DefaultColumnFilter = ({ column: { filterValue, setFilter } }) => {
 const DataTable = ({ columns, data }) => {
   const [globalFilter, setGlobalFilter] = useState('');
   const [columnsToFilter, setColumnsToFilter] = useState([]);
+
+  const [filteredData, setFilteredData] = useState(data);
+
+  useEffect(() => {
+      if (!globalFilter) {
+          setFilteredData(data);
+      } else {
+          setFilteredData(data.filter(row => 
+              columnsToFilter.some(columnId => 
+                  row[columnId].toString().toLowerCase().includes(globalFilter.toLowerCase())
+              )
+          ));
+      }
+  }, [globalFilter, columnsToFilter]);
+
+
   const getFilteredRows = () => {
     if (!globalFilter) return data; // If there's no filter, return all data
 
@@ -63,7 +79,7 @@ const DataTable = ({ columns, data }) => {
   } = useTable(
     {
       columns,
-      data: getFilteredRows(),
+      data: filteredData,
       defaultColumn: { Filter: DefaultColumnFilter }, // Set a default column filter
     },
     useFilters,
