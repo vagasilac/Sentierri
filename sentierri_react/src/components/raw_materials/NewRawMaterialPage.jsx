@@ -258,9 +258,7 @@ const NewRawMaterialPage = () => {
                                         >
                                             {color.name_ro}
                                             <div style={{
-                                                // next line doesn't work
-                                                // backgroundColor: color.gradient ? 'linear-gradient(180deg, ' + color.display_color_code + ' 0%, #000000 100%)' : color.display_color_code,
-                                                backgroundColor: color.display_color_code,
+                                                background: color.gradient ? `linear-gradient(180deg, ${color.display_color_code} 0%, #000000 100%)` : color.display_color_code,
                                                 width: '1.5rem',
                                                 height: '1.5rem',
                                                 borderRadius: '50%',

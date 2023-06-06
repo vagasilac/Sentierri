@@ -10,6 +10,8 @@ const supplierCategoryRoutes = require('./routes/supplierCategoryRoutes');
 const agentRelationRoutes = require('./routes/agentRelationRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const shopRoutes = require('./routes/shopRoutes');
+const colorRoutes = require('./routes/colorRoutes');
+const unitOfMeasureRoutes = require('./routes/UMRoutes');
 const passport = require('./middleware/passport');
 
 const app = express();
@@ -29,6 +31,8 @@ app.use('/api/suppliercategories', supplierCategoryRoutes);
 app.use('/api/agentrelations', agentRelationRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/shops', shopRoutes);
+app.use('/api/colors', colorRoutes);
+app.use('/api/unitsOfMeasure', unitOfMeasureRoutes);
 
 // Add routes for other entities (e.g., products, orders) as needed
 
@@ -45,6 +49,8 @@ const SupplierCategory = require('./models/suppliercategory')(sequelize);
 const AgentRelation = require('./models/agentrelation')(sequelize);
 const Customer = require('./models/customer')(sequelize);
 const Shop = require('./models/shop')(sequelize);
+const Color = require('./models/color')(sequelize);
+const UnitOfMeasure = require('./models/unitOfMeasure')(sequelize);
 
 // Sync models with the database
 sequelize
