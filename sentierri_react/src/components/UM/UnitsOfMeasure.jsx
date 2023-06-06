@@ -12,10 +12,10 @@ import EditIcon from '@mui/icons-material/Edit';
 const UMsPage = () => {
   const UMs = useSelector(state => {
     try {
-      console.log('state.UMs.data: ', state.UMs.data);
-      return state.UMs.data.map(UM => ({
+      console.log('state.UMs.data: ', state.UM?.data);
+      return state.UM?.data?.map(UM => ({
         ...UM,
-      }));
+      })) || [];
     } catch (error) {
       console.error('Error transforming UMs data:', error);
       return [];

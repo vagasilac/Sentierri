@@ -3,11 +3,16 @@
 }
 
 :root {
-    --background-color: #fff;
+    --background-color1: #fff;
+    --background-color2: #eb0808;
     --text-color: #333;
   }
   
   .light-theme {
-    background-color: var(--background-color);
+    background-color: linear-gradient(
+      to right,
+      var(--background-color1),
+      var(--background-color2)
+    );
     color: var(--text-color);
   }

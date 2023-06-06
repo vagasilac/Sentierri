@@ -7,6 +7,7 @@ import { fetchColorById, updateColor } from '../../features/colors/colorsSlice';
 import { SketchPicker } from 'react-color';
 
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         marginTop: theme.spacing(3),
@@ -19,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ColorPage = () => {
+    const [gradient, setGradient] = useState(false);
     const { id } = useParams();
     const navigate = useNavigate();
     console.log('id: ', id);
@@ -30,6 +32,7 @@ const ColorPage = () => {
         name_en: '',
         name_ro: '',
         display_color_code: null,
+        gradient: false,
     });  
 
     useEffect(() => {
@@ -56,6 +59,14 @@ const ColorPage = () => {
         }));
     }
 
+    useEffect(() => {
+        if (formValues.gradient) {
+            setGradient(true);
+        } else {
+            setGradient(false);
+        }
+    }, [formValues.gradient]);
+
     const handleBack = () => {
         navigate('/settings/colors/');
     }
@@ -67,14 +78,27 @@ const ColorPage = () => {
 
     return (
         <Container maxWidth="md">
-            <Button variant="contained" color="primary" onClick={handleBack}
-                style={{
-                    marginTop: '1rem',
-                    marginBottom: '1rem',
-                }}
-                >
-                Back
-            </Button>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                }}>
+                    <Button variant="contained" color="primary" onClick={handleBack}
+                        style={{
+                            marginTop: '1rem',
+                            marginBottom: '1rem',
+                        }}
+                        >
+                        Back
+                    </Button>
+                    <div style={{
+                        background: gradient ? `linear-gradient(180deg, ${formValues.display_color_code} 0%, #000000 100%)` : formValues.display_color_code,
+                        width: '5rem',
+                        height: '5rem',
+                        borderRadius: '50%',
+                        boxShadow: 'inset rgba(0, 0, 0, 0.2) -2px 1px 3px 1px, inset rgba(255, 255, 255, 0.5) 2px 1px 3px 1px',
+                    }} />
+                </div>
             <Paper className={classes.root}>
                 <Typography variant="h5" gutterBottom>
                     Update Color

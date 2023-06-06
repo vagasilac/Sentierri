@@ -121,10 +121,15 @@ const RawMaterialsPage = () => {
   ];
 
   return (
-      <Box style={{width: '100%', marginTop: '3rem', marginLeft: '3rem'}}>
-        <Typography variant="h4">Raw Materials</Typography>
-        <DataTable key={rawMaterials.length} columns={columns} data={rawMaterials} />
-      </Box>
+      <Container
+        maxWidth="xl"
+        style={{ marginTop: '3rem', marginBottom: '4rem', marginLeft: '3rem' }}
+      >
+        <Box>
+          <Typography variant="h4">Raw Materials</Typography>
+          <DataTable key={rawMaterials.length} columns={columns} data={rawMaterials} />
+        </Box>
+    </Container>
   );
 };
 

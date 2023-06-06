@@ -44,28 +44,29 @@ function App() {
     <Router>
       <MiniDrawer sections={sections} open={open} setOpen={setOpen} />
       <MainContent open={open}>
-      {/* <div className='main light-theme'>  */}
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/raw-materials/" element={<RawMaterialsPage />} />
-          <Route path="/raw-materials/new" element={<NewRawMaterialPage />} />
-          <Route path="/raw_materials/:id" element={<RawMaterialPage />} />
-          <Route path="/settings/categories/" element={<Categories />} />
-          <Route path="/settings/categories/:id" element={<Category />} />
-          <Route path="/settings/colors/" element={<Colors />} />
-          <Route path="/settings/colors/:id" element={<ColorPage />} />
-          <Route path="/settings/colors/new" element={<NewColorPage />} />
-          <Route path="/settings/units-of-measure/" element={<UMsPage />} />
-          <Route path="/settings/units-of-measure/:id" element={<UMPage />} />
-          <Route path="/settings/units-of-measure/new" element={<NewUMPage />} />
-          <Route path="/suppliers/" element={<SuppliersPage />} />
-          <Route path="/suppliers/:id" element={<SupplierPage />} />
-          <Route path="/suppliers/new" element={<NewSupplierPage />} />
-          <Route path="/customers/" element={<CustomersPage />} />
-          <Route path="/customers/new" element={<NewCustomerPage />} />
-          <Route path="/shops/" element={<ShopsPage />} />
-          <Route path="/shops/:id" element={<Shop />} />
-        </Routes>
+        <div className='main light-theme'> 
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/raw-materials/" element={<RawMaterialsPage />} />
+            <Route path="/raw-materials/new" element={<NewRawMaterialPage />} />
+            <Route path="/raw_materials/:id" element={<RawMaterialPage />} />
+            <Route path="/settings/categories/" element={<Categories />} />
+            <Route path="/settings/categories/:id" element={<Category />} />
+            <Route path="/settings/colors/" element={<Colors />} />
+            <Route path="/settings/colors/:id" element={<ColorPage />} />
+            <Route path="/settings/colors/new" element={<NewColorPage />} />
+            <Route path="/settings/units-of-measure/" element={<UMsPage />} />
+            <Route path="/settings/units-of-measure/:id" element={<UMPage />} />
+            <Route path="/settings/units-of-measure/new" element={<NewUMPage />} />
+            <Route path="/suppliers/" element={<SuppliersPage />} />
+            <Route path="/suppliers/:id" element={<SupplierPage />} />
+            <Route path="/suppliers/new" element={<NewSupplierPage />} />
+            <Route path="/customers/" element={<CustomersPage />} />
+            <Route path="/customers/new" element={<NewCustomerPage />} />
+            <Route path="/shops/" element={<ShopsPage />} />
+            <Route path="/shops/:id" element={<Shop />} />
+          </Routes>
+        </div>
       </MainContent>
       {/* </div> */}
     </Router>
