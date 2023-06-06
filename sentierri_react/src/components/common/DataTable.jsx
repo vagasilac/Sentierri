@@ -49,15 +49,15 @@ const DataTable = ({ columns, data }) => {
 
   useEffect(() => {
     if (!globalFilter) {
-        setFilteredData(data);
+      setFilteredData(data);
     } else {
-        setFilteredData(data.filter(row => 
-            columnsToFilter.some(columnId => 
-                row[columnId] && row[columnId].toString().toLowerCase().includes(globalFilter.toLowerCase())
-            )
-        ));
+      setFilteredData(data.filter(row => 
+        (columnsToFilter.length === 0 ? columns : columnsToFilter).some(columnId => 
+          row[columnId] && row[columnId].toString().toLowerCase().includes(globalFilter.toLowerCase())
+        )
+      ));
     }
-  }, [globalFilter, columnsToFilter]);
+  }, [globalFilter, columnsToFilter]); 
 
   const getFilteredRows = () => {
     if (!globalFilter) return data; // If there's no filter, return all data
