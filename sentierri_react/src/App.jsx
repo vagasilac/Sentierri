@@ -20,9 +20,9 @@ import ShopsPage from './components/customers/ShopsPage';
 import Colors from './components/colors/Colors';
 import ColorPage from './components/colors/ColorPage';
 import NewColorPage from './components/colors/NewColorPage';
-import UnitsOfMeasure from './components/UM/UnitsOfMeasure';
 import UMPage from './components/UM/UMPage';
 import NewUMPage from './components/UM/NewUMPage';
+import UMsPage from './components/UM/UnitsOfMeasure';
 
 const drawerWidth = 240;
 const MainContent = styled('div', {
@@ -55,7 +55,7 @@ function App() {
           <Route path="/settings/colors/" element={<Colors />} />
           <Route path="/settings/colors/:id" element={<ColorPage />} />
           <Route path="/settings/colors/new" element={<NewColorPage />} />
-          <Route path="/settings/units-of-measure/" element={<UnitsOfMeasure />} />
+          <Route path="/settings/units-of-measure/" element={<UMsPage />} />
           <Route path="/settings/units-of-measure/:id" element={<UMPage />} />
           <Route path="/settings/units-of-measure/new" element={<NewUMPage />} />
           <Route path="/suppliers/" element={<SuppliersPage />} />

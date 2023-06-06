@@ -3,21 +3,21 @@ import { Typography, Container, Box, Button } from '@material-ui/core';
 import DataTable from '../common/DataTable';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchColors } from '../../features/colors/colorsSlice';
+import { fetchUMs } from '../../features/UM/UMSlice';
 import CircularProgress from '@mui/material/CircularProgress';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import StartIcon from '@mui/icons-material/Start';
 import EditIcon from '@mui/icons-material/Edit';
 
-const ColorsPage = () => {
-  const colors = useSelector(state => {
+const UMsPage = () => {
+  const UMs = useSelector(state => {
     try {
-      console.log('state.colors.data: ', state.colors.data);
-      return state.colors.data.map(color => ({
-        ...color,
+      console.log('state.UMs.data: ', state.UMs.data);
+      return state.UMs.data.map(UM => ({
+        ...UM,
       }));
     } catch (error) {
-      console.error('Error transforming colors data:', error);
+      console.error('Error transforming UMs data:', error);
       return [];
     }
   });  
@@ -25,8 +25,7 @@ const ColorsPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchColors());
-    // dispatch(fetchColorCategories());
+    dispatch(fetchUMs());
   }, [dispatch]);
 
   // columns for react-table
@@ -42,42 +41,15 @@ const ColorsPage = () => {
       options: {
         filter: true,
         sort: true,
+      }}, 
+    { accessor: 'abbreviation',
+      Header: 'Abbreviation',
+      options: {
+        filter: true,
+        sort: true,
       }},
       {
-        accessor: 'display_color_code',
-        Header: 'Sample',
-        options: {
-          filter: false,
-          sort: false,
-        },
-        Cell: ({ value, row }) => {
-          const colorStyle = row.original.gradient ? 
-            {
-              background: `linear-gradient(180deg, ${row.original.display_color_code} 0%, #000000 100%)`
-            } : 
-            {
-              backgroundColor: value
-            };
-      
-          return (
-            <div style={{
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-              <div style={{
-                ...colorStyle,
-                width: '5rem',
-                height: '5rem',
-                borderRadius: '50%',
-                boxShadow: 'inset rgba(0, 0, 0, 0.2) -2px 1px 3px 1px, inset rgba(255, 255, 255, 0.5) 2px 1px 3px 1px',
-              }} />
-            </div>
-          );
-        },
-      },      
-      {accessor: 'actions',
+        accessor: 'actions',
         Header: '',
       Cell: ({row}) => (
         <div 
@@ -102,22 +74,22 @@ const ColorsPage = () => {
     <Container >
       <Box style={{width: '100%', marginTop: '3rem', marginLeft: '3rem'}}>
         <Box style={{display: 'flex', justifyContent: 'space-between', marginBottom: '3rem'}}>
-          <Typography variant="h4">Colors</Typography>
+          <Typography variant="h4">UMs</Typography>
           <Button
             variant="contained"
             color="primary"
             onClick={() => navigate('new/')}>Add New</Button>
         </Box>
-        {colors.loading ? (
+        {UMs.loading ? (
           <CircularProgress />
-        ) : colors.length > 0 ? (
-          <DataTable key={colors.length} columns={columns} data={colors} />
+        ) : UMs.length > 0 ? (
+          <DataTable key={UMs.length} columns={columns} data={UMs} />
         ) : (
-          <p>No colors found</p>
+          <p>No UMs found</p>
         )}
       </Box>
     </Container>
   );
-};
+}
 
-export default ColorsPage;
+export default UMsPage;

@@ -16,6 +16,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import TuneIcon from '@mui/icons-material/Tune';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
+import StraightenIcon from '@mui/icons-material/Straighten';
 
 
 const sections = [
@@ -72,6 +73,7 @@ const sections = [
       items: [
         { icon: CategoryIcon, label: 'Categories', link: '/settings/categories' },
         { icon: ColorLensIcon, label: 'Colors', link: '/settings/colors' },
+        { icon: StraightenIcon, label: 'Units of measure', link: '/settings/units-of-measure' },
       ],
     },
   ];
