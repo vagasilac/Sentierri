@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import {
   Box,
+  Checkbox,
+  ListItemText,
   Table,
   TableBody,
   TableCell,
@@ -47,8 +49,8 @@ const DefaultColumnFilter = ({ column: { filterValue, setFilter } }) => {
 const DataTable = ({ columns, data }) => {
   console.log('Columns:', columns);
   const [globalFilter, setGlobalFilter] = useState('');
-  const [columnsToFilter, setColumnsToFilter] = useState([]);
-
+  const [columnsToFilter, setColumnsToFilter] = useState(columns.map(col => col.accessor));
+  const [selectedColumnHeaders, setSelectedColumnHeaders] = useState([]);
   const [filteredData, setFilteredData] = useState(data);
 
   useEffect(() => {
@@ -56,8 +58,8 @@ const DataTable = ({ columns, data }) => {
       setFilteredData(
         data.filter(row =>
           columnsToFilter.some(column =>
-            row[column].toString().toLowerCase().includes(globalFilter.toLowerCase())
-          )
+            row[column] && row[column].toString().toLowerCase().includes(globalFilter.toLowerCase())
+            )
         )
       );
     } else {
@@ -70,8 +72,8 @@ const DataTable = ({ columns, data }) => {
 
     return data.filter(row => 
         columnsToFilter.some(columnId => 
-            row[columnId].toString().toLowerCase().includes(globalFilter.toLowerCase())
-        )
+          row[columnId] && row[columnId].toString().toLowerCase().includes(globalFilter.toLowerCase())
+          )
     );
   };
   const {
@@ -98,8 +100,17 @@ const DataTable = ({ columns, data }) => {
   };
 
   const handleColumnFilterChange = (event) => {
-    setColumnsToFilter(event.target.value.length > 0 ? event.target.value : columns.map(col => col.accessor));
+    const selectedColumns = event.target.value.length > 0 
+      ? event.target.value 
+      : columns.filter(col => col.accessor !== 'actions').map(col => col.accessor);
+  
+    setColumnsToFilter(selectedColumns);
+  
+    setSelectedColumnHeaders(
+      selectedColumns.map(accessor => columns.find(col => col.accessor === accessor).Header)
+    );
   };
+  
   
 
   const navigate = useNavigate();
@@ -113,41 +124,42 @@ const DataTable = ({ columns, data }) => {
       <Box
         style={{
           display: 'flex',
-          justifyContent: 'flex-end',
+          justifyContent: 'space-between',
           alignItems: 'center',
         }}
       >
         <TextField
             // variant not outlined, filled, standard
-            variant='standard'
+            variant='filled'
             size='small'
             value={globalFilter} 
             onChange={handleFilterChange} 
             placeholder="Global search..."
-            style={{margin: '1rem'}} 
+            style={{marginRight: '1rem'}} 
         />
         <FormControl
           variant="filled"
           size='small'
           style={{
-            marginRight: '1rem',
             minWidth: '200px',
           }}
         >
-          <InputLabel id="columns-select-label">What to filter?</InputLabel>
+          <InputLabel id="columns-select-label">Apply filter to columns:</InputLabel>
           <Select
             labelId="columns-select-label"
             id="columns-select"
             size='small'
             multiple
             style={{display: 'flex', flexWrap: 'wrap'}}
-            value={columnsToFilter}
+            value={selectedColumnHeaders}
             onChange={handleColumnFilterChange}
           >
             {columns.map((column) => (
-              <MenuItem key={column.accessor} value={column.accessor}>
-                {column.Header}
-              </MenuItem>
+              column.accessor !== 'actions' ? (
+                <MenuItem key={column.accessor} value={column.Header}>
+                  {column.Header}
+                </MenuItem>
+              ) : null
             ))}
           </Select>
         </FormControl>
