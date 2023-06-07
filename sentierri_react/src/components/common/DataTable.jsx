@@ -137,6 +137,7 @@ const DataTable = ({ columns, data }) => {
         ...baseStyle,
         position: 'sticky',
         left: 0,
+        zIndex: 9999999,
       };
     }
   
@@ -220,7 +221,7 @@ const DataTable = ({ columns, data }) => {
                 {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column, i) => (
                   <TableCell {...column.getHeaderProps(column.getSortByToggleProps())}
-                    style={i === 0 ? { position: 'sticky', left: 0 } : {}}
+                    style={i === 0 ? { position: 'sticky', left: 0, zIndex: 9999999} : {}}
                   >
                     {column.render('Header')}
                       {column.canGroupBy ? (

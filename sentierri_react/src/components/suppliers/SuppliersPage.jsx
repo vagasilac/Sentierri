@@ -164,7 +164,7 @@ const SuppliersPage = () => {
   return (
     <Container
         maxWidth="xl"
-        style={{ paddingTop: '3rem', paddingBottom: '4rem', overflowX: 'hidden' }}
+        style={{ paddingTop: '3rem', paddingBottom: '4rem', }}
       >
       <Box style={{display: 'flex', justifyContent: 'space-between'}}>
         <Typography
@@ -180,7 +180,7 @@ const SuppliersPage = () => {
       {suppliers.loading ? (
         <CircularProgress />
       ) : suppliers.length > 0 ? (
-      <div style={{ overflowX: 'auto' }}>
+      <div style={{ overflowX: 'auto', width: '100%' }}>
         <DataTable key={suppliers.length} columns={columns} data={suppliers}
           />
       </div>
