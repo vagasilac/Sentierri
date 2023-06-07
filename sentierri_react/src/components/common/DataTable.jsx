@@ -119,7 +119,30 @@ const DataTable = ({ columns, data }) => {
       .filter(accessor => accessor != null)
       .map(accessor => columns.find(col => col.accessor === accessor).Header);
     return selectedHeaders.length === columns.length - 1 ? 'ALL' : selectedHeaders.join(', ');
-  };  
+  };
+  
+  const getCellStyle = (cell, i) => {
+    const baseStyle = {
+      background: cell.isGrouped
+        ? '#0aff0082'
+        : cell.isAggregated
+        ? '#ffa50078'
+        : cell.isPlaceholder
+        ? '#ff000042'
+        : 'white',
+    };
+  
+    if (i === 0) {
+      return {
+        ...baseStyle,
+        position: 'sticky',
+        left: 0,
+      };
+    }
+  
+    return baseStyle;
+  };
+  
   
   const navigate = useNavigate();
     // const handleCellClick = (id) => {
@@ -188,69 +211,64 @@ const DataTable = ({ columns, data }) => {
           </Select>
         </FormControl>
       </Box>
-      <StyledTable {...getTableProps()}>
-        <TableHead>
-          {headerGroups.map((headerGroup) => (
-            <TableRow
-              style={{ backgroundColor: '#eef1f6', fontSize: '15rem' }}
-              {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <TableCell {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  {column.render('Header')}
-                    {column.canGroupBy ? (
-                      <span {...column.getGroupByToggleProps()}>
-                        {column.isGrouped ? '✖ ' : '⊞ '}
-                      </span>
-                    ) : null}
-                    {column.isSorted ? (
-                      <TableSortLabel active direction={column.isSortedDesc ? 'desc' : 'asc'} />
-                    ) : null}
-                  {/* <div>{column.canFilter ? column.render('Filter') : null}</div> */}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableHead>
-        <TableBody {...getTableBodyProps()}>
-          {rows.map((row, i) => {
-            prepareRow(row);
-            return (
-              <TableRow {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <TableCell
-                      {...cell.getCellProps()}
-                      onClick={() => handleCellClick(cell.row.original.id)}
-                      style={{
-                        background: cell.isGrouped
-                          ? '#0aff0082'
-                          : cell.isAggregated
-                          ? '#ffa50078'
-                          : cell.isPlaceholder
-                          ? '#ff000042'
-                          : 'white',
-                      }}
-                    >
-                      {cell.isGrouped ? (
-                        <>
-                          <span {...row.getToggleRowExpandedProps()}>
-                            {row.isExpanded ? '👇' : '👉'}
-                          </span>{' '}
-                          {cell.render('Cell')} ({row.subRows.length})
-                        </>
-                      ) : cell.isAggregated ? (
-                        cell.render('Aggregated')
-                      ) : cell.isPlaceholder ? null : (
-                        cell.render('Cell')
-                      )}
-                    </TableCell>
-                  );
-                })}
+      <div style={{ overflowX: 'auto', width: '100vw' }}>
+        <StyledTable {...getTableProps()} component={Paper} style={{ position: 'relative'}}>
+          <TableHead>
+            {headerGroups.map((headerGroup) => (
+              <TableRow
+                style={{ backgroundColor: '#eef1f6', fontSize: '15rem' }}
+                {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column, i) => (
+                  <TableCell {...column.getHeaderProps(column.getSortByToggleProps())}
+                    style={i === 0 ? { position: 'sticky', left: 0 } : {}}
+                  >
+                    {column.render('Header')}
+                      {column.canGroupBy ? (
+                        <span {...column.getGroupByToggleProps()}>
+                          {column.isGrouped ? '✖ ' : '⊞ '}
+                        </span>
+                      ) : null}
+                      {column.isSorted ? (
+                        <TableSortLabel active direction={column.isSortedDesc ? 'desc' : 'asc'} />
+                      ) : null}
+                    {/* <div>{column.canFilter ? column.render('Filter') : null}</div> */}
+                  </TableCell>
+                ))}
               </TableRow>
-            );
-          })}
-        </TableBody>
-      </StyledTable>
+            ))}
+          </TableHead>
+          <TableBody {...getTableBodyProps()}>
+            {rows.map((row, i) => {
+              prepareRow(row);
+              return (
+                <TableRow {...row.getRowProps()}>
+                  {row.cells.map((cell, i) => {
+                    return (
+                      <TableCell
+                        {...cell.getCellProps()}
+                        style={getCellStyle(cell, i)}
+                      >
+                        {cell.isGrouped ? (
+                          <>
+                            <span {...row.getToggleRowExpandedProps()}>
+                              {row.isExpanded ? '👇' : '👉'}
+                            </span>{' '}
+                            {cell.render('Cell')} ({row.subRows.length})
+                          </>
+                        ) : cell.isAggregated ? (
+                          cell.render('Aggregated')
+                        ) : cell.isPlaceholder ? null : (
+                          cell.render('Cell')
+                        )}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </StyledTable>
+      </div>
     </Paper>
   );
 };
