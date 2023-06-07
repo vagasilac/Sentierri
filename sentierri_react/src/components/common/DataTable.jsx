@@ -24,7 +24,10 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  IconButton,
+  ListItemIcon,
 } from '@mui/material';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 
 
@@ -52,7 +55,6 @@ const DataTable = ({ columns, data }) => {
   const [columnsToFilter, setColumnsToFilter] = useState(columns.map(col => col.accessor));
   const [selectedColumnHeaders, setSelectedColumnHeaders] = useState([]);
   const [filteredData, setFilteredData] = useState(data);
-  const [selectDisplayValue, setSelectDisplayValue] = useState('ALL');
 
   useEffect(() => {
     if (globalFilter) {
@@ -110,12 +112,14 @@ const DataTable = ({ columns, data }) => {
     setSelectedColumnHeaders(
       selectedColumns.map(accessor => columns.find(col => col.accessor === accessor).Header)
     );
-  
-    setSelectDisplayValue(
-      selectedColumns.length === columns.length - 1 ? 'ALL' : selectedColumnHeaders.join(', ')
-    );
   };
-   
+  
+  const renderSelected = (selected) => {
+    const selectedHeaders = selected
+      .filter(accessor => accessor != null)
+      .map(accessor => columns.find(col => col.accessor === accessor).Header);
+    return selectedHeaders.length === columns.length - 1 ? 'ALL' : selectedHeaders.join(', ');
+  };  
   
   const navigate = useNavigate();
     // const handleCellClick = (id) => {
@@ -148,9 +152,7 @@ const DataTable = ({ columns, data }) => {
             minWidth: '200px',
           }}
         >
-          <InputLabel id="columns-select-label">
-            {selectDisplayValue === 'ALL' ? 'ALL' : 'Select columns'}
-          </InputLabel>
+          <InputLabel id="columns-select-label">Columns to filter</InputLabel>
           <Select
             labelId="columns-select-label"
             id="columns-select"
@@ -159,11 +161,27 @@ const DataTable = ({ columns, data }) => {
             style={{display: 'flex', flexWrap: 'wrap'}}
             value={columnsToFilter}
             onChange={handleColumnFilterChange}
+            renderValue={renderSelected}
           >
             {columns.map((column) => (
-              column.accessor !== 'actions' ? (
-                <MenuItem key={column.accessor} value={column.accessor}>
+              column.Header !== 'Actions' ? (
+                <MenuItem key={column.accessor} value={column.accessor}
+                  style={
+                    {
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                    }
+                  }
+                  >
                   {column.Header}
+                  <ListItemIcon>
+                    <IconButton edge="end" onClick={(event) => {
+                      event.stopPropagation();
+                      setColumnsToFilter([column.accessor]);
+                    }}>
+                      <CheckCircleOutlineIcon fontSize="small" />
+                    </IconButton>
+                  </ListItemIcon>
                 </MenuItem>
               ) : null
             ))}

@@ -126,11 +126,18 @@ const RawMaterialsPage = () => {
         style={{ paddingTop: '3rem', paddingBottom: '4rem', marginLeft: '3rem' }}
       >
         <Box>
-          <Typography
-            variant="h4"
-            style={{ marginBottom: '2rem' }}
-          >
-            Raw Materials</Typography>
+          <Box style={{display: 'flex', justifyContent: 'space-between'}}>
+            <Typography
+              variant="h4"
+              style={{ marginBottom: '2rem' }}
+            >
+              Raw Materials</Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{marginBottom: '2rem'}}
+                onClick={() => navigate('/suppliers/new')}>Add New</Button>
+          </Box>
           <DataTable key={rawMaterials.length} columns={columns} data={rawMaterials} />
         </Box>
     </Container>

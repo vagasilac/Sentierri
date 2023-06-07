@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Box, Button } from '@material-ui/core';
+import { Typography, Box, Container, Button } from '@material-ui/core';
 import DataTable from '../common/DataTable';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -162,23 +162,32 @@ const SuppliersPage = () => {
   ];
 
   return (
-    <Box style={{width: '100%', marginTop: '3rem', marginLeft: '3rem'}}>
+    <Container
+        maxWidth="xl"
+        style={{ paddingTop: '3rem', paddingBottom: '4rem', overflowX: 'hidden' }}
+      >
       <Box style={{display: 'flex', justifyContent: 'space-between'}}>
-        <Typography variant="h4">Suppliers</Typography>
+        <Typography
+            variant="h4"
+            style={{ marginBottom: '2rem' }}
+          >Suppliers</Typography>
         <Button
           variant="contained"
           color="primary"
-          style={{marginRight: '10rem'}}
+          style={{marginBottom: '2rem'}}
           onClick={() => navigate('/suppliers/new')}>Add New</Button>
       </Box>
       {suppliers.loading ? (
         <CircularProgress />
       ) : suppliers.length > 0 ? (
-        <DataTable key={suppliers.length} columns={columns} data={suppliers} />
+      <div style={{ overflowX: 'auto' }}>
+        <DataTable key={suppliers.length} columns={columns} data={suppliers}
+          />
+      </div>
       ) : (
         <p>No suppliers found</p>
       )}
-    </Box>
+    </Container>
   );
 };
 
