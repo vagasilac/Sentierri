@@ -123,7 +123,7 @@ const RawMaterialsPage = () => {
   return (
       <Container
         maxWidth="xl"
-        style={{ paddingTop: '3rem', paddingBottom: '4rem', marginLeft: '3rem' }}
+        style={{ paddingTop: '3rem', paddingBottom: '4rem', marginLeft: '3rem', overflowX: 'auto' }}
       >
         <Box>
           <Box style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -136,7 +136,7 @@ const RawMaterialsPage = () => {
                 variant="contained"
                 color="primary"
                 style={{marginBottom: '2rem'}}
-                onClick={() => navigate('/suppliers/new')}>Add New</Button>
+                onClick={() => navigate('/raw-materials/new')}>Add New</Button>
           </Box>
           <DataTable key={rawMaterials.length} columns={columns} data={rawMaterials} />
         </Box>

@@ -32,7 +32,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 
 const StyledTable = styled(Table)({
-  minWidth: 650,
+  // minWidth: 650,
 });
 
 const DefaultColumnFilter = ({ column: { filterValue, setFilter } }) => {
@@ -137,7 +137,7 @@ const DataTable = ({ columns, data }) => {
         ...baseStyle,
         position: 'sticky',
         left: 0,
-        zIndex: 9999999,
+        zIndex: 3,
       };
     }
   
@@ -212,7 +212,7 @@ const DataTable = ({ columns, data }) => {
           </Select>
         </FormControl>
       </Box>
-      <div style={{ overflowX: 'auto', width: '100vw' }}>
+      <div style={{ overflowX: 'auto' }}>
         <StyledTable {...getTableProps()} component={Paper} style={{ position: 'relative'}}>
           <TableHead>
             {headerGroups.map((headerGroup) => (
@@ -221,7 +221,7 @@ const DataTable = ({ columns, data }) => {
                 {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column, i) => (
                   <TableCell {...column.getHeaderProps(column.getSortByToggleProps())}
-                    style={i === 0 ? { position: 'sticky', left: 0, zIndex: 9999999} : {}}
+                    style={i === 0 ? { position: 'sticky', left: 0, zIndex: 2, backgroundColor: '#eef1f6'} : {}}
                   >
                     {column.render('Header')}
                       {column.canGroupBy ? (
