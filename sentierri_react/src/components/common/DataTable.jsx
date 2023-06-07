@@ -52,6 +52,7 @@ const DataTable = ({ columns, data }) => {
   const [columnsToFilter, setColumnsToFilter] = useState(columns.map(col => col.accessor));
   const [selectedColumnHeaders, setSelectedColumnHeaders] = useState([]);
   const [filteredData, setFilteredData] = useState(data);
+  const [selectDisplayValue, setSelectDisplayValue] = useState('ALL');
 
   useEffect(() => {
     if (globalFilter) {
@@ -109,10 +110,13 @@ const DataTable = ({ columns, data }) => {
     setSelectedColumnHeaders(
       selectedColumns.map(accessor => columns.find(col => col.accessor === accessor).Header)
     );
+  
+    setSelectDisplayValue(
+      selectedColumns.length === columns.length - 1 ? 'ALL' : selectedColumnHeaders.join(', ')
+    );
   };
+   
   
-  
-
   const navigate = useNavigate();
     // const handleCellClick = (id) => {
   //   navigate(`/settings/categories/${id}`);
@@ -144,19 +148,21 @@ const DataTable = ({ columns, data }) => {
             minWidth: '200px',
           }}
         >
-          <InputLabel id="columns-select-label">Apply filter to columns:</InputLabel>
+          <InputLabel id="columns-select-label">
+            {selectDisplayValue === 'ALL' ? 'ALL' : 'Select columns'}
+          </InputLabel>
           <Select
             labelId="columns-select-label"
             id="columns-select"
             size='small'
             multiple
             style={{display: 'flex', flexWrap: 'wrap'}}
-            value={selectedColumnHeaders}
+            value={columnsToFilter}
             onChange={handleColumnFilterChange}
           >
             {columns.map((column) => (
               column.accessor !== 'actions' ? (
-                <MenuItem key={column.accessor} value={column.Header}>
+                <MenuItem key={column.accessor} value={column.accessor}>
                   {column.Header}
                 </MenuItem>
               ) : null
