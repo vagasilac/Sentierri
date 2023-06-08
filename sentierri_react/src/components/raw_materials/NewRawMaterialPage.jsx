@@ -66,6 +66,7 @@ const NewRawMaterialPage = () => {
     const [selectedCategoryId, setSelectedCategoryId] = useState('');
     const [filteredSubCategories, setFilteredSubCategories] = useState([]);
     const [selectedSuppliers, setSelectedSuppliers] = useState([]);
+    
     const [currentId, setCurrentId] = useState(0);
     console.log('selectedSuppliers', selectedSuppliers);
     console.log('currentId', currentId);
@@ -102,6 +103,13 @@ const NewRawMaterialPage = () => {
             setCurrentId(undefined);
         }
     }, [rawMaterials]);
+
+    useEffect(() => {
+        if (selectedSuppliers.length > 0) {
+            selectedSuppliers.forEach(supplier => {
+                console.log({ supplierId: supplier.id, materialId: currentId })});
+        }
+    }, [selectedSuppliers]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -143,7 +151,7 @@ const NewRawMaterialPage = () => {
         if (success) {
         alert('Raw material added successfully');
         selectedSuppliers.forEach(supplier => {
-            dispatch(addSupplierMaterial({ supplierId: supplier.id, materialId: currentId }));
+            dispatch(addSupplierMaterial(supplier.id, currentId));
         });
         setFormValues({
             material_id: '',
@@ -370,6 +378,11 @@ const NewRawMaterialPage = () => {
                         </Grid>
                         <Grid item xs={12} md={6}> 
                             <TextField
+                            InputProps={{
+                                inputProps: {
+                                    step: 0.01
+                                }
+                            }}
                             required
                             fullWidth
                             label="Price per unit"
@@ -381,6 +394,12 @@ const NewRawMaterialPage = () => {
                         </Grid>
                         <Grid item xs={12} md={6}> 
                             <TextField
+                            // only accept integers
+                            InputProps={{
+                                inputProps: {
+                                    step: 1
+                                }
+                            }}
                             required
                             fullWidth
                             label="Lead Time (days)"

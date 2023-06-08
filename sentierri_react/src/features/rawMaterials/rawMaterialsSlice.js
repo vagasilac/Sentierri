@@ -11,14 +11,17 @@ const rawMaterialsSlice = createSlice({
   },
   reducers: {
     fetchRawMaterialsRequest: (state) => {
+      console.log('fetchRawMaterialsRequest');
         state.loading = true;
     },
     fetchRawMaterialsSuccess: (state, action) => {
+      console.log('fetchRawMaterialsSuccess');
         state.loading = false;
         state.data = action.payload;
         state.error = null;
     },
     fetchRawMaterialsFailure: (state, action) => {
+      console.log('fetchRawMaterialsFailure');
         state.loading = false;
         state.error = action.payload;
     },
@@ -80,7 +83,7 @@ export const fetchRawMaterials = () => {
   return async (dispatch) => {
     dispatch(fetchRawMaterialsRequest());
     try {
-      const rawMaterials = await rawMaterialService.getMaterials();
+      const rawMaterials = await rawMaterialService.getAllMaterials();
       dispatch(fetchRawMaterialsSuccess(rawMaterials));
     } catch (error) {
       dispatch(fetchRawMaterialsFailure(error));
