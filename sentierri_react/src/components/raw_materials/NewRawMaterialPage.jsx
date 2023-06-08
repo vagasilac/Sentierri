@@ -13,17 +13,20 @@ import {
   Paper,
   Box,
 } from '@material-ui/core';
+import Autocomplete from '@mui/material/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
-import { addRawMaterial } from '../../services/rawMaterialService';
-import { getAllCategories } from '../../services/categoryService';
-import { getAllSubCategories } from '../../services/subCategoryService';
 import { getAllSuppliers } from '../../services/supplierService';
+import { fetchCategories } from '../../features/categories/categoriesSlice';
+import { fetchSubCategories } from '../../features/subCategories/subCategoriesSlice';
 import { fetchColors } from '../../features/colors/colorsSlice';
+import { fetchSuppliers } from '../../features/suppliers/suppliersSlice';
+import { fetchRawMaterials, addRawMaterial } from '../../features/rawMaterials/rawMaterialsSlice';
 import { fetchUMs } from '../../features/UM/UMSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import ComboBox from '../common/ComboBox';
 import { Style } from '@material-ui/icons';
 
+// TODO: validation (duplicate material_id, name, etc., required fields, etc., numeric fields, etc.)
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -32,15 +35,19 @@ const useStyles = makeStyles((theme) => ({
     submitButton: {
       marginTop: theme.spacing(2),
     },
-  }));
-
+}));
   
-  const NewRawMaterialPage = () => {
+const NewRawMaterialPage = () => {
+
+    const classes = useStyles();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const colors = useSelector((state) => state.colors.data);
     const UMs = useSelector((state) => state.UM.data);
-    const classes = useStyles();
+    const categories = useSelector((state) => state.categories.data);
+    const subCategories = useSelector((state) => state.subCategories.data);
+    const suppliers = useSelector((state) => state.suppliers.data);
+    const rawMaterials = useSelector((state) => state.rawMaterials.data);
     const [formValues, setFormValues] = useState({
         material_id: '',
         name: '',
@@ -57,51 +64,28 @@ const useStyles = makeStyles((theme) => ({
         lead_time: '',
         main_supplier: '',
     });
-
-    const [categories, setCategories] = useState([]);
     const [selectedCategoryId, setSelectedCategoryId] = useState('');
     const [filteredSubCategories, setFilteredSubCategories] = useState([]);
-    const [suppliers, setSuppliers] = useState([]);
 
     useEffect(() => {
         dispatch(fetchColors());
         dispatch(fetchUMs());
+        dispatch(fetchCategories());
+        dispatch(fetchSubCategories());
+        dispatch(fetchSuppliers());
+        dispatch(fetchRawMaterials());
         console.log('Colors fetched - useEffect materials', colors);
     }, [dispatch]);
 
     useEffect(() => {
-        const fetchCategories = async () => {
-            const categories = await getAllCategories();
-            setCategories(categories);
-            console.log('Categories fetched - useEffect materials', categories);
-        };
-        fetchCategories();
-    }, []);
-
-    useEffect(() => {
-        const fetchSubCategories = async () => {
-            const subCategories = await getAllSubCategories(selectedCategoryId);
-            console.log('subCategories fetched in Category', subCategories);
-
-            const filteredSubCategories = subCategories.filter(
+        const filteredSubCategories = subCategories.filter(
                 (subCategory) => subCategory.parentCategoryId === selectedCategoryId
             );
-            console.log('filteredSubCategories', filteredSubCategories);
             setFilteredSubCategories(filteredSubCategories);
-        };
             if (selectedCategoryId) {
             fetchSubCategories();
             };
     }, [selectedCategoryId]);
-
-    useEffect(() => {
-        const fetchSuppliers = async () => {
-          const suppliers = await getAllSuppliers();
-            setSuppliers(suppliers.map((supplier) => supplier.name));
-          console.log('Suppliers fetched - useEffect suppliers', suppliers);
-        };
-        fetchSuppliers();
-      }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -115,14 +99,21 @@ const useStyles = makeStyles((theme) => ({
             const selectedColor = colors.find((color) => color.name_ro === value);
             setFormValues((prev) => ({
                 ...prev,
-                color: selectedColor,
+                color: selectedColor.name_ro,
             }));
         }
         if (name === 'unit_of_measure') {
             const selectedUM = UMs.find((UM) => UM.abbreviation === value);
             setFormValues((prev) => ({
                 ...prev,
-                unit_of_measure: selectedUM,
+                unit_of_measure: selectedUM.abbreviation,
+            }));
+        }
+        if (name === 'main_supplier') {
+            const selectedSupplier = suppliers.find((supplier) => supplier.name === value);
+            setFormValues((prev) => ({
+                ...prev,
+                main_supplier: selectedSupplier.name,
             }));
         }
         else {
@@ -139,7 +130,7 @@ const useStyles = makeStyles((theme) => ({
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const success = await addRawMaterial(formValues);
+        const success = dispatch(addRawMaterial(formValues));
         if (success) {
         alert('Raw material added successfully');
         setFormValues({
@@ -224,7 +215,7 @@ const useStyles = makeStyles((theme) => ({
                             fullWidth
                             label="Type"
                             name="material_type"
-                            value={formValues.type}
+                            value={formValues.material_type}
                             onChange={handleChange}
                             />
                         </Grid>
@@ -246,7 +237,7 @@ const useStyles = makeStyles((theme) => ({
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} md={6}> 
-                            <FormControl required fullWidth>
+                            <FormControl fullWidth>
                                 <InputLabel id="material-subcategory-label">Subcategory</InputLabel>
                                 <Select
                                 labelId="material-subcategory-label"
@@ -278,8 +269,11 @@ const useStyles = makeStyles((theme) => ({
                                     <Select
                                         labelId="color-label"
                                         name="color"
-                                        value={formValues.color ? formValues.color.name_ro : ''}
+                                        value={formValues.color}
                                         onChange={handleChange}
+                                        inputProps={{
+                                            name: 'color',
+                                            }}
                                     >
                                         {colors.map((color) => (
                                             <MenuItem key={color.id} value={color.name_ro} >
@@ -325,11 +319,12 @@ const useStyles = makeStyles((theme) => ({
                             />
                         </Grid>
                         {/* 
-                        Only show the roll width field if the type is roll
+                        Only show the roll width field if the material_type is roll
                         */}
-                        <Grid item xs={12} md={6}> 
+                        {formValues.material_type == 'roll' && (
+                            <Grid item xs={12} md={6}> 
                             <TextField
-                            required
+                            // required
                             fullWidth
                             label="Roll Width"
                             name="roll_width"
@@ -338,6 +333,7 @@ const useStyles = makeStyles((theme) => ({
                             onChange={handleChange}
                             />
                         </Grid>
+                        )}
                         <Grid item xs={12} md={6}>
                                 <FormControl
                                     required fullWidth
@@ -346,8 +342,11 @@ const useStyles = makeStyles((theme) => ({
                                     <Select
                                         labelId="um-label"
                                         name="um"
-                                        value={formValues.unit_of_measure ? formValues.unit_of_measure.abbreviation : ''}
+                                        value={formValues.unit_of_measure}
                                         onChange={handleChange}
+                                        inputProps={{
+                                            name: 'unit_of_measure',
+                                            }}
                                     >
                                         {UMs.map((UM) => (
                                             <MenuItem key={UM.id} value={UM.abbreviation} >
@@ -380,7 +379,17 @@ const useStyles = makeStyles((theme) => ({
                             />
                         </Grid>
                         <Grid item xs={12} md={6}> 
-                            <ComboBox options={suppliers} label="Main Supplier"/>
+                            { suppliers && (
+                                <Autocomplete
+                                    disablePortal
+                                    id="combo-box"
+                                    name="main_supplier"
+                                    options={suppliers.map((supplier) => supplier.name)}
+                                    renderInput={(params) =>
+                                        <TextField {...params} label={"Main Supplier"} variant="standard"/>
+                                    }
+                                />
+                            )}
                         </Grid>            
                         <Grid item xs={6}>
                             <Button
@@ -398,5 +407,5 @@ const useStyles = makeStyles((theme) => ({
         </Container>
     );
 };
-  
+
 export default NewRawMaterialPage;

@@ -1,313 +1,408 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Container, Paper, Typography, Box, Grid, TextField, Button, Switch } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
+import { useNavigate } from 'react-router-dom';
+import {
+  Container,
+  Grid,
+  Typography,
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Paper,
+  Box,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchRawMaterialById, updateRawMaterial } from '../../features/rawMaterials/rawMaterialsSlice';
-import { fetchSuppliers } from '../../features/suppliers/suppliersSlice';
-import { fetchCategories } from '../../features/categories/categoriesSlice';
-import { Tabs, Tab } from '@material-ui/core';
-import { ModelTable } from './ModelTable';
-import { StockTable } from './StockTable';
-import { TransactionsTable } from './TransactionsTable';
-import CategorySelector from '../common/CategorySelector';
+import { addRawMaterial } from '../../services/rawMaterialService';
+import { getAllCategories } from '../../services/categoryService';
+import { getAllSubCategories } from '../../services/subCategoryService';
+import { getAllSuppliers } from '../../services/supplierService';
+import { fetchColors } from '../../features/colors/colorsSlice';
+import { fetchUMs } from '../../features/UM/UMSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import ComboBox from '../common/ComboBox';
+import { Style } from '@material-ui/icons';
 
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        padding: theme.spacing(2),
-    },
-    paper: {
-        padding: theme.spacing(2),
-        color: theme.palette.text.secondary,
-    },
     form: {
-        '& .MuiTextField-root': {
-            margin: theme.spacing(1),
-            width: '25ch',
-        },
+      marginTop: theme.spacing(2),
     },
-}));
+    submitButton: {
+      marginTop: theme.spacing(2),
+    },
+  }));
 
-const RawMaterialPage = () => {
-    const classes = useStyles();
+  
+  const NewRawMaterialPage = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { id } = useParams();
-    const numId = Number(id);
-    const [tabValue, setTabValue] = useState(0);
-    const handleTabChange = (event, newValue) => {
-        setTabValue(newValue);
-    };
+    const colors = useSelector((state) => state.colors.data);
+    const UMs = useSelector((state) => state.UM.data);
+    const classes = useStyles();
     const [formValues, setFormValues] = useState({
-        name: '',
         material_id: '',
+        name: '',
         material_group: '',
+        material_type: '',
         material_category: '',
         material_subcategory: '',
-        material_type: '',
         color: '',
         supplier_color: '',
         size: '',
         roll_width: '',
         unit_of_measure: '',
-        main_supplier: '',
-        lead_time: '',
         price_per_unit: '',
-        active: true,
+        lead_time: '',
+        main_supplier: '',
     });
 
-    useEffect(() => {
-        dispatch(fetchRawMaterialById(numId));
-        dispatch(fetchSuppliers());
-        dispatch(fetchCategories());
-    }, [dispatch, numId]);
-
-
-    const rawMaterial = useSelector(state => {
-        console.log('Inside useSelector')
-        console.log(state)
-        console.log(state.rawMaterials)
-        console.log(state.rawMaterials.currentRawMaterial)
-        return state.rawMaterials.currentRawMaterial
-    });
-    const suppliers = useSelector(state => state.suppliers.suppliers);
-    const categories = useSelector(state => state.categories.categories);
-
+    const [categories, setCategories] = useState([]);
+    const [selectedCategoryId, setSelectedCategoryId] = useState('');
+    const [filteredSubCategories, setFilteredSubCategories] = useState([]);
+    const [suppliers, setSuppliers] = useState([]);
 
     useEffect(() => {
-        setFormValues(rawMaterial);
-    }
-    , [rawMaterial]);
+        dispatch(fetchColors());
+        dispatch(fetchUMs());
+        console.log('Colors fetched - useEffect materials', colors);
+    }, [dispatch]);
 
-    const handleInputChange = (e) => {
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const categories = await getAllCategories();
+            setCategories(categories);
+            console.log('Categories fetched - useEffect materials', categories);
+        };
+        fetchCategories();
+    }, []);
+
+    useEffect(() => {
+        const fetchSubCategories = async () => {
+            const subCategories = await getAllSubCategories(selectedCategoryId);
+            console.log('subCategories fetched in Category', subCategories);
+
+            const filteredSubCategories = subCategories.filter(
+                (subCategory) => subCategory.parentCategoryId === selectedCategoryId
+            );
+            console.log('filteredSubCategories', filteredSubCategories);
+            setFilteredSubCategories(filteredSubCategories);
+        };
+            if (selectedCategoryId) {
+            fetchSubCategories();
+            };
+    }, [selectedCategoryId]);
+
+    useEffect(() => {
+        const fetchSuppliers = async () => {
+          const suppliers = await getAllSuppliers();
+            setSuppliers(suppliers.map((supplier) => supplier.name));
+          console.log('Suppliers fetched - useEffect suppliers', suppliers);
+        };
+        fetchSuppliers();
+      }, []);
+
+    const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormValues({...formValues, [name]: value});
-    }
+        setFormValues((prev) => ({ ...prev, [name]: value }));
+        // set selectedCategory to the id value of the selected category
+        if (name === 'material_category') {
+            setSelectedCategoryId(value);
+            console.log('selectedCategoryId', selectedCategoryId);
+        };
+        if (name === 'color') {
+            const selectedColor = colors.find((color) => color.name_ro === value);
+            setFormValues((prev) => ({
+                ...prev,
+                color: selectedColor.name_ro,
+            }));
+        }
+        if (name === 'unit_of_measure') {
+            const selectedUM = UMs.find((UM) => UM.abbreviation === value);
+            setFormValues((prev) => ({
+                ...prev,
+                unit_of_measure: selectedUM.abbreviation,
+            }));
+        }
+        else {
+            setFormValues((prev) => ({
+                ...prev,
+                [name]: value,
+            }));
+        }
+    };
 
-    const handleSwitchChange = (e) => {
-        const { name, checked } = e.target;
-        setFormValues({...formValues, [name]: checked});
-    }
+    const handleBack = () => {
+        navigate('/raw-materials');
+    };
 
-    const handleSupplierChange = (e, value) => {
-        setFormValues({...formValues, main_supplier: value});
-    }
-
-    const handleCategoryChange = (e, value) => {
-        setFormValues({...formValues, material_category: value});
-    }
-
-    const handleFormSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(updateRawMaterial(formValues));
-    }
+        const success = await addRawMaterial(formValues);
+        if (success) {
+        alert('Raw material added successfully');
+        setFormValues({
+            material_id: '',
+            name: '',
+            material_group: '',
+            material_type: '',
+            material_category: '',
+            material_subcategory: '',
+            color: '',
+            supplier_color: '',
+            size: '',
+            roll_width: '',
+            unit_of_measure: '',
+            price_per_unit: '',
+            lead_time: '',
+            main_supplier: '',
+        });
+        } else {
+        alert('Error adding raw material');
+        }
+    };
 
     return (
-        <>
-            <Container className={classes.root}>
-                <Paper className={classes.paper}>
-                    <Box
-                        sx={{ borderBottom: 1, borderColor: 'divider' }}
-                        style={{
-                            marginBottom: '2rem',
-                        }}
-                    >
-                        <Tabs value={tabValue}
-                            indicatorColor="primary"
-                            textColor="primary"
-
-                            onChange={handleTabChange}
-                        >
-                            <Tab label="Raw Material Details" />
-                            <Tab label="Models" />
-                            <Tab label="Stock" />
-                            <Tab label="Transactions" />
-                        </Tabs>
-                    </Box>
-                {tabValue === 0 && (
-                    <Box p={3}>
-                        <Typography variant="h4" component="h2" gutterBottom>
-                            Raw Material Details
-                        </Typography>
-                        <form className={classes.form} noValidate autoComplete="off" onSubmit={handleFormSubmit}>
-                            <Grid container spacing={3}>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        required
-                                        id="name"
-                                        name="name"
-                                        label="Name"
-                                        value={formValues.name}
-                                        onChange={handleInputChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        required
-                                        id="material_id"
-                                        name="material_id"
-                                        label="Material ID"
-                                        value={formValues.material_id}
-                                        onChange={handleInputChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        required
-                                        id="material_group"
-                                        name="material_group"
-                                        label="Material Group"
-                                        value={formValues.material_group}
-                                        onChange={handleInputChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <CategorySelector
-                                        categories={categories}
-                                        handleCategoryChange={handleCategoryChange}
-                                        material_category={formValues.material_category}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        required
-                                        id="material_subcategory"
-                                        name="material_subcategory"
-                                        label="Material Subcategory"
-                                        value={formValues.material_subcategory}
-                                        onChange={handleInputChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        required
-                                        id="material_type"
-                                        name="material_type"
-                                        label="Material Type"
-                                        value={formValues.material_type}
-                                        onChange={handleInputChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        id="color"
-                                        name="color"
-                                        label="Color"
-                                        value={formValues.color}
-                                        onChange={handleInputChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        id="supplier_color"
-                                        name="supplier_color"
-                                        label="Supplier Color"
-                                        value={formValues.supplier_color}
-                                        onChange={handleInputChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        id="size"
-                                        name="size"
-                                        label="Size"
-                                        value={formValues.size}
-                                        onChange={handleInputChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        id="roll_width"
-                                        name="roll_width"
-                                        label="Roll Width"
-                                        value={formValues.roll_width}
-                                        onChange={handleInputChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    {/* Select Unit of Measure */}
-                                    <TextField
-                                        id="unit_of_measure"
-                                        name="unit_of_measure"
-                                        label="Unit of Measure"
-                                        value={formValues.unit_of_measure}
-                                        onChange={handleInputChange}
-                                    />                                   
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <SupplierSelector
-                                        suppliers={suppliers}
-                                        handleSupplierChange={handleSupplierChange}
-                                        main_supplier={formValues.main_supplier}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        id="lead_time"
-                                        name="lead_time"
-                                        label="Lead Time"
-                                        value={formValues.lead_time}
-                                        onChange={handleInputChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        id="price_per_unit"
-                                        name="price_per_unit"
-                                        label="Price per unit"
-                                        value={formValues.price_per_unit}
-                                        onChange={handleInputChange}
-                                    />
-                                </Grid>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    size="large"
-                                    className={classes.button}
-                                    startIcon={<SaveIcon />}
-                                    type="submit"
+        <Container
+            style={{
+                paddingBottom: '2rem',
+            }}
+        >
+            <Button variant="contained" color="primary" onClick={handleBack}
+                style={{
+                    marginTop: '1rem',
+                    marginBottom: '1rem',
+                }}
+                >
+                Back
+            </Button>
+            <Paper
+                elevation={4}
+                className={classes.paper}
+                style={{ 
+                    padding: '3rem',
+                    marginVertical: '2rem',
+                }}
+            >
+                <Typography variant="h4">Add New Raw Material</Typography>
+                <form className={classes.form} onSubmit={handleSubmit}>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} md={6}> 
+                            <TextField
+                            required
+                            fullWidth
+                            label="Material ID"
+                            name="material_id"
+                            value={formValues.material_id}
+                            onChange={handleChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={6}> 
+                            <TextField
+                            required
+                            fullWidth
+                            label="Name"
+                            name="name"
+                            value={formValues.name}
+                            onChange={handleChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={6}> 
+                            <TextField
+                            required
+                            fullWidth
+                            label="Group"
+                            name="material_group"
+                            value={formValues.material_group}
+                            onChange={handleChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={6}> 
+                            <TextField
+                            required
+                            fullWidth
+                            label="Type"
+                            name="material_type"
+                            value={formValues.type}
+                            onChange={handleChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={6}> 
+                            <FormControl required fullWidth>
+                                <InputLabel id="material-category-label">Category</InputLabel>
+                                <Select
+                                labelId="material-category-label"
+                                name="material_category"
+                                value={formValues.material_category}
+                                onChange={handleChange}
                                 >
-                                    Save
-                                </Button>
-                            </Grid>
-                        </form>
-                    </Box>
-                )}
-                {tabValue === 1 && (
-                    <Box p={3}>
-                        <Typography variant="h4" component="h2" gutterBottom>
-                            Models
-                        </Typography>
-                        <ModelTable />
-                    </Box>
-                )}
-                {tabValue === 2 && (
-                    <Box p={3}>
-                        <Typography variant="h4" component="h2" gutterBottom>
-                            Stock
-                        </Typography>
-                        <StockTable />
-                    </Box>
-                )}
-                {tabValue === 3 && (
-                    <Box p={3}>
-                        <Typography variant="h4" component="h2" gutterBottom>
-                            Transactions
-                        </Typography>
-                        <TransactionsTable />
-                    </Box>
-                )}
-                </Paper>
-            </Container>
-        </>
-    )
-}
-
-export default RawMaterialPage;
-
-
-
-
-
+                                {categories.map((category) => (
+                                    <MenuItem key={category.id} value={category.id}>
+                                    {category.name}
+                                    </MenuItem>
+                                ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} md={6}> 
+                            <FormControl required fullWidth>
+                                <InputLabel id="material-subcategory-label">Subcategory</InputLabel>
+                                <Select
+                                labelId="material-subcategory-label"
+                                name="material_subcategory"
+                                value={formValues.material_subcategory}
+                                onChange={handleChange}
+                                >
+                                {filteredSubCategories.map((filteredSubCategory) => (
+                                    <MenuItem key={filteredSubCategory.id} value={filteredSubCategory.id}>
+                                    {filteredSubCategory.name}
+                                    </MenuItem>
+                                ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} md={6}
+                            style={
+                                {
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                }
+                            }>
+                                <FormControl
+                                    required fullWidth
+                                    >
+                                    <InputLabel id="color-label">Color</InputLabel>
+                                    <Select
+                                        labelId="color-label"
+                                        name="color"
+                                        value={formValues.color}
+                                        onChange={handleChange}
+                                        inputProps={{
+                                            name: 'color',
+                                          }}
+                                    >
+                                        {colors.map((color) => (
+                                            <MenuItem key={color.id} value={color.name_ro} >
+                                                <div
+                                                    style={{
+                                                        display: 'flex',
+                                                        flexDirection: 'row',
+                                                        width: '100%',
+                                                        justifyContent: 'space-between',
+                                                    }}
+                                                >
+                                                    {color.name_ro}
+                                                    <div style={{
+                                                        background: color.gradient ? `linear-gradient(180deg, ${color.display_color_code} 0%, #000000 100%)` : color.display_color_code,
+                                                        width: '1.5rem',
+                                                        height: '1.5rem',
+                                                        borderRadius: '50%',
+                                                    }}/>
+                                                </div>
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                        </Grid>
+                        <Grid item xs={12} md={6}> 
+                            <TextField
+                            required
+                            fullWidth
+                            label="Supplier Color"
+                            name="supplier_color"
+                            value={formValues.supplier_color}
+                            onChange={handleChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={6}> 
+                            <TextField
+                            required
+                            fullWidth
+                            label="Size"
+                            name="size"
+                            value={formValues.size}
+                            onChange={handleChange}
+                            />
+                        </Grid>
+                        {/* 
+                        Only show the roll width field if the type is roll
+                        */}
+                        <Grid item xs={12} md={6}> 
+                            <TextField
+                            required
+                            fullWidth
+                            label="Roll Width"
+                            name="roll_width"
+                            type="number"
+                            value={formValues.roll_width}
+                            onChange={handleChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                                <FormControl
+                                    required fullWidth
+                                    >
+                                    <InputLabel id="um-label">UM</InputLabel>
+                                    <Select
+                                        labelId="um-label"
+                                        name="um"
+                                        value={formValues.unit_of_measure}
+                                        onChange={handleChange}
+                                        inputProps={{
+                                            name: 'unit_of_measure',
+                                          }}
+                                    >
+                                        {UMs.map((UM) => (
+                                            <MenuItem key={UM.id} value={UM.abbreviation} >
+                                                {UM.abbreviation}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                        </Grid>
+                        <Grid item xs={12} md={6}> 
+                            <TextField
+                            required
+                            fullWidth
+                            label="Price per unit"
+                            name="price_per_unit"
+                            type="number"
+                            value={formValues.price_per_unit}
+                            onChange={handleChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={6}> 
+                            <TextField
+                            required
+                            fullWidth
+                            label="Lead Time (days)"
+                            name="lead_time"
+                            type="number"
+                            value={formValues.lead_time}
+                            onChange={handleChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={6}> 
+                            <ComboBox options={suppliers} label="Main Supplier"/>
+                        </Grid>            
+                        <Grid item xs={6}>
+                            <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            className={classes.submitButton}
+                            >
+                            Add Raw Material
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </form>
+            </Paper>
+        </Container>
+    );
+};
+  
+export default NewRawMaterialPage;
