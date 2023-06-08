@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   Container,
   Grid,
@@ -20,6 +20,7 @@ import { fetchSubCategories } from '../../features/subCategories/subCategoriesSl
 import { fetchColors } from '../../features/colors/colorsSlice';
 import { fetchSuppliers } from '../../features/suppliers/suppliersSlice';
 import { fetchRawMaterials, addRawMaterial } from '../../features/rawMaterials/rawMaterialsSlice';
+import { addSupplierMaterial } from '../../features/supplierMaterials/supplierMaterialsSlice';
 import { fetchUMs } from '../../features/UM/UMSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { Style } from '@material-ui/icons';
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   
 const NewRawMaterialPage = () => {
 
-    const { id } = useParams();
+    const rawMaterials = useSelector((state) => state.rawMaterials.data);
     const classes = useStyles();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -46,7 +47,6 @@ const NewRawMaterialPage = () => {
     const categories = useSelector((state) => state.categories.data);
     const subCategories = useSelector((state) => state.subCategories.data);
     const suppliers = useSelector((state) => state.suppliers.data);
-    const rawMaterials = useSelector((state) => state.rawMaterials.data);
     const [formValues, setFormValues] = useState({
         material_id: '',
         name: '',
@@ -57,7 +57,7 @@ const NewRawMaterialPage = () => {
         color: '',
         supplier_color: '',
         size: '',
-        roll_width: '',
+        roll_width: null,
         unit_of_measure: '',
         price_per_unit: '',
         lead_time: '',
@@ -65,14 +65,18 @@ const NewRawMaterialPage = () => {
     });
     const [selectedCategoryId, setSelectedCategoryId] = useState('');
     const [filteredSubCategories, setFilteredSubCategories] = useState([]);
+    const [selectedSuppliers, setSelectedSuppliers] = useState([]);
+    const [currentId, setCurrentId] = useState(0);
+    console.log('selectedSuppliers', selectedSuppliers);
+    console.log('currentId', currentId);
 
     useEffect(() => {
+        dispatch(fetchRawMaterials());
         dispatch(fetchColors());
         dispatch(fetchUMs());
         dispatch(fetchCategories());
         dispatch(fetchSubCategories());
         dispatch(fetchSuppliers());
-        dispatch(fetchRawMaterials());
         console.log('Colors fetched - useEffect materials', colors);
     }, [dispatch]);
 
@@ -85,6 +89,19 @@ const NewRawMaterialPage = () => {
             fetchSubCategories();
             };
     }, [selectedCategoryId]);
+
+    useEffect(() => {
+        if (rawMaterials.length > 0) {
+            console.log('rawMaterials', rawMaterials);
+            const maxId = Math.max(...rawMaterials.map(material => material.id));
+            console.log('maxId', maxId);
+            setCurrentId(maxId + 1);
+            console.log('currentId', currentId);
+        } else {
+            console.log('rawMaterials is empty', rawMaterials);
+            setCurrentId(undefined);
+        }
+    }, [rawMaterials]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -108,13 +125,6 @@ const NewRawMaterialPage = () => {
                 unit_of_measure: selectedUM.abbreviation,
             }));
         }
-        if (name === 'main_supplier') {
-            const selectedSuppliers = suppliers.find((supplier) => supplier.name === value);
-            setFormValues((prev) => ({
-                ...prev,
-                main_supplier: selectedSuppliers.name,
-            }));
-        }
         else {
             setFormValues((prev) => ({
                 ...prev,
@@ -132,6 +142,9 @@ const NewRawMaterialPage = () => {
         const success = dispatch(addRawMaterial(formValues));
         if (success) {
         alert('Raw material added successfully');
+        selectedSuppliers.forEach(supplier => {
+            dispatch(addSupplierMaterial({ supplierId: supplier.id, materialId: currentId }));
+        });
         setFormValues({
             material_id: '',
             name: '',
@@ -142,7 +155,7 @@ const NewRawMaterialPage = () => {
             color: '',
             supplier_color: '',
             size: '',
-            roll_width: '',
+            roll_width: null,
             unit_of_measure: '',
             price_per_unit: '',
             lead_time: '',
@@ -384,7 +397,9 @@ const NewRawMaterialPage = () => {
                                     multiple
                                     id="combo-box"
                                     name="main_supplier"
-                                    options={suppliers.map((supplier) => supplier.name)}
+                                    options={suppliers}
+                                    getOptionLabel={(option) => option.name}
+                                    onChange={(event, value) => setSelectedSuppliers(value)}
                                     renderInput={(params) =>
                                         <TextField {...params} label={"Main Supplier(s)"} variant="standard"/>
                                     }

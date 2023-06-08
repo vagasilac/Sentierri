@@ -1,104 +1,156 @@
-import { createSlice } from '@reduxjs/toolkit';
-import * as supplierCategoryService from '../../services/supplierCategoryService';
+import { createSlice } from "@reduxjs/toolkit";
+import * as supplierMaterialService from "../../services/supplierMaterialService";
 
-const supplierCategoriesSlice = createSlice({
-  name: 'supplierCategories',
+const supplierMaterialsSlice = createSlice({
+  name: "supplierMaterials",
   initialState: {
     loading: false,
     data: [],
     error: null,
   },
   reducers: {
-    fetchSupplierCategoriesRequest: (state) => {
-        state.loading = true;
+    fetchSupplierMaterialsRequest: (state) => {
+      state.loading = true;
     },
-    fetchSupplierCategoriesSuccess: (state, action) => {
-        state.loading = false;
-        state.data = action.payload;
-        state.error = null;
+    fetchSupplierMaterialsSuccess: (state, action) => {
+      state.loading = false;
+      state.data = action.payload;
+      state.error = null;
     },
-    fetchSupplierCategoriesFailure: (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+    fetchSupplierMaterialsFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
     },
-    addSupplierCategoryRequest: (state) => {
-        state.loading = true;
-        },
-    addSupplierCategorySuccess: (state, action) => {
-        state.loading = false;
-        state.data = [...state.data, action.payload];
-        state.error = null;
-        },
-    addSupplierCategoryFailure: (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-        },
-    removeSupplierCategoryRequest: (state) => {
-        state.loading = true;
-        },
-    removeSupplierCategorySuccess: (state, action) => {
-        state.loading = false;
-        state.data = [...state.data, action.payload];
-        state.error = null;
-        },
-    removeSupplierCategoryFailure: (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-        }
+    fetchSupplierMaterialsBySupplierIdRequest: (state) => {
+      state.loading = true;
+    },
+    fetchSupplierMaterialsBySupplierIdSuccess: (state, action) => {
+      state.loading = false;
+      state.data = action.payload;
+      state.error = null;
+    },
+    fetchSupplierMaterialsBySupplierIdFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    fetchSupplierMaterialsByMaterialIdRequest: (state) => {
+      state.loading = true;
+    },
+    fetchSupplierMaterialsByMaterialIdSuccess: (state, action) => {
+      state.loading = false;
+      state.data = action.payload;
+      state.error = null;
+    },
+    fetchSupplierMaterialsByMaterialIdFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    addSupplierMaterialRequest: (state) => {
+      state.loading = true;
+    },
+    addSupplierMaterialSuccess: (state, action) => {
+      state.loading = false;
+      state.data = [...state.data, action.payload];
+      state.error = null;
+    },
+    addSupplierMaterialFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    removeSupplierMaterialRequest: (state) => {
+      state.loading = true;
+    },
+    removeSupplierMaterialSuccess: (state, action) => {
+      state.loading = false;
+      state.data = state.data.filter(
+        (supplierMaterial) =>
+          supplierMaterial.id !== action.payload.id
+      );
+      state.error = null;
+    },
+    removeSupplierMaterialFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
 export const {
-    fetchSupplierCategoriesRequest,
-    fetchSupplierCategoriesSuccess,
-    fetchSupplierCategoriesFailure,
-    addSupplierCategoryRequest,
-    addSupplierCategorySuccess,
-    addSupplierCategoryFailure,
-    removeSupplierCategoryRequest,
-    removeSupplierCategorySuccess,
-    removeSupplierCategoryFailure
-} = supplierCategoriesSlice.actions;
+  fetchSupplierMaterialsRequest,
+  fetchSupplierMaterialsSuccess,
+  fetchSupplierMaterialsFailure,
+  fetchSupplierMaterialsBySupplierIdRequest,
+  fetchSupplierMaterialsBySupplierIdSuccess,
+  fetchSupplierMaterialsBySupplierIdFailure,
+  fetchSupplierMaterialsByMaterialIdRequest,
+  fetchSupplierMaterialsByMaterialIdSuccess,
+  fetchSupplierMaterialsByMaterialIdFailure,
+  addSupplierMaterialRequest,
+  addSupplierMaterialSuccess,
+  addSupplierMaterialFailure,
+  removeSupplierMaterialRequest,
+  removeSupplierMaterialSuccess,
+  removeSupplierMaterialFailure,
+} = supplierMaterialsSlice.actions;
 
-export const fetchSupplierCategories = () => {
+export const fetchSupplierMaterials = () => {
   return async (dispatch) => {
-    dispatch(fetchSupplierCategoriesRequest());
+    dispatch(fetchSupplierMaterialsRequest());
     try {
-      const supplierCategories = await supplierCategoryService.getAllSupplierCategories();
-      dispatch(fetchSupplierCategoriesSuccess(supplierCategories));
+      const supplierMaterials = await supplierMaterialService.getAllSupplierMaterials();
+      dispatch(fetchSupplierMaterialsSuccess(supplierMaterials));
     } catch (error) {
-      dispatch(fetchSupplierCategoriesFailure(error));
+      dispatch(fetchSupplierMaterialsFailure(error));
     }
   };
-};
+}
 
-// addSupplierCategory
-export const addSupplierCategory = (supplierId, categoryId) => {
+export const fetchSupplierMaterialsBySupplierId = (supplierId) => {
   return async (dispatch) => {
-    dispatch(addSupplierCategoryRequest());
+    dispatch(fetchSupplierMaterialsBySupplierIdRequest());
     try {
-      const response = await supplierCategoryService.addSupplierCategory(supplierId, categoryId);
-      dispatch(addSupplierCategorySuccess(response.data));
+      const supplierMaterials = await supplierMaterialService.getSupplierMaterialsBySupplierId(supplierId);
+      dispatch(fetchSupplierMaterialsBySupplierIdSuccess(supplierMaterials));
     } catch (error) {
-      dispatch(addSupplierCategoryFailure(error));
+      dispatch(fetchSupplierMaterialsBySupplierIdFailure(error));
     }
   };
-};
+}
 
-
-
-// removeSupplierCategory
-export const removeSupplierCategory = (supplierId, categoryId) => {
+export const fetchSupplierMaterialsByMaterialId = (materialId) => {
   return async (dispatch) => {
-      dispatch(removeSupplierCategoryRequest());
-      try {
-          const removedSupplierCategory = await supplierCategoryService.removeSupplierCategory(supplierId, categoryId);
-          dispatch(removeSupplierCategorySuccess(removedSupplierCategory));
-      } catch (error) {
-          dispatch(removeSupplierCategoryFailure(error));
-      }
+    dispatch(fetchSupplierMaterialsByMaterialIdRequest());
+    try {
+      const supplierMaterials = await supplierMaterialService.getSupplierMaterialsByMaterialId(materialId);
+      dispatch(fetchSupplierMaterialsByMaterialIdSuccess(supplierMaterials));
+    } catch (error) {
+      dispatch(fetchSupplierMaterialsByMaterialIdFailure(error));
+    }
   };
-};
+}
 
+export const addSupplierMaterial = (supplierId, materialId) => {
+  return async (dispatch) => {
+    dispatch(addSupplierMaterialRequest());
+    try {
+      const response = await supplierMaterialService.addSupplierMaterial(supplierId, materialId);
+      dispatch(addSupplierMaterialSuccess(response.data));
+    } catch (error) {
+      dispatch(addSupplierMaterialFailure(error));
+    }
+  };
+}
 
-export default supplierCategoriesSlice.reducer;
+export const removeSupplierMaterial = (supplierId, materialId) => {
+  return async (dispatch) => {
+    dispatch(removeSupplierMaterialRequest());
+    try {
+      const removedSupplierMaterial = await supplierMaterialService.removeSupplierMaterial(supplierId, materialId);
+      dispatch(removeSupplierMaterialSuccess(removedSupplierMaterial));
+    } catch (error) {
+      dispatch(removeSupplierMaterialFailure(error));
+    }
+  };
+}
+
+export default supplierMaterialsSlice.reducer;

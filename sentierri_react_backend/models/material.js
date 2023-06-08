@@ -59,10 +59,6 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      main_supplier: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
     },
     {
       sequelize,
