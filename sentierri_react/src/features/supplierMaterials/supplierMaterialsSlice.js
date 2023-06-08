@@ -6,6 +6,7 @@ const supplierMaterialsSlice = createSlice({
   initialState: {
     loading: false,
     data: [],
+    byMaterialId: {},
     error: null,
   },
   reducers: {
@@ -38,7 +39,8 @@ const supplierMaterialsSlice = createSlice({
     },
     fetchSupplierMaterialsByMaterialIdSuccess: (state, action) => {
       state.loading = false;
-      state.data = action.payload;
+      // state.data = action.payload;
+      state.byMaterialId[action.payload.materialId] = action.payload;
       state.error = null;
     },
     fetchSupplierMaterialsByMaterialIdFailure: (state, action) => {

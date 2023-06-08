@@ -59,7 +59,7 @@ const getSupplierMaterialsByMaterialId = async (req, res) => {
   const { materialId } = req.params;
   try {
     const supplierMaterials = await SupplierMaterial.findAll({
-      where: { materialId }
+      where: { materialId: materialId }
     });
     if (supplierMaterials) {
       res.status(200).json(supplierMaterials);
@@ -67,6 +67,11 @@ const getSupplierMaterialsByMaterialId = async (req, res) => {
       res.status(404).json({ message: 'Supplier-material relations not found' });
     }
   } catch (error) {
+    // error stack
+    console.log('supplierMaterialController.js: getSupplierMaterialsByMaterialId - error', error);
+    // error message
+    console.log('supplierMaterialController.js: getSupplierMaterialsByMaterialId - error.message', error.message);
+    console.log('supplierMaterialController.js: getSupplierMaterialsByMaterialId - error.message', error.stack);
     res.status(500).json({ message: 'Error retrieving supplier-material relations' });
   }
 }

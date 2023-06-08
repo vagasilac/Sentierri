@@ -13,8 +13,8 @@ const {
 
 console.log('supplierMaterialRoutes.js: before router.get()');
 router.get('/supplier-material/', getAllSupplierMaterials);
-router.get('/supplier-material/:supplierId', getSupplierMaterialsBySupplierId);
-router.get('/supplier-material/:materialId', getSupplierMaterialsByMaterialId);
+router.get('/supplier-materials/supplier/:supplierId', getSupplierMaterialsBySupplierId);
+router.get('/supplier-materials/material/:materialId', getSupplierMaterialsByMaterialId);
 router.get('/supplier-material/:supplierId/:materialId', getSupplierMaterialById);
 router.post('/supplier-material/:supplierId/:materialId', createSupplierMaterial);
 router.put('/supplier-material/:supplierId/:materialId', updateSupplierMaterial);

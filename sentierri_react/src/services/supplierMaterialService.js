@@ -31,7 +31,7 @@ export const addSupplierMaterial = async (supplierId, materialId) => {
 // getAllSupplierMaterials
 export const getAllSupplierMaterials = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/suppliermaterials`);
+    const response = await axios.get(`${API_BASE_URL}/supplier-materials`);
     console.log("response.data:", response);
     return response.data;
   } catch (error) {
@@ -60,7 +60,7 @@ export const removeSupplierMaterial = async (supplierId, materialId) => {
 export const getSupplierMaterialsBySupplierId = async (supplierId) => {
   try {
     const response = await axios.get(
-      `${API_BASE_URL}/supplier-materials/${supplierId}`
+      `${API_BASE_URL}/supplier-materials/supplier/${supplierId}`
     );
     return response.data;
   } catch (error) {
