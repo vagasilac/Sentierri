@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   Container,
   Grid,
@@ -15,7 +15,6 @@ import {
 } from '@material-ui/core';
 import Autocomplete from '@mui/material/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
-import { getAllSuppliers } from '../../services/supplierService';
 import { fetchCategories } from '../../features/categories/categoriesSlice';
 import { fetchSubCategories } from '../../features/subCategories/subCategoriesSlice';
 import { fetchColors } from '../../features/colors/colorsSlice';
@@ -23,7 +22,6 @@ import { fetchSuppliers } from '../../features/suppliers/suppliersSlice';
 import { fetchRawMaterials, addRawMaterial } from '../../features/rawMaterials/rawMaterialsSlice';
 import { fetchUMs } from '../../features/UM/UMSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import ComboBox from '../common/ComboBox';
 import { Style } from '@material-ui/icons';
 
 // TODO: validation (duplicate material_id, name, etc., required fields, etc., numeric fields, etc.)
@@ -39,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
   
 const NewRawMaterialPage = () => {
 
+    const { id } = useParams();
     const classes = useStyles();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -110,10 +109,10 @@ const NewRawMaterialPage = () => {
             }));
         }
         if (name === 'main_supplier') {
-            const selectedSupplier = suppliers.find((supplier) => supplier.name === value);
+            const selectedSuppliers = suppliers.find((supplier) => supplier.name === value);
             setFormValues((prev) => ({
                 ...prev,
-                main_supplier: selectedSupplier.name,
+                main_supplier: selectedSuppliers.name,
             }));
         }
         else {

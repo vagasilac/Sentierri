@@ -3,7 +3,6 @@ import suppliersReducer from '../features/suppliers/suppliersSlice';
 import categoriesReducer from '../features/categories/categoriesSlice';
 import subCategoriesReducer from '../features/subCategories/subCategoriesSlice';
 import agentRelationsSlice from '../features/agentRelations/agentRelationsSlice';
-import subCategoriesReducer from '../features/subCategories/subCategorySlice';
 import UMReducer from '../features/UM/UMSlice';
 import supplierCategoriesReducer from '../features/supplierCategories/supplierCategoriesSlice';
 import supplierMaterialsReducer from '../features/supplierMaterials/supplierMaterialsSlice';
