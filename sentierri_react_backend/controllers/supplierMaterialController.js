@@ -123,6 +123,8 @@ module.exports = {
   createSupplierMaterial,
   getAllSupplierMaterials,
   getSupplierMaterialById,
+  getSupplierMaterialsBySupplierId,
+  getSupplierMaterialsByMaterialId,
   updateSupplierMaterial,
   deleteSupplierMaterial,
 };

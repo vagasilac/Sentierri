@@ -61,7 +61,6 @@ const NewRawMaterialPage = () => {
         unit_of_measure: '',
         price_per_unit: '',
         lead_time: '',
-        main_supplier: '',
     });
     const [selectedCategoryId, setSelectedCategoryId] = useState('');
     const [filteredSubCategories, setFilteredSubCategories] = useState([]);
@@ -147,32 +146,33 @@ const NewRawMaterialPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const success = dispatch(addRawMaterial(formValues));
-        if (success) {
-        alert('Raw material added successfully');
-        selectedSuppliers.forEach(supplier => {
-            dispatch(addSupplierMaterial(supplier.id, currentId));
-        });
-        setFormValues({
-            material_id: '',
-            name: '',
-            material_group: '',
-            material_type: '',
-            material_category: '',
-            material_subcategory: '',
-            color: '',
-            supplier_color: '',
-            size: '',
-            roll_width: null,
-            unit_of_measure: '',
-            price_per_unit: '',
-            lead_time: '',
-            main_supplier: '',
-        });
-        setSelectedSuppliers([]);
-        } else {
-        alert('Error adding raw material');
-        }
+        dispatch(addRawMaterial(formValues))
+            .then(() => {
+                alert('Raw material added successfully');
+                selectedSuppliers.forEach(supplier => {
+                    dispatch(addSupplierMaterial(supplier.id, currentId));
+                });
+                dispatch(addSupplierMaterial(2, 7));
+                setFormValues({
+                    material_id: '',
+                    name: '',
+                    material_group: '',
+                    material_type: '',
+                    material_category: '',
+                    material_subcategory: '',
+                    color: '',
+                    supplier_color: '',
+                    size: '',
+                    roll_width: null,
+                    unit_of_measure: '',
+                    price_per_unit: '',
+                    lead_time: '',
+                });
+                setSelectedSuppliers([]);
+            })
+            .catch(() => {
+                alert('Error adding raw material');
+            });
     };
 
     return (

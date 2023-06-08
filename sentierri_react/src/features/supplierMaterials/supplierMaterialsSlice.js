@@ -49,6 +49,7 @@ const supplierMaterialsSlice = createSlice({
       state.loading = true;
     },
     addSupplierMaterialSuccess: (state, action) => {
+      console.log('supplierMaterialsSlice.js: addSupplierMaterialSuccess: action.payload: ', action.payload);
       state.loading = false;
       state.data = [...state.data, action.payload];
       state.error = null;

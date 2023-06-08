@@ -11,6 +11,7 @@ const {
   deleteSupplierMaterial,
 } = require('../controllers/supplierMaterialController');
 
+console.log('supplierMaterialRoutes.js: before router.get()');
 router.get('/', getAllSupplierMaterials);
 router.get('/:supplierId', getSupplierMaterialsBySupplierId);
 router.get('/:materialId', getSupplierMaterialsByMaterialId);
