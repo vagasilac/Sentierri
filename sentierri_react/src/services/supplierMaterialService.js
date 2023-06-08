@@ -5,7 +5,7 @@ import { API_BASE_URL } from "../config";
 export const getSupplierMaterial = async (supplierId, materialId) => {
   try {
     const response = await axios.get(
-      `${API_BASE_URL}/suppliermaterials/${supplierId}/${materialId}`
+      `${API_BASE_URL}/supplier-materials/${supplierId}/${materialId}`
     );
     return response.data;
   } catch (error) {
@@ -19,7 +19,7 @@ export const addSupplierMaterial = async (supplierId, materialId) => {
   console.log('supplierMaterialService addSupplierMaterial','supplierId:', supplierId, 'materialId:', materialId);
   try {
     const response = await axios.post(
-      `${API_BASE_URL}/suppliermaterials/${supplierId}/${materialId}`
+      `${API_BASE_URL}/supplier-materials/${supplierId}/${materialId}`
     );
     return response.status === 201; // Return true if the status code is 201 (Created)
   } catch (error) {
@@ -44,7 +44,7 @@ export const getAllSupplierMaterials = async () => {
 export const removeSupplierMaterial = async (supplierId, materialId) => {
   try {
     const response = await axios.delete(
-      `${API_BASE_URL}/suppliermaterials/${supplierId}/${materialId}`
+      `${API_BASE_URL}/supplier-materials/${supplierId}/${materialId}`
     );
     if (response.status !== 200) {
       throw new Error("Failed to delete supplier material");
@@ -60,7 +60,7 @@ export const removeSupplierMaterial = async (supplierId, materialId) => {
 export const getSupplierMaterialsBySupplierId = async (supplierId) => {
   try {
     const response = await axios.get(
-      `${API_BASE_URL}/suppliermaterials/${supplierId}`
+      `${API_BASE_URL}/supplier-materials/${supplierId}`
     );
     return response.data;
   } catch (error) {
@@ -73,7 +73,7 @@ export const getSupplierMaterialsBySupplierId = async (supplierId) => {
 export const getSupplierMaterialsByMaterialId = async (materialId) => {
   try {
     const response = await axios.get(
-      `${API_BASE_URL}/suppliermaterials/material/${materialId}`
+      `${API_BASE_URL}/supplier-materials/material/${materialId}`
     );
     return response.data;
   } catch (error) {

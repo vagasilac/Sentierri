@@ -148,11 +148,16 @@ const NewRawMaterialPage = () => {
         e.preventDefault();
         dispatch(addRawMaterial(formValues))
             .then(() => {
-                alert('Raw material added successfully');
-                selectedSuppliers.forEach(supplier => {
-                    dispatch(addSupplierMaterial(supplier.id, currentId));
+                // Create an array of promises for each addSupplierMaterial dispatch
+                const supplierMaterialPromises = selectedSuppliers.map(supplier => {
+                    return dispatch(addSupplierMaterial(supplier.id, currentId));
                 });
-                dispatch(addSupplierMaterial(2, 7));
+    
+                // Use Promise.all to wait for all addSupplierMaterial dispatches to resolve
+                return Promise.all(supplierMaterialPromises);
+            })
+            .then(() => {
+                // This block will only run after all addSupplierMaterial dispatches have resolved
                 setFormValues({
                     material_id: '',
                     name: '',
@@ -174,6 +179,7 @@ const NewRawMaterialPage = () => {
                 alert('Error adding raw material');
             });
     };
+    
 
     return (
         <Container
