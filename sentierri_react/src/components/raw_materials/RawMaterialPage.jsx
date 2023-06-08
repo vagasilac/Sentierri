@@ -20,7 +20,7 @@ import { fetchSubCategories } from '../../features/subCategories/subCategoriesSl
 import { fetchColors } from '../../features/colors/colorsSlice';
 import { fetchSuppliers } from '../../features/suppliers/suppliersSlice';
 import { fetchRawMaterials, addRawMaterial } from '../../features/rawMaterials/rawMaterialsSlice';
-import { addSupplierMaterial, fetchSupplierMaterials } from '../../features/supplierMaterials/supplierMaterialsSlice';
+import { addSupplierMaterial, fetchSupplierMaterialsByMaterialId } from '../../features/supplierMaterials/supplierMaterialsSlice';
 import { fetchUMs } from '../../features/UM/UMSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { Style } from '@material-ui/icons';
@@ -50,10 +50,7 @@ const RawMaterialPage = () => {
     const categories = useSelector((state) => state.categories.data);
     const subCategories = useSelector((state) => state.subCategories.data);
     const suppliers = useSelector((state) => state.suppliers.data);
-    const supplierMaterials = useSelector((state) => state.supplierMaterials.data);
-    const suppliersOfMaterial = supplierMaterials?.filter(
-        (supplierMaterial) => supplierMaterial.material_id === numId
-    );
+    const suppliersOfMaterial = useSelector((state) => state.supplierMaterials.data.filter(supplierMaterial => supplierMaterial.material_id === numId));
     console.log('suppliersOfMaterial', suppliersOfMaterial);
 
     const [formValues, setFormValues] = useState({
@@ -70,6 +67,7 @@ const RawMaterialPage = () => {
         unit_of_measure: '',
         price_per_unit: '',
         lead_time: '',
+        main_supplier: '',
     });
     const [selectedCategoryId, setSelectedCategoryId] = useState('');
     const [filteredSubCategories, setFilteredSubCategories] = useState([]);
@@ -82,7 +80,7 @@ const RawMaterialPage = () => {
         dispatch(fetchCategories());
         dispatch(fetchSubCategories());
         dispatch(fetchSuppliers());
-        dispatch(fetchSupplierMaterials);
+        dispatch(fetchSupplierMaterialsByMaterialId(numId));
         console.log('Colors fetched - useEffect materials', colors);
     }, [dispatch]);
 
