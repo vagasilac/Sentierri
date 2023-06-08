@@ -25,11 +25,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SupplierPage = () => {
+    
+    const classes = useStyles();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const { id } = useParams();
     const numId = Number(id);
-    const navigate = useNavigate();
-    const classes = useStyles();
-    const dispatch = useDispatch();
     const [tabValue, setTabValue] = useState(0);
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
@@ -77,12 +78,7 @@ const SupplierPage = () => {
     const filteredAgents = suppliers.filter(supplier => {
         return supplier.isAgent;
       });
-
-    console.log('filteredSuppliers in SupplierPage', filteredSuppliers);
-    console.log('associateSuppliers', associateSuppliers);
-    console.log('associateSuppliers.map(supplier => supplier.name)', associateSuppliers.map(supplier => supplier.name));
-    console.log('formValues.associateSuppliers', formValues.associateSuppliers);
-    
+ 
     
     useEffect(() => {
         const fetchData = async () => {
@@ -497,7 +493,7 @@ const SupplierPage = () => {
                                         <Autocomplete
                                         multiple
                                         id="tags-outlined"
-                                        options={filteredAgents} // You need to define this array of agents
+                                        options={filteredAgents}
                                         getOptionLabel={(option) => option.name}
                                         getOptionSelected={(option, value) =>
                                             option.id === value.id
