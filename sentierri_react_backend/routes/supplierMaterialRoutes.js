@@ -12,12 +12,12 @@ const {
 } = require('../controllers/supplierMaterialController');
 
 console.log('supplierMaterialRoutes.js: before router.get()');
-router.get('/', getAllSupplierMaterials);
-router.get('/:supplierId', getSupplierMaterialsBySupplierId);
-router.get('/:materialId', getSupplierMaterialsByMaterialId);
-router.get('/:supplierId/:materialId', getSupplierMaterialById);
-router.post('/:supplierId/:materialId', createSupplierMaterial);
-router.put('/:supplierId/:materialId', updateSupplierMaterial);
-router.delete('/:supplierId/:materialId', deleteSupplierMaterial);
+router.get('/supplier-material/', getAllSupplierMaterials);
+router.get('/supplier-material/:supplierId', getSupplierMaterialsBySupplierId);
+router.get('/supplier-material/:materialId', getSupplierMaterialsByMaterialId);
+router.get('/supplier-material/:supplierId/:materialId', getSupplierMaterialById);
+router.post('/supplier-material/:supplierId/:materialId', createSupplierMaterial);
+router.put('/supplier-material/:supplierId/:materialId', updateSupplierMaterial);
+router.delete('/supplier-material/:supplierId/:materialId', deleteSupplierMaterial);
 
 module.exports = router;
