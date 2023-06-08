@@ -2,17 +2,21 @@ const express = require('express');
 const router = express.Router();
 
 const {
-  createSupplierCategory,
-  getAllSupplierCategories,
-  getSupplierCategoryById,
-  updateSupplierCategory,
-  deleteSupplierCategory,
-} = require('../controllers/supplierCategoryController');
+  createSupplierMaterial,
+  getAllSupplierMaterials,
+  getSupplierMaterialById,
+  getSupplierMaterialsBySupplierId,
+  getSupplierMaterialsByMaterialId,
+  updateSupplierMaterial,
+  deleteSupplierMaterial,
+} = require('../controllers/supplierMaterialController');
 
-router.get('/', getAllSupplierCategories);
-router.get('/:supplierId/:categoryId', getSupplierCategoryById);
-router.post('/:supplierId/:categoryId', createSupplierCategory);
-router.put('/:supplierId/:categoryId', updateSupplierCategory);
-router.delete('/:supplierId/:categoryId', deleteSupplierCategory);
+router.get('/', getAllSupplierMaterials);
+router.get('/:supplierId', getSupplierMaterialsBySupplierId);
+router.get('/:materialId', getSupplierMaterialsByMaterialId);
+router.get('/:supplierId/:materialId', getSupplierMaterialById);
+router.post('/:supplierId/:materialId', createSupplierMaterial);
+router.put('/:supplierId/:materialId', updateSupplierMaterial);
+router.delete('/:supplierId/:materialId', deleteSupplierMaterial);
 
 module.exports = router;

@@ -169,6 +169,7 @@ const NewRawMaterialPage = () => {
             lead_time: '',
             main_supplier: '',
         });
+        setSelectedSuppliers([]);
         } else {
         alert('Error adding raw material');
         }
