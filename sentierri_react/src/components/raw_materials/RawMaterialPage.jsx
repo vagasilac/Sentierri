@@ -50,8 +50,9 @@ const RawMaterialPage = () => {
     const categories = useSelector((state) => state.categories.data);
     const subCategories = useSelector((state) => state.subCategories.data);
     const suppliers = useSelector((state) => state.suppliers.data);
-    const suppliersOfMaterial = useSelector((state) => state.supplierMaterials.data.filter(supplierMaterial => supplierMaterial.material_id === numId));
-    console.log('suppliersOfMaterial', suppliersOfMaterial);
+    // const suppliersOfMaterial = useSelector((state) => state.supplierMaterials.data.filter(supplierMaterial => supplierMaterial.material_id === numId));
+    const supplierMaterials = useSelector((state) => state.supplierMaterials.byMaterialId[numId]);
+    console.log('supplierMaterials', supplierMaterials);
 
     const [formValues, setFormValues] = useState({
         material_id: '',
