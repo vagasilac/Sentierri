@@ -382,11 +382,12 @@ const NewRawMaterialPage = () => {
                             { suppliers && (
                                 <Autocomplete
                                     disablePortal
+                                    multiple
                                     id="combo-box"
                                     name="main_supplier"
                                     options={suppliers.map((supplier) => supplier.name)}
                                     renderInput={(params) =>
-                                        <TextField {...params} label={"Main Supplier"} variant="standard"/>
+                                        <TextField {...params} label={"Main Supplier(s)"} variant="standard"/>
                                     }
                                 />
                             )}
