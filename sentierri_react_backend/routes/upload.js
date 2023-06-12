@@ -23,7 +23,7 @@ const upload = multer({
   })
 }).array('upload', 1);
 
-router.post('/upload', function (request, response, next) {
+router.post('/', function (request, response, next) {
   upload(request, response, function (error) {
     if (error) {
       console.log(error);
