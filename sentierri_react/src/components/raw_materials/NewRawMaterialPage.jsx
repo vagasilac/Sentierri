@@ -24,6 +24,7 @@ import { addSupplierMaterial } from '../../features/supplierMaterials/supplierMa
 import { fetchUMs } from '../../features/UM/UMSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { Style } from '@material-ui/icons';
+import ImageUpload from '../common/ImageUpload';
 
 // TODO: validation (duplicate material_id, name, etc., required fields, etc., numeric fields, etc.)
 
@@ -434,11 +435,7 @@ const NewRawMaterialPage = () => {
                         </Grid>
                                     {/* image upload box */}
                         <Grid item xs={12} md={6}>
-                            <img src={image} style={{width: '100%', height: 'auto'}}/>
-                            <Button variant="contained" component="label">
-                                Upload Image
-                                <input type="file" hidden onChange={handleUpload} />
-                            </Button>
+                            <ImageUpload />
                         </Grid>
                         <Grid item xs={6}>
                             <Button
