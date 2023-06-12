@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Container, Box, Button } from '@material-ui/core';
+import { Typography, Container, Breadcrumbs, Box, Button } from '@material-ui/core';
 import DataTable from '../common/DataTable';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -71,8 +71,14 @@ const UMsPage = () => {
   ];
 
   return (
-    <Container >
-      <Box style={{width: '100%', marginTop: '3rem', marginLeft: '3rem'}}>
+    <Container 
+        maxWidth="lg"
+        style={{ paddingTop: '3rem', paddingBottom: '4rem' }}
+      >
+      <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: '2rem' }}>
+        <Button color="inherit" disabled>Settings</Button>
+        <Button color="inherit" disabled>Units of Measure</Button>
+      </Breadcrumbs>
         <Box style={{display: 'flex', justifyContent: 'space-between', marginBottom: '3rem'}}>
           <Typography variant="h4">UMs</Typography>
           <Button
@@ -87,7 +93,6 @@ const UMsPage = () => {
         ) : (
           <p>No UMs found</p>
         )}
-      </Box>
     </Container>
   );
 }

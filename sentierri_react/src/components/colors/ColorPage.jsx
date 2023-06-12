@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Paper, FormControlLabel,Typography, Box, Switch, Grid, TextField, Button, CircularProgress } from '@material-ui/core';
+import { Container, Paper, Breadcrumbs, FormControlLabel,Typography, Box, Switch, Grid, TextField, Button, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchColorById, updateColor } from '../../features/colors/colorsSlice';
@@ -67,6 +67,20 @@ const ColorPage = () => {
         }
     }, [formValues.gradient]);
 
+    useEffect(() => {
+        if (gradient) {
+            setFormValues((prev) => ({
+                ...prev,
+                gradient: true,
+            }));
+        } else {
+            setFormValues((prev) => ({
+                ...prev,
+                gradient: false,
+            }));
+        }
+    }, [gradient]);
+
     const handleBack = () => {
         navigate('/settings/colors/');
     }
@@ -86,16 +100,21 @@ const ColorPage = () => {
                 <div style={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    alignItems: 'center',
+                    alignItems: 'top'
                 }}>
-                    <Button variant="contained" color="primary" onClick={handleBack}
+                    <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: '2rem' }}>
+                        <Button color="inherit" disabled>Settings</Button>
+                        <Button color="inherit" onClick={handleBack}>Colors</Button>
+                        <Button color="inherit" disabled>{formValues.name_en}</Button>
+                    </Breadcrumbs>
+                    {/* <Button variant="contained" color="primary" onClick={handleBack}
                         style={{
                             marginTop: '1rem',
                             marginBottom: '1rem',
                         }}
                         >
                         Back
-                    </Button>
+                    </Button> */}
                     <div style={{
                         background: gradient ? `linear-gradient(180deg, ${formValues.display_color_code} 0%, #000000 100%)` : formValues.display_color_code,
                         width: '5rem',

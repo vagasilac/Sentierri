@@ -57,4 +57,16 @@ export const fetchCategories = () => {
     };
   };
 
+export const addCategory = (category) => {
+    return async (dispatch) => {
+      dispatch(addCategoryRequest());
+      try {
+        const addedCategory = await categoryService.addCategory(category);
+        dispatch(addCategorySuccess(addedCategory));
+      } catch (error) {
+        dispatch(addCategoryFailure(error));
+      }
+    };
+  };
+
 export default categoriesSlice.reducer;

@@ -14,6 +14,9 @@ const shopRoutes = require('./shopRoutes');
 const colorRoutes = require('./colorRoutes');
 const UMRoutes = require('./UMRoutes');
 
+// Import your file upload route
+const fileUploadRoutes = require('./upload');
+
 // Use your entity routes
 router.use('/materials', materialRoutes);
 router.use('/categories', categoryRoutes);
@@ -26,6 +29,9 @@ router.use('/customers', customerRoutes);
 router.use('/shops', shopRoutes);
 router.use('/colors', colorRoutes);
 router.use('/units-of-measure', UMRoutes);
+
+// Use your file upload route
+router.use('/upload', fileUploadRoutes);
 
 // Add other entity routes here
 

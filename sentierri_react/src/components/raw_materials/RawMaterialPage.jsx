@@ -1,18 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  Container,
-  Grid,
-  Typography,
-  TextField,
-  Button,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Paper,
-  Box,
-} from '@material-ui/core';
+import { Container, Grid, Breadcrumbs, Box, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem, Paper, } from '@material-ui/core';
 import Autocomplete from '@mui/material/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
 import { fetchCategories } from '../../features/categories/categoriesSlice';
@@ -179,19 +167,22 @@ const RawMaterialPage = () => {
     
 
     return (
-        <Container
-            style={{
-                paddingBottom: '2rem',
-            }}
-        >
-            <Button variant="contained" color="primary" onClick={handleBack}
-                style={{
-                    marginTop: '1rem',
-                    marginBottom: '1rem',
-                }}
-                >
-                Back
-            </Button>
+        <Container style={{ paddingBottom: '2rem', paddingTop: '3rem', }} >
+            <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: '2rem' }}>
+                        <Button color="inherit" disabled>Inventory</Button>
+                        <Button color="inherit" onClick={handleBack}>Raw Materials</Button>
+                        <Button color="inherit" disabled>{formValues.name}</Button>
+                    </Breadcrumbs>
+                <Button variant="contained" color="primary" onClick={handleBack}
+                    style={{
+                        marginTop: '1rem',
+                        marginBottom: '1rem',
+                    }}
+                    >
+                    Back
+                </Button>
+            </Box>
             <Paper
                 elevation={4}
                 className={classes.paper}

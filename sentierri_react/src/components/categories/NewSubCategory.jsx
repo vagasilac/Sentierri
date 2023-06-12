@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Container,
-  Grid,
-  Typography,
-  TextField,
-  Button,
-} from '@material-ui/core';
+import { Container, Paper, Grid, Typography, TextField, Button,} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { addSubCategory } from '../../services/subCategoryService';
 import { useParams } from 'react-router-dom';
@@ -14,8 +8,12 @@ const useStyles = makeStyles((theme) => ({
     form: {
       marginTop: theme.spacing(2),
     },
+    root: {
+        marginBottom: theme.spacing(3),
+        padding: theme.spacing(3),
+    },
     submitButton: {
-      marginTop: theme.spacing(2),
+      marginTop: theme.spacing(3),
     },
   }));
 
@@ -37,49 +35,51 @@ const NewSubCategory = ({onNewSubCategory}) => {
         console.log('formValues to send to addSubCategory', formValues);
         const success = await addSubCategory(formValues);
         if (success) {
-        alert('SubCategory added successfully');
+        // alert('SubCategory added successfully');
         setFormValues({
             name: '',
             parentCategoryId: id,
         });
         onNewSubCategory();
         } else {
-        alert('Error adding subcategory');
+        // alert('Error adding subcategory');
         }
     };
 
     return (
-        <Container>
-        <Typography
-            padding-top="20px"
-            variant="h6"
-            gutterBottom>
-            Add New Subcategory
-        </Typography>
-        <form className={classes.form} onSubmit={handleSubmit}>
-            <Grid container spacing={3}>
-                <Grid item xs={12}> 
-                    <TextField
-                    required
-                    fullWidth
-                    label="Subcategory Name"
-                    name="name"
-                    value={formValues.name}
-                    onChange={handleChange}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    className={classes.submitButton}
-                    >
-                    Add Subcategory
-                    </Button>
-                </Grid>
-            </Grid>
-        </form>
+        <Container maxWidth="md">
+            <Paper className={classes.root}>
+                <Typography
+                    padding-top="20px"
+                    variant="h6"
+                    gutterBottom>
+                    Add New Subcategory
+                </Typography>
+                <form className={classes.form} onSubmit={handleSubmit}>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12}> 
+                            <TextField
+                            required
+                            fullWidth
+                            label="Subcategory Name"
+                            name="name"
+                            value={formValues.name}
+                            onChange={handleChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            className={classes.submitButton}
+                            >
+                            Add Subcategory
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </form>
+            </Paper>
         </Container>
     );
 };

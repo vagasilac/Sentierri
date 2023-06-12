@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Box, Button } from '@material-ui/core';
+import { Container, Breadcrumbs, Typography, Box, Button } from '@material-ui/core';
 import DataTable from '../common/DataTable';
 import { getAllMaterials } from '../../services/rawMaterialService';
 import { useNavigate } from 'react-router-dom';
@@ -125,6 +125,10 @@ const RawMaterialsPage = () => {
         maxWidth="xl"
         style={{ paddingTop: '3rem', paddingBottom: '4rem', marginLeft: '3rem', overflowX: 'auto' }}
       >
+        <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: '2rem' }}>
+          <Button color="inherit" disabled>Inventory</Button>
+          <Button color="inherit" disabled>Raw Materials</Button>
+        </Breadcrumbs>
         <Box>
           <Box style={{display: 'flex', justifyContent: 'space-between'}}>
             <Typography

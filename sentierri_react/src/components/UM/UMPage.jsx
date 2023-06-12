@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Paper, Typography, Box, Grid, TextField, Button, CircularProgress } from '@material-ui/core';
+import { Container, Paper, Typography, Breadcrumbs, Box, Grid, TextField, Button, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUMById, updateUM } from '../../features/UM/UMSlice';
@@ -57,15 +57,28 @@ const UMPage = () => {
     }
 
     return (
-        <Container maxWidth="md">
-            <Button variant="contained" color="primary" onClick={handleBack}
-                style={{
-                    marginTop: '1rem',
-                    marginBottom: '1rem',
-                }}
-                >
-                Back
-            </Button>
+        <Container maxWidth="md"
+            style={{
+                paddingTop: '3rem',
+                paddingBottom: '4rem',
+            }}
+        >
+            <Box style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}} >
+                <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: '2rem' }}>
+                        <Button color="inherit" disabled>Settings</Button>
+                        <Button color="inherit" onClick={handleBack}>Units of Measure</Button>
+                        <Button color="inherit" disabled>{formValues.name_en}</Button>
+                        {/* <Typography color="textPrimary">{formValues.name_en}</Typography> */}
+                    </Breadcrumbs>
+                <Button variant="contained" color="primary" onClick={handleBack}
+                    style={{
+                        marginTop: '1rem',
+                        marginBottom: '1rem',
+                    }}
+                    >
+                    Back
+                </Button>
+            </Box>
             <Paper className={classes.root}>
                 <Typography variant="h5" gutterBottom>
                     Update UM

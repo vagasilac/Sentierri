@@ -16,6 +16,7 @@ import SupplierPage from './components/suppliers/SupplierPage';
 import NewCustomerPage from './components/customers/NewCustomerPage';
 import Shop from './components/customers/Shop.jsx';
 import CustomersPage from './components/customers/CustomersPage';
+import CustomerPage from './components/customers/CustomerPage';
 import ShopsPage from './components/customers/ShopsPage';
 import Colors from './components/colors/Colors';
 import ColorPage from './components/colors/ColorPage';
@@ -23,6 +24,7 @@ import NewColorPage from './components/colors/NewColorPage';
 import UMPage from './components/UM/UMPage';
 import NewUMPage from './components/UM/NewUMPage';
 import UMsPage from './components/UM/UnitsOfMeasure';
+import NewCategory from './components/categories/NewCategory';
 
 const drawerWidth = 240;
 const MainContent = styled('div', {
@@ -51,6 +53,7 @@ function App() {
             <Route path="/raw-materials/new" element={<NewRawMaterialPage />} />
             <Route path="/raw_materials/:id" element={<RawMaterialPage />} />
             <Route path="/settings/categories/" element={<Categories />} />
+            <Route path="/settings/categories/new" element={<NewCategory />} />
             <Route path="/settings/categories/:id" element={<Category />} />
             <Route path="/settings/colors/" element={<Colors />} />
             <Route path="/settings/colors/:id" element={<ColorPage />} />
@@ -63,6 +66,7 @@ function App() {
             <Route path="/suppliers/new" element={<NewSupplierPage />} />
             <Route path="/customers/" element={<CustomersPage />} />
             <Route path="/customers/new" element={<NewCustomerPage />} />
+            <Route path="/customers/:id" element={<CustomerPage />} />
             <Route path="/shops/" element={<ShopsPage />} />
             <Route path="/shops/:id" element={<Shop />} />
           </Routes>

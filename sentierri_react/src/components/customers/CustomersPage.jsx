@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Box, Button } from '@material-ui/core';
+import { Typography, Container, Box, Button, Breadcrumbs } from '@material-ui/core';
 import DataTable from '../common/DataTable';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -144,50 +144,57 @@ const CustomersPage = () => {
   ];
 
   return (
-    <Box
-        style={{ marginLeft: '3rem', }}
-    >
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Typography variant="h4" component="div">
-          Customers
-        </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<AddBoxIcon />}
-          onClick={() => navigate('/customers/new')}
+
+    <Container
+          maxWidth="xl"
+          style={{ paddingTop: '3rem', paddingBottom: '4rem', marginLeft: '3rem', overflowX: 'auto' }}
         >
-          Add New Customer
-        </Button>
-      </Box>
-      {customers.length > 0 ? (
-        <DataTable
-          data={customers}
-          columns={columns}
-          options={{
-            filter: true,
-            sort: true,
-            search: true,
-            print: true,
-            download: true,
-            rowHover: true,
-            responsive: true,
-            selectableRows: false,
-            pagination: true,
-            paginationServer: false,
-            menu: true,
-            theadColor: 'blue',
-            theadFontColor: 'white',
-            tbodyFontColor: 'gray',
-            tbodyColor: 'white',
-            rightBorder: false,
-            leftBorder: false,
-          }}
-        />
-      ) : (
-        <CircularProgress />
-      )}
-    </Box>
+          <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: '2rem' }}>
+            <Button color="inherit" disabled>CRM</Button>
+            <Button color="inherit" disabled>Customers</Button>
+          </Breadcrumbs>
+          <Box>
+            <Box style={{display: 'flex', justifyContent: 'space-between'}}>
+              <Typography
+                variant="h4"
+                style={{ marginBottom: '2rem' }}
+              >
+                Customers</Typography>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{marginBottom: '2rem'}}
+                  onClick={() => navigate('/customers/new')}>Add New</Button>
+            </Box>
+            {customers.length > 0 ? (
+              <DataTable
+                data={customers}
+                columns={columns}
+                options={{
+                  filter: true,
+                  sort: true,
+                  search: true,
+                  print: true,
+                  download: true,
+                  rowHover: true,
+                  responsive: true,
+                  selectableRows: false,
+                  pagination: true,
+                  paginationServer: false,
+                  menu: true,
+                  theadColor: 'blue',
+                  theadFontColor: 'white',
+                  tbodyFontColor: 'gray',
+                  tbodyColor: 'white',
+                  rightBorder: false,
+                  leftBorder: false,
+                }}
+              />
+            ) : (
+              <CircularProgress />
+            )}
+          </Box>
+        </Container>
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Button, List, Grid, Card, CardContent, CardActions } from '@material-ui/core';
+import { Container, Typography, Breadcrumbs, Box, Paper, Button, List, Grid, Card, CardContent, CardActions } from '@material-ui/core';
 import { getCategory } from '../../services/categoryService';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import SubCategories from './SubCategories';
 import NewSubCategory from './NewSubCategory';
 import { getAllSubCategories } from '../../services/subCategoryService';
@@ -12,6 +12,7 @@ const Category = () => {
     const [loading, setLoading] = useState(true);
     const [reload, setReload] = useState(false);
     const { id } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCategory = async () => {
@@ -39,33 +40,37 @@ const Category = () => {
     const handleNewSubCategory = () => {
         setReload(!reload);
     };
+    
+    const handleBack = () => {
+        navigate(-1);
+    };        
 
     return (
         <>
-            <Container>
-                <Grid container spacing={3}>
-                    <Grid item xs={12} md={8}>
-                        <Card>
-                            <CardContent>
-                                <Typography variant="h5" component="h1" gutterBottom>
-                                    Name: {category.name}
-                                </Typography>
-                                <Typography variant="h6" component="h2" gutterBottom>
-                                    Abbreviation: {category.abbreviation}
-                                </Typography>
-                                {!loading && <SubCategories subCategories={filteredSubCategories} />}
-                            </CardContent>
-                            <CardActions>
-                                <Button variant="contained" color="primary" href="/settings/categories/">
-                                    Back
-                                </Button>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                        <NewSubCategory onNewSubCategory={handleNewSubCategory} />
-                    </Grid>
-                </Grid>
+            <Container
+                maxWidth="lg"
+                style={{ paddingTop: '3rem', paddingBottom: '4rem' }}
+            >
+                <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: '2rem' }}>
+                    <Button color="inherit" disabled>Settings</Button>
+                    <Button color="inherit" onClick={handleBack}>Categories</Button>
+                    <Button color="inherit" disabled>{category.name}</Button>
+                </Breadcrumbs>
+                <Box
+                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                >
+                    <Typography variant="h4" style={{ marginBottom: '2rem' }}>
+                    {category.name} | {category.abbreviation}</Typography>
+                    <Button variant="contained" color="primary" onClick={handleBack}
+                        style={{ marginTop: '1rem', marginBottom: '1rem',}}
+                    >Back</Button>
+                </Box>
+                <Box style={{ flexGrow: 1, display:'flex' }} >
+                    <Paper elevation={3} style={{ width: '100%' }}>
+                        {!loading && <SubCategories subCategories={filteredSubCategories} />}
+                    </Paper>
+                    <NewSubCategory onNewSubCategory={handleNewSubCategory} />
+                </Box>
             </Container>
         </>
     );

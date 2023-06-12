@@ -29,3 +29,10 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+const spacesEndpoint = new AWS.Endpoint('https://sentierri.fra1.cdn.digitaloceanspaces.com');
+const s3 = new AWS.S3({
+  endpoint: spacesEndpoint,
+  accessKeyId: 'DO00FXG2CJUBA9VVVZRR',
+  secretAccessKey: 'JI88DR3C9NFWJhDLulXbkY0lz8uunJ33cYnJn4OkbrU'
+});

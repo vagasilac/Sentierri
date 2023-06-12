@@ -431,7 +431,15 @@ const NewRawMaterialPage = () => {
                                     }
                                 />
                             )}
-                        </Grid>            
+                        </Grid>
+                                    {/* image upload box */}
+                        <Grid item xs={12} md={6}>
+                            <img src={image} style={{width: '100%', height: 'auto'}}/>
+                            <Button variant="contained" component="label">
+                                Upload Image
+                                <input type="file" hidden onChange={handleUpload} />
+                            </Button>
+                        </Grid>
                         <Grid item xs={6}>
                             <Button
                             type="submit"

@@ -57,24 +57,26 @@ const getSupplierMaterialsBySupplierId = async (req, res) => {
 
 const getSupplierMaterialsByMaterialId = async (req, res) => {
   const { materialId } = req.params;
+  console.log('materialId from request parameters:', materialId); // Log the materialId from request parameters
   try {
     const supplierMaterials = await SupplierMaterial.findAll({
       where: { materialId: materialId }
     });
+    console.log('Result of Sequelize query:', supplierMaterials); // Log the result of Sequelize query
     if (supplierMaterials) {
       res.status(200).json(supplierMaterials);
     } else {
       res.status(404).json({ message: 'Supplier-material relations not found' });
     }
   } catch (error) {
-    // error stack
     console.log('supplierMaterialController.js: getSupplierMaterialsByMaterialId - error', error);
-    // error message
     console.log('supplierMaterialController.js: getSupplierMaterialsByMaterialId - error.message', error.message);
     console.log('supplierMaterialController.js: getSupplierMaterialsByMaterialId - error.message', error.stack);
     res.status(500).json({ message: 'Error retrieving supplier-material relations' });
   }
 }
+
+
 
 
 const updateSupplierMaterial = async (req, res) => {

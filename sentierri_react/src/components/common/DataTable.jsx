@@ -49,6 +49,8 @@ const DefaultColumnFilter = ({ column: { filterValue, setFilter } }) => {
   );
 };
 
+// TODO: filtering and sorting to be done on the server side
+
 const DataTable = ({ columns, data }) => {
   console.log('Columns:', columns);
   const [globalFilter, setGlobalFilter] = useState('');
@@ -226,7 +228,7 @@ const DataTable = ({ columns, data }) => {
                     {column.render('Header')}
                       {column.canGroupBy ? (
                         <span {...column.getGroupByToggleProps()}>
-                          {column.isGrouped ? '✖ ' : '⊞ '}
+                          {column.isGrouped ? ' ✖ ' : ' ⊞ '}
                         </span>
                       ) : null}
                       {column.isSorted ? (
