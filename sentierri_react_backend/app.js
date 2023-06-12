@@ -13,6 +13,7 @@ const customerRoutes = require('./routes/customerRoutes');
 const shopRoutes = require('./routes/shopRoutes');
 const colorRoutes = require('./routes/colorRoutes');
 const unitOfMeasureRoutes = require('./routes/UMRoutes');
+const uploadRoutes = require('./routes/upload');
 const passport = require('./middleware/passport');
 
 const app = express();
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use(passport.initialize());
 
 // API routes
+app.use('/api/upload', uploadRoutes);
 app.use('/api/materials', materialRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/subcategories', subCategoryRoutes);
@@ -46,7 +48,7 @@ app.use('/api/login', passport.authenticate('local', { session: false }), loginR
 const Material = require('./models/material')(sequelize);
 const Category = require('./models/category')(sequelize);
 const Subcategory = require('./models/subcategory')(sequelize);
-const Supplier = require('./models/supplier')(sequelize);
+const Supplier = require('./models/supplier')(sequeli ze);
 const SupplierCategory = require('./models/suppliercategory')(sequelize);
 const SupplierMaterial = require('./models/suppliermaterial')(sequelize);
 const AgentRelation = require('./models/agentrelation')(sequelize);

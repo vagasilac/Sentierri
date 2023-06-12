@@ -196,260 +196,269 @@ const NewRawMaterialPage = () => {
                 >
                 Back
             </Button>
-            <Paper
-                elevation={4}
-                className={classes.paper}
-                style={{ 
-                    padding: '3rem',
-                    marginVertical: '2rem',
-                }}
-            >
-                <Typography variant="h4">Add New Raw Material</Typography>
-                <form className={classes.form} onSubmit={handleSubmit}>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} md={6}> 
-                            <TextField
-                            required
-                            fullWidth
-                            label="Material ID"
-                            name="material_id"
-                            value={formValues.material_id}
-                            onChange={handleChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6}> 
-                            <TextField
-                            required
-                            fullWidth
-                            label="Name"
-                            name="name"
-                            value={formValues.name}
-                            onChange={handleChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6}> 
-                            <TextField
-                            required
-                            fullWidth
-                            label="Group"
-                            name="material_group"
-                            value={formValues.material_group}
-                            onChange={handleChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6}> 
-                            <TextField
-                            required
-                            fullWidth
-                            label="Type"
-                            name="material_type"
-                            value={formValues.material_type}
-                            onChange={handleChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6}> 
-                            <FormControl required fullWidth>
-                                <InputLabel id="material-category-label">Category</InputLabel>
-                                <Select
-                                labelId="material-category-label"
-                                name="material_category"
-                                value={formValues.material_category}
-                                onChange={handleChange}
-                                >
-                                {categories.map((category) => (
-                                    <MenuItem key={category.id} value={category.id}>
-                                    {category.name}
-                                    </MenuItem>
-                                ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12} md={6}> 
-                            <FormControl fullWidth>
-                                <InputLabel id="material-subcategory-label">Subcategory</InputLabel>
-                                <Select
-                                labelId="material-subcategory-label"
-                                name="material_subcategory"
-                                value={formValues.material_subcategory}
-                                onChange={handleChange}
-                                >
-                                {filteredSubCategories.map((filteredSubCategory) => (
-                                    <MenuItem key={filteredSubCategory.id} value={filteredSubCategory.id}>
-                                    {filteredSubCategory.name}
-                                    </MenuItem>
-                                ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12} md={6}
-                            style={
-                                {
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                }
-                            }>
-                                <FormControl
-                                    required fullWidth
-                                    >
-                                    <InputLabel id="color-label">Color</InputLabel>
-                                    <Select
-                                        labelId="color-label"
-                                        name="color"
-                                        value={formValues.color}
+                    <Grid container spacing={3}
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            width: '100%',
+                        }}
+                        >
+                        <Grid item xs={12} md={9}>
+                            <Paper
+                            elevation={4}
+                            className={classes.paper}
+                            style={{ 
+                                padding: '3rem',
+                                marginVertical: '2rem',
+                            }}
+                        >
+                            <Typography variant="h4">Add New Raw Material</Typography>
+                            <form className={classes.form} onSubmit={handleSubmit}>
+                                <Grid container spacing={3}>
+                                    <Grid item xs={12} md={6}> 
+                                        <TextField
+                                        required
+                                        fullWidth
+                                        label="Material ID"
+                                        name="material_id"
+                                        value={formValues.material_id}
                                         onChange={handleChange}
-                                        inputProps={{
-                                            name: 'color',
-                                            }}
-                                    >
-                                        {colors.map((color) => (
-                                            <MenuItem key={color.id} value={color.name_ro} >
-                                                <div
-                                                    style={{
-                                                        display: 'flex',
-                                                        flexDirection: 'row',
-                                                        width: '100%',
-                                                        justifyContent: 'space-between',
-                                                    }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} md={6}> 
+                                        <TextField
+                                        required
+                                        fullWidth
+                                        label="Name"
+                                        name="name"
+                                        value={formValues.name}
+                                        onChange={handleChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} md={6}> 
+                                        <TextField
+                                        required
+                                        fullWidth
+                                        label="Group"
+                                        name="material_group"
+                                        value={formValues.material_group}
+                                        onChange={handleChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} md={6}> 
+                                        <TextField
+                                        required
+                                        fullWidth
+                                        label="Type"
+                                        name="material_type"
+                                        value={formValues.material_type}
+                                        onChange={handleChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} md={6}> 
+                                        <FormControl required fullWidth>
+                                            <InputLabel id="material-category-label">Category</InputLabel>
+                                            <Select
+                                            labelId="material-category-label"
+                                            name="material_category"
+                                            value={formValues.material_category}
+                                            onChange={handleChange}
+                                            >
+                                            {categories.map((category) => (
+                                                <MenuItem key={category.id} value={category.id}>
+                                                {category.name}
+                                                </MenuItem>
+                                            ))}
+                                            </Select>
+                                        </FormControl>
+                                    </Grid>
+                                    <Grid item xs={12} md={6}> 
+                                        <FormControl fullWidth>
+                                            <InputLabel id="material-subcategory-label">Subcategory</InputLabel>
+                                            <Select
+                                            labelId="material-subcategory-label"
+                                            name="material_subcategory"
+                                            value={formValues.material_subcategory}
+                                            onChange={handleChange}
+                                            >
+                                            {filteredSubCategories.map((filteredSubCategory) => (
+                                                <MenuItem key={filteredSubCategory.id} value={filteredSubCategory.id}>
+                                                {filteredSubCategory.name}
+                                                </MenuItem>
+                                            ))}
+                                            </Select>
+                                        </FormControl>
+                                    </Grid>
+                                    <Grid item xs={12} md={6}
+                                        style={
+                                            {
+                                                display: 'flex',
+                                                flexDirection: 'row',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
+                                            }
+                                        }>
+                                            <FormControl
+                                                required fullWidth
                                                 >
-                                                    {color.name_ro}
-                                                    <div style={{
-                                                        background: color.gradient ? `linear-gradient(180deg, ${color.display_color_code} 0%, #000000 100%)` : color.display_color_code,
-                                                        width: '1.5rem',
-                                                        height: '1.5rem',
-                                                        borderRadius: '50%',
-                                                    }}/>
-                                                </div>
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                        </Grid>
-                        <Grid item xs={12} md={6}> 
-                            <TextField
-                            required
-                            fullWidth
-                            label="Supplier Color"
-                            name="supplier_color"
-                            value={formValues.supplier_color}
-                            onChange={handleChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6}> 
-                            <TextField
-                            required
-                            fullWidth
-                            label="Size"
-                            name="size"
-                            value={formValues.size}
-                            onChange={handleChange}
-                            />
-                        </Grid>
-                        {/* 
-                        Only show the roll width field if the material_type is roll
-                        */}
-                        {formValues.material_type == 'roll' && (
-                            <Grid item xs={12} md={6}> 
-                            <TextField
-                            // required
-                            fullWidth
-                            label="Roll Width"
-                            name="roll_width"
-                            type="number"
-                            value={formValues.roll_width}
-                            onChange={handleChange}
-                            />
-                        </Grid>
-                        )}
-                        <Grid item xs={12} md={6}>
-                                <FormControl
-                                    required fullWidth
-                                    >
-                                    <InputLabel id="um-label">UM</InputLabel>
-                                    <Select
-                                        labelId="um-label"
-                                        name="um"
-                                        value={formValues.unit_of_measure}
+                                                <InputLabel id="color-label">Color</InputLabel>
+                                                <Select
+                                                    labelId="color-label"
+                                                    name="color"
+                                                    value={formValues.color}
+                                                    onChange={handleChange}
+                                                    inputProps={{
+                                                        name: 'color',
+                                                        }}
+                                                >
+                                                    {colors.map((color) => (
+                                                        <MenuItem key={color.id} value={color.name_ro} >
+                                                            <div
+                                                                style={{
+                                                                    display: 'flex',
+                                                                    flexDirection: 'row',
+                                                                    width: '100%',
+                                                                    justifyContent: 'space-between',
+                                                                }}
+                                                            >
+                                                                {color.name_ro}
+                                                                <div style={{
+                                                                    background: color.gradient ? `linear-gradient(180deg, ${color.display_color_code} 0%, #000000 100%)` : color.display_color_code,
+                                                                    width: '1.5rem',
+                                                                    height: '1.5rem',
+                                                                    borderRadius: '50%',
+                                                                }}/>
+                                                            </div>
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+                                    </Grid>
+                                    <Grid item xs={12} md={6}> 
+                                        <TextField
+                                        required
+                                        fullWidth
+                                        label="Supplier Color"
+                                        name="supplier_color"
+                                        value={formValues.supplier_color}
                                         onChange={handleChange}
-                                        inputProps={{
-                                            name: 'unit_of_measure',
-                                            }}
-                                    >
-                                        {UMs.map((UM) => (
-                                            <MenuItem key={UM.id} value={UM.abbreviation} >
-                                                {UM.abbreviation}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} md={6}> 
+                                        <TextField
+                                        required
+                                        fullWidth
+                                        label="Size"
+                                        name="size"
+                                        value={formValues.size}
+                                        onChange={handleChange}
+                                        />
+                                    </Grid>
+                                    {/* 
+                                    Only show the roll width field if the material_type is roll
+                                    */}
+                                    {formValues.material_type == 'roll' && (
+                                        <Grid item xs={12} md={6}> 
+                                        <TextField
+                                        // required
+                                        fullWidth
+                                        label="Roll Width"
+                                        name="roll_width"
+                                        type="number"
+                                        value={formValues.roll_width}
+                                        onChange={handleChange}
+                                        />
+                                    </Grid>
+                                    )}
+                                    <Grid item xs={12} md={6}>
+                                            <FormControl
+                                                required fullWidth
+                                                >
+                                                <InputLabel id="um-label">UM</InputLabel>
+                                                <Select
+                                                    labelId="um-label"
+                                                    name="um"
+                                                    value={formValues.unit_of_measure}
+                                                    onChange={handleChange}
+                                                    inputProps={{
+                                                        name: 'unit_of_measure',
+                                                        }}
+                                                >
+                                                    {UMs.map((UM) => (
+                                                        <MenuItem key={UM.id} value={UM.abbreviation} >
+                                                            {UM.abbreviation}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+                                    </Grid>
+                                    <Grid item xs={12} md={6}> 
+                                        <TextField
+                                        InputProps={{
+                                            inputProps: {
+                                                step: 0.01
+                                            }
+                                        }}
+                                        required
+                                        fullWidth
+                                        label="Price per unit"
+                                        name="price_per_unit"
+                                        type="number"
+                                        value={formValues.price_per_unit}
+                                        onChange={handleChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} md={6}> 
+                                        <TextField
+                                        // only accept integers
+                                        InputProps={{
+                                            inputProps: {
+                                                step: 1
+                                            }
+                                        }}
+                                        required
+                                        fullWidth
+                                        label="Lead Time (days)"
+                                        name="lead_time"
+                                        type="number"
+                                        value={formValues.lead_time}
+                                        onChange={handleChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} md={6}> 
+                                        { suppliers && (
+                                            <Autocomplete
+                                                disablePortal
+                                                multiple
+                                                id="combo-box"
+                                                name="main_supplier"
+                                                options={suppliers}
+                                                getOptionLabel={(option) => option.name}
+                                                onChange={(event, value) => setSelectedSuppliers(value)}
+                                                renderInput={(params) =>
+                                                    <TextField {...params} label={"Main Supplier(s)"} variant="standard"/>
+                                                }
+                                            />
+                                        )}
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Button
+                                        type="submit"
+                                        variant="contained"
+                                        color="primary"
+                                        className={classes.submitButton}
+                                        >
+                                        Add Raw Material
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </form>
+                            </Paper>
                         </Grid>
-                        <Grid item xs={12} md={6}> 
-                            <TextField
-                            InputProps={{
-                                inputProps: {
-                                    step: 0.01
-                                }
-                            }}
-                            required
-                            fullWidth
-                            label="Price per unit"
-                            name="price_per_unit"
-                            type="number"
-                            value={formValues.price_per_unit}
-                            onChange={handleChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6}> 
-                            <TextField
-                            // only accept integers
-                            InputProps={{
-                                inputProps: {
-                                    step: 1
-                                }
-                            }}
-                            required
-                            fullWidth
-                            label="Lead Time (days)"
-                            name="lead_time"
-                            type="number"
-                            value={formValues.lead_time}
-                            onChange={handleChange}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={6}> 
-                            { suppliers && (
-                                <Autocomplete
-                                    disablePortal
-                                    multiple
-                                    id="combo-box"
-                                    name="main_supplier"
-                                    options={suppliers}
-                                    getOptionLabel={(option) => option.name}
-                                    onChange={(event, value) => setSelectedSuppliers(value)}
-                                    renderInput={(params) =>
-                                        <TextField {...params} label={"Main Supplier(s)"} variant="standard"/>
-                                    }
-                                />
-                            )}
-                        </Grid>
-                                    {/* image upload box */}
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={12} md={3}>
                             <ImageUpload />
                         </Grid>
-                        <Grid item xs={6}>
-                            <Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            className={classes.submitButton}
-                            >
-                            Add Raw Material
-                            </Button>
-                        </Grid>
                     </Grid>
-                </form>
-            </Paper>
         </Container>
     );
 };
