@@ -1,40 +1,64 @@
+const AWS = require('aws-sdk');
+const fs = require('fs');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
-const aws = require('aws-sdk');
-const path = require('path');
+require('dotenv').config();
 
-aws.config.update({
-  secretAccessKey: 'DO00FXG2CJUBA9VVVZRR',
-  accessKeyId: 'JI88DR3C9NFWJhDLulXbkY0lz8uunJ33cYnJn4OkbrU',
-  region: 'fra1'
-});
+const BUCKET_NAME = process.env.AWS_BUCKET_NAME;
+const IAM_USER_KEY = process.env.AWS_ACCESS_KEY;
+const IAM_USER_SECRET = process.env.AWS_SECRET_ACCESS_KEY;
 
-const s3 = new aws.S3({
-    endpoint: 'https://sentierri.fra1.digitaloceanspaces.com',
+const s3 = new AWS.S3({
+  accessKeyId: IAM_USER_KEY,
+  secretAccessKey: IAM_USER_SECRET,
+  region: process.env.AWS_REGION
 });
 
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: 'sentierri',
-    acl: 'private',
-    key: function (request, file, cb) {
-      console.log(file);
-      cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
+    bucket: BUCKET_NAME,
+    acl: 'public-read',
+    metadata: function (req, file, cb) {
+      cb(null, {fieldName: file.fieldname});
+    },
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString())
     }
   })
 });
 
 const uploadFile = (req, res) => {
-  upload.single('file')(req, res, function (err) {
+  console.log('file uploaded - ', req.file);
+
+  const fileContent = fs.readFileSync(req.file.path);
+
+  const params = {
+    Bucket: BUCKET_NAME,
+    Key: `${Date.now()}_${req.file.originalname}`, // File name you want to save as in S3
+    Body: fileContent,
+    ACL: 'public-read'
+  };
+
+  // Uploading files to the bucket
+  s3.upload(params, function(err, data) {
     if (err) {
-      return res.status(500).json({ error: err });
+      throw err;
     }
-    // Send back only the filename
-    console.log('req.file: ', req.file);
-    res.status(200).json({ filename: req.file.filename });
+    console.log(`File uploaded successfully. ${data.Location}`);
+
+    // Create a new object with only the properties you need
+    const responseData = {
+      Location: data.Location,
+      ETag: data.ETag,
+      Key: data.Key,
+      Bucket: data.Bucket
+    };
+
+    res.json(responseData);
   });
 };
 
-
-module.exports = { uploadFile };
+module.exports = {
+  uploadFile
+};
