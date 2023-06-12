@@ -2,6 +2,7 @@ const AWS = require('aws-sdk');
 const fs = require('fs');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
+const spacesEndpoint = new AWS.Endpoint('https://sentierri.fra1.cdn.digitaloceanspaces.com'); 
 require('dotenv').config();
 
 const BUCKET_NAME = process.env.AWS_BUCKET_NAME;
@@ -9,9 +10,9 @@ const IAM_USER_KEY = process.env.AWS_ACCESS_KEY;
 const IAM_USER_SECRET = process.env.AWS_SECRET_ACCESS_KEY;
 
 const s3 = new AWS.S3({
+  endpoint: spacesEndpoint,
   accessKeyId: IAM_USER_KEY,
   secretAccessKey: IAM_USER_SECRET,
-  region: process.env.AWS_REGION
 });
 
 const upload = multer({
@@ -60,5 +61,6 @@ const uploadFile = (req, res) => {
 };
 
 module.exports = {
-  uploadFile
+  uploadFile,
+    upload
 };
