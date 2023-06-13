@@ -457,7 +457,7 @@ const NewRawMaterialPage = () => {
                             </Paper>
                         </Grid>
                         <Grid item xs={12} md={3}>
-                            <ImageUpload />
+                            <ImageUpload title="Supplier Label" />
                         </Grid>
                     </Grid>
         </Container>

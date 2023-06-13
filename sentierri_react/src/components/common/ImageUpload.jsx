@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {Paper, Button, Typography } from '@material-ui/core';
 import { useUploadFileMutation } from '../../features/apiSlice';
 
-export default function ImageUpload() {
+export default function ImageUpload({ title }) {
   const [uploadFile, { isLoading }] = useUploadFileMutation();
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -27,7 +27,7 @@ export default function ImageUpload() {
         style={{ width: '100%', height: 'auto', padding: '2rem' }}
     >
         <Typography variant="h6" gutterBottom>
-            Image of supplier label
+            {title}
         </Typography>
         {selectedFile ? (
             <img 
