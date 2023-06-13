@@ -1,37 +1,39 @@
-const s3 = require('s3-client');
-const fs = require('fs');
+const AWS = require('aws-sdk');
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+const { v4: uuidv4 } = require('uuid');
+const Material = require('../models/material');
+const Customer = require('../models/customer');
 
-const client = s3.createClient({
-  s3Options: {
-    accessKeyId: "DO00VPUGECFRVBKFL3F8",
-    secretAccessKey: "nhEilrNgaLLeUBZ23kswNHZWE1cpuxx1uwUwTLJHLs8",
-    region: "fra1",
-    endpoint: 'fra1.digitaloceanspaces.com',
-    s3ForcePathStyle: true, // needed with minio?
-    signatureVersion: 'v4'
-  },
+const spacesEndpoint = new AWS.Endpoint('nyc3.digitaloceanspaces.com');
+const s3 = new AWS.S3({
+  endpoint: spacesEndpoint,
+  accessKeyId: 'your-access-key',
+  secretAccessKey: 'your-secret-key'
 });
 
-exports.uploadImage = (req, res) => {
-  var params = {
-    localFile: req.file.path,
-   
-    s3Params: {
-      Bucket: "sentierri-erp",
-      Key: req.file.originalname,
-      ACL: 'public-read'
-      // other options supported by putObject, except Body and ContentLength. 
-      // See: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property 
-    },
-  };
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'your-bucket-name',
+    acl: 'public-read',
+    key: function (request, file, cb) {
+      cb(null, `${uuidv4()}${path.extname(file.originalname)}`);
+    }
+  })
+});
 
-  var uploader = client.uploadFile(params);
-  uploader.on('error', function(err) {
-    console.error("unable to upload:", err.stack);
-    res.status(500).json({ error: "Error : " + err });
-  });
-  uploader.on('end', function() {
-    console.log("done uploading");
-    res.send(`File uploaded successfully.`);
-  });
-}
+exports.uploadFile = upload.single('file');
+
+exports.saveFileData = async (req, res) => {
+  const { topic, entityId } = req.body;
+  const fileUrl = req.file.location;
+
+  if (topic === 'material') {
+    await Material.update({ imageUrl: fileUrl }, { where: { id: entityId } });
+  } else if (topic === 'customer') {
+    await Customer.update({ imageUrl: fileUrl }, { where: { id: entityId } });
+  }
+
+  res.json({ message: 'File uploaded successfully', fileUrl });
+};
