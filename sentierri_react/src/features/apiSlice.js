@@ -8,7 +8,8 @@ export const apiSlice = createApi({
     uploadFile: builder.mutation({          
       query: (file) => {
         let formData = new FormData();
-        formData.append('file', file);
+        formData.append('filePath', file.path);
+        formData.append('originalname', file.name);
         return {
           url: '/upload',
           method: 'POST',

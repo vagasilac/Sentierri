@@ -11,8 +11,8 @@ export default function ImageUpload() {
     setSelectedFile(URL.createObjectURL(file));
 
     try {
-      await uploadFile(file).unwrap();
-      // handle success here, e.g., show a success message
+        await uploadFile({ path: URL.createObjectURL(file), name: file.name }).unwrap();
+        // handle success here, e.g., show a success message
       alert('File uploaded successfully');
 
     } catch (error) {
