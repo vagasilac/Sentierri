@@ -8,10 +8,13 @@ const BUCKET_NAME = process.env.AWS_BUCKET_NAME;
 const IAM_USER_KEY = process.env.AWS_ACCESS_KEY;
 const IAM_USER_SECRET = process.env.AWS_SECRET_ACCESS_KEY;
 
+const spacesEndpoint = new AWS.Endpoint('https://sentierri.fra1.cdn.digitaloceanspaces.com');
 const s3 = new AWS.S3({
-  endpoint: 'sentierri.fra1.digitaloceanspaces.com',
+  endpoint: spacesEndpoint,
   accessKeyId: IAM_USER_KEY,
   secretAccessKey: IAM_USER_SECRET,
+  sslEnabled: true,
+  s3ForcePathStyle: true,
 });
 
 const upload = multer({
