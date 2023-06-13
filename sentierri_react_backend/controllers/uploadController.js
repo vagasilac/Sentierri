@@ -1,31 +1,37 @@
-const AWS = require('aws-sdk');
+const s3 = require('s3-client');
 const fs = require('fs');
 
-const s3 = new AWS.S3({
-  endpoint: 'https://fra1.digitaloceanspaces.com', 
-  accessKeyId: 'DO00VPUGECFRVBKFL3F8',
-  secretAccessKey: 'nhEilrNgaLLeUBZ23kswNHZWE1cpuxx1uwUwTLJHLs8',
-  s3ForcePathStyle: true, // needed with minio?
-  signatureVersion: 'v4',
+const client = s3.createClient({
+  s3Options: {
+    accessKeyId: "DO00VPUGECFRVBKFL3F8",
+    secretAccessKey: "nhEilrNgaLLeUBZ23kswNHZWE1cpuxx1uwUwTLJHLs8",
+    region: "fra1",
+    endpoint: 'fra1.digitaloceanspaces.com',
+    s3ForcePathStyle: true, // needed with minio?
+    signatureVersion: 'v4'
+  },
 });
 
-const uploadFile = (fileName, filePath, fileType) => {
-  const fileContent = fs.readFileSync(filePath);
-
-  const params = {
-    Bucket: 'sentierri-erp',
-    Key: fileName,
-    Body: fileContent,
-    ContentType: fileType
+exports.uploadImage = (req, res) => {
+  var params = {
+    localFile: req.file.path,
+   
+    s3Params: {
+      Bucket: "sentierri-erp",
+      Key: req.file.originalname,
+      ACL: 'public-read'
+      // other options supported by putObject, except Body and ContentLength. 
+      // See: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property 
+    },
   };
 
-  s3.upload(params, function(err, data) {
-    if (err) {
-      console.log('Error', err.stack);
-      throw err;
-    }
-    console.log(`File uploaded successfully. ${data.Location}`);
+  var uploader = client.uploadFile(params);
+  uploader.on('error', function(err) {
+    console.error("unable to upload:", err.stack);
+    res.status(500).json({ error: "Error : " + err });
   });
-};
-
-module.exports = { uploadFile, upload };
+  uploader.on('end', function() {
+    console.log("done uploading");
+    res.send(`File uploaded successfully.`);
+  });
+}

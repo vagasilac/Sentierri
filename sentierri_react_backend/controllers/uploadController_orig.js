@@ -16,7 +16,7 @@ console.log(`Bucket: ${BUCKET_NAME}`);
 console.log(`Access Key ID: ${IAM_USER_KEY}`);
 console.log(`Secret Access Key: ${IAM_USER_SECRET}`);
 
-const spacesEndpoint = new AWS.Endpoint('https://sentierri-erp.fra1.digitaloceanspaces.com');
+const spacesEndpoint = new AWS.Endpoint('https://fra1.digitaloceanspaces.com');
 
 AWS.config.logger = console;
 AWS.config.update({logger: console});
@@ -93,8 +93,8 @@ const uploadFile = (req, res) => {
       }
     });
   } catch (err) {
-    console.error(`Exception caught: ${err}`);
-    res.status(500).send(err);
+    console.error(`Exception caught: ${err}, ${err.stack}`);
+    res.status(500).json({error: err.stack});
   }
 };
 

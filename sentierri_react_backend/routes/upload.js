@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { uploadFile, upload } = require('../controllers/uploadController');
+const { uploadImage, upload } = require('../controllers/uploadController');
 
 router.post('/upload', (req, res) => {
     // get file from req, for example if you're using multer you might do:
@@ -11,7 +11,7 @@ router.post('/upload', (req, res) => {
     const filePath = 'path to file';
     const fileType = 'file mime type';
     
-    uploadFile(fileName, filePath, fileType);
+    uploadImage(fileName, filePath, fileType);
     
     // send response
     res.send('File uploaded');

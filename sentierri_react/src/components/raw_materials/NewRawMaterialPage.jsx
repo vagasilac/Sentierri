@@ -1,18 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Container,
-  Grid,
-  Typography,
-  TextField,
-  Button,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Paper,
-  Box,
-} from '@material-ui/core';
+import { Container, Breadcrumbs, Grid, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem, Paper, Box, } from '@material-ui/core';
 import Autocomplete from '@mui/material/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
 import { fetchCategories } from '../../features/categories/categoriesSlice';
@@ -185,22 +173,35 @@ const NewRawMaterialPage = () => {
     return (
         <Container
             style={{
-                paddingBottom: '2rem',
+                paddingBottom: '2rem', paddingTop: '2rem',
             }}
         >
-            <Button variant="contained" color="primary" onClick={handleBack}
+            <Box
                 style={{
-                    marginTop: '1rem',
-                    marginBottom: '1rem',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
                 }}
-                >
-                Back
-            </Button>
+            >
+                <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: '2rem' }}>
+                    <Button color="inherit" disabled>Inventory</Button>
+                    <Button color="inherit" onClick={handleBack}>Raw Materials</Button>
+                    <Button color="inherit" disabled>New Raw Material</Button>
+                </Breadcrumbs>
+                <Button variant="contained" color="primary" onClick={handleBack}
+                    style={{
+                        marginTop: '1rem',
+                        marginBottom: '1rem',
+                    }}
+                    >
+                    Back
+                </Button>
+            </Box>
                     <Grid container spacing={3}
                         style={{
                             display: 'flex',
                             flexDirection: 'row',
-                            width: '100%',
+                            // width: '100%',
                         }}
                         >
                         <Grid item xs={12} md={9}>
