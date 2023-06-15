@@ -13,6 +13,8 @@ import { fetchUMs } from '../../features/UM/UMSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { Style } from '@material-ui/icons';
 import ImageUpload from '../common/ImageUpload';
+import QRBox from '../common/QRBox';
+
 
 // TODO: validation (duplicate material_id, name, etc., required fields, etc., numeric fields, etc.)
 
@@ -204,6 +206,7 @@ const NewRawMaterialPage = () => {
                             // width: '100%',
                         }}
                         >
+                        {/* Main Content */}
                         <Grid item xs={12} md={9}>
                             <Paper
                             elevation={4}
@@ -456,8 +459,20 @@ const NewRawMaterialPage = () => {
                             </form>
                             </Paper>
                         </Grid>
+                        {/* Image upload */}
                         <Grid item xs={12} md={3}>
-                            <ImageUpload title="Supplier Label" />
+                            <Grid container item
+                                direction="column"
+                                alignItems="center"
+                                spacing={2}
+                            >
+                                <Grid item>
+                                    <QRBox title="QR Code" barcode={formValues.material_id} />
+                                </Grid>
+                                <Grid item>
+                                    <ImageUpload title="Supplier Label" />
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
         </Container>

@@ -4,18 +4,20 @@ const multerS3 = require('multer-s3');
 const { v4: uuidv4 } = require('uuid');
 const Material = require('../models/material');
 const Customer = require('../models/customer');
+const dotenv = require('dotenv');
+dotenv.config();
 
-const spacesEndpoint = new AWS.Endpoint('nyc3.digitaloceanspaces.com');
+const spacesEndpoint = new AWS.Endpoint('https://sentierri-erp.fra1.digitaloceanspaces.com');
 const s3 = new AWS.S3({
   endpoint: spacesEndpoint,
-  accessKeyId: 'your-access-key',
-  secretAccessKey: 'your-secret-key'
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
 
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: 'your-bucket-name',
+    bucket: process.env.AWS_BUCKET_NAME,
     acl: 'public-read',
     key: function (request, file, cb) {
       cb(null, `${uuidv4()}${path.extname(file.originalname)}`);

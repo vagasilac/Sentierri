@@ -38,7 +38,7 @@ export default function ImageUpload({ title }) {
       ) : (
         <img 
           src="https://via.placeholder.com/100"
-          style={{ width: '100%', height: 'auto' }}
+          style={{ width: '100%', height: 'auto', margin: 'auto' }}
           alt="placeholder image" 
         />
       )}

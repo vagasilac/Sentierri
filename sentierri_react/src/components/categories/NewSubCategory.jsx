@@ -47,7 +47,7 @@ const NewSubCategory = ({onNewSubCategory}) => {
     };
 
     return (
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
             <Paper className={classes.root}>
                 <Typography
                     padding-top="20px"
