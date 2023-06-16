@@ -1,25 +1,9 @@
 import React, { useState } from 'react';
 import { Paper, Button, Typography } from '@material-ui/core';
-import { useUploadFileMutation } from '../../features/apiSlice';
 
 export default function ImageUpload({ title }) {
-  const [uploadFile, { isLoading }] = useUploadFileMutation();
-  const [selectedFile, setSelectedFile] = useState(null);
-
+  
   const handleUpload = async (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(URL.createObjectURL(file));
-
-    let formData = new FormData();
-    formData.append('file', file);
-
-    try {
-      await uploadFile(formData).unwrap();
-      alert('File uploaded successfully');
-    } catch (error) {
-      alert('Error uploading the file');
-    }
-  };
 
   return (
     <Paper 
@@ -31,7 +15,7 @@ export default function ImageUpload({ title }) {
       </Typography>
       {selectedFile ? (
         <img 
-          src={selectedFile} 
+          src={} 
           style={{ width: '100%', height: 'auto' }}
           alt="uploaded image" 
         />

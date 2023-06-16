@@ -10,7 +10,6 @@ import customerReducer from '../features/customers/customersSlice';
 import shopReducer from '../features/shops/shopsSlice';
 import colorReducer from '../features/colors/colorsSlice';
 import rawMaterialsReducer from '../features/rawMaterials/rawMaterialsSlice';
-import { apiSlice } from '../features/apiSlice';
 
 const rootReducer = combineReducers({
   suppliers: suppliersReducer,
@@ -24,7 +23,6 @@ const rootReducer = combineReducers({
   supplierMaterials: supplierMaterialsReducer,
   shops: shopReducer,
   colors: colorReducer,
-  [apiSlice.reducerPath]: apiSlice.reducer,
 });
 
 export default rootReducer;
