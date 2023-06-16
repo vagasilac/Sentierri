@@ -13,6 +13,7 @@ import { fetchUMs } from '../../features/UM/UMSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { Style } from '@material-ui/icons';
 import ImageUpload from '../common/ImageUpload';
+import { uploadFile } from '../../features/fileUpload/fileUploadSlice';
 import QRBox from '../common/QRBox';
 
 
@@ -56,7 +57,8 @@ const NewRawMaterialPage = () => {
     const [selectedCategoryId, setSelectedCategoryId] = useState('');
     const [filteredSubCategories, setFilteredSubCategories] = useState([]);
     const [selectedSuppliers, setSelectedSuppliers] = useState([]);
-    
+    const { loading, fileUrl, error } = useSelector((state) => state.fileUpload);
+    const [file, setFile] = useState(null);
     const [currentId, setCurrentId] = useState(0);
     console.log('selectedSuppliers', selectedSuppliers);
     console.log('currentId', currentId);
@@ -134,6 +136,14 @@ const NewRawMaterialPage = () => {
     const handleBack = () => {
         navigate('/raw-materials');
     };
+
+    const handleFileChange = (event) => {
+        setFile(event.target.files[0]);
+      };
+    
+      const handleFileUpload = () => {
+        dispatch(uploadFile(file));
+      };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -470,7 +480,16 @@ const NewRawMaterialPage = () => {
                                     <QRBox title="QR Code" barcode={formValues.material_id} />
                                 </Grid>
                                 <Grid item>
-                                    <ImageUpload title="Supplier Label" />
+                                <div>
+                                    <ImageUpload
+                                        file={file}
+                                        loading={loading}
+                                        onFileChange={handleFileChange}
+                                        onFileUpload={handleFileUpload}
+                                    />
+                                    {fileUrl && <img src={fileUrl} alt="Uploaded" />}
+                                    {error && <p>Error: {error}</p>}
+                                </div>
                                 </Grid>
                             </Grid>
                         </Grid>
