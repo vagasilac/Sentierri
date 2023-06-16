@@ -13,13 +13,10 @@ const customerRoutes = require('./routes/customerRoutes');
 const shopRoutes = require('./routes/shopRoutes');
 const colorRoutes = require('./routes/colorRoutes');
 const unitOfMeasureRoutes = require('./routes/UMRoutes');
-const uploadRoutes = require('./routes/upload');
 const passport = require('./middleware/passport');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-
 
 // Middleware
 app.use(cors());
@@ -27,7 +24,6 @@ app.use(express.json());
 app.use(passport.initialize());
 
 // API routes
-app.use('/api/upload', uploadRoutes);
 app.use('/api/materials', materialRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/subcategories', subCategoryRoutes);
@@ -41,10 +37,6 @@ app.use('/api/colors', colorRoutes);
 app.use('/api/unitsOfMeasure', unitOfMeasureRoutes);
 
 // Add routes for other entities (e.g., products, orders) as needed
-
-// Add your file upload route
-app.use('/api/upload', require('./routes/upload'));
-
 
 // Example route for user login
 const loginRoute = require('./routes/loginRoute');
