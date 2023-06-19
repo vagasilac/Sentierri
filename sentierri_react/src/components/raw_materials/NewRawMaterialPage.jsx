@@ -53,11 +53,14 @@ const NewRawMaterialPage = () => {
         unit_of_measure: '',
         price_per_unit: '',
         lead_time: '',
+        label_url: '',
     });
     const [selectedCategoryId, setSelectedCategoryId] = useState('');
     const [filteredSubCategories, setFilteredSubCategories] = useState([]);
     const [selectedSuppliers, setSelectedSuppliers] = useState([]);
     const { loading, fileUrl, error } = useSelector((state) => state.fileUpload);
+    const [fileUploaded, setFileUploaded] = useState(false);
+    console.log('fileUrl', fileUrl);
     const [file, setFile] = useState(null);
     const [currentId, setCurrentId] = useState(0);
     console.log('selectedSuppliers', selectedSuppliers);
@@ -103,6 +106,14 @@ const NewRawMaterialPage = () => {
         }
     }, [selectedSuppliers]);
 
+    useEffect(() => {
+        if (fileUrl) {
+            setFormValues((prev) => ({ ...prev, label_url: fileUrl }));
+            setFileUploaded(true);
+            console.log('label_url', formValues.label_url);
+        }
+    }, [fileUrl]);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormValues((prev) => ({ ...prev, [name]: value }));
@@ -147,6 +158,7 @@ const NewRawMaterialPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log('formValues', formValues);
         dispatch(addRawMaterial(formValues))
             .then(() => {
                 // Create an array of promises for each addSupplierMaterial dispatch
@@ -173,6 +185,7 @@ const NewRawMaterialPage = () => {
                     unit_of_measure: '',
                     price_per_unit: '',
                     lead_time: '',
+                    label_url: '',
                 });
                 setSelectedSuppliers([]);
             })
@@ -483,12 +496,12 @@ const NewRawMaterialPage = () => {
                                 <div>
                                     <ImageUpload
                                         file={file}
+                                        title={"Supplier Label"}
                                         loading={loading}
                                         onFileChange={handleFileChange}
                                         onFileUpload={handleFileUpload}
+                                        uploaded={fileUploaded}
                                     />
-                                    {fileUrl && <img src={fileUrl} alt="Uploaded" />}
-                                    {error && <p>Error: {error}</p>}
                                 </div>
                                 </Grid>
                             </Grid>

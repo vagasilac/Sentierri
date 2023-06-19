@@ -38,7 +38,7 @@ export const uploadFile = (file) => {
             const fileUrl = await fileUploadService.uploadFile(file);
             dispatch(uploadFileSuccess(fileUrl));
         } catch (error) {
-            dispatch(uploadFileFailure(error));
+            dispatch(uploadFileFailure(error.stack));
         }
     };
 };

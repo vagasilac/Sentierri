@@ -9,7 +9,8 @@ config();
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: 'YOUR_REGION'
+  region: process.env.AWS_REGION,
+  endpoint: new AWS.Endpoint(`${process.env.AWS_REGION}.digitaloceanspaces.com`),
 });
 
 const s3 = new AWS.S3();
@@ -29,7 +30,6 @@ const upload = multer({
 });
 
 const uploadFile = (req, res) => {
-  console.log('uploadFile req:', req);
   upload.single('file')(req, res, function(err) {
     if (err instanceof multer.MulterError) {
       // A Multer error occurred when uploading.

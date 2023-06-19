@@ -8,6 +8,7 @@ const createMaterial = async (req, res) => {
     console.log('Received material data:', materialData);
     const newMaterial = await Material.create(materialData);
     res.status(201).json(newMaterial);
+    console.log('Created material:', newMaterial);
   } catch (error) {
     console.log('Error creating material!!!', error);
     res.status(400).json({ message: 'Error creating material!!!', error });
