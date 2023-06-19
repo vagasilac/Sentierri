@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Style } from '@material-ui/icons';
 import QRBox from '../common/QRBox';
 import ImageUpload from '../common/ImageUpload';
-import { uploadFile } from '../../features/fileUpload/fileUploadSlice';
+import { clearFileUrl, uploadFile } from '../../features/fileUpload/fileUploadSlice';
 import { updateRawMaterial } from '../../services/rawMaterialService';
 
 // TODO: validation (duplicate material_id, name, etc., required fields, etc., numeric fields, etc.)
@@ -76,6 +76,7 @@ const RawMaterialPage = () => {
     console.log('fileUploaded', fileUploaded);
 
     useEffect(() => {
+        dispatch(clearFileUrl());
         dispatch(fetchRawMaterials());
         dispatch(fetchColors());
         dispatch(fetchUMs());
@@ -158,6 +159,17 @@ const RawMaterialPage = () => {
             setFileUploaded(true);
         }
     }, [fileUrl, rawMaterial]);
+
+    const handleImageDelete = async (e) => {
+        e.preventDefault();
+        try {
+            dispatch(deleteImage(formValues.label_url));
+            setFormValues((prev) => ({ ...prev, label_url: '' }));
+            setFileUploaded(false);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -454,7 +466,7 @@ const RawMaterialPage = () => {
                         spacing={2}
                     >
                         <Grid item>
-                            <QRBox title="QR Code" barcode={formValues.material_id} />
+                            <QRBox title="Internal Label" barcode={formValues.material_id} />
                         </Grid>
                         <Grid item>
                         <div>
@@ -463,6 +475,7 @@ const RawMaterialPage = () => {
                                 title={"Supplier Label"}
                                 loading={loading}
                                 onFileUpload={handleFileUpload}
+                                onImageDelete={handleImageDelete}
                                 uploaded={fileUploaded}
                             />
                         </div>

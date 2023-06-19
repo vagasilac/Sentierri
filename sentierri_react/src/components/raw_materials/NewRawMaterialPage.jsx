@@ -488,7 +488,7 @@ const NewRawMaterialPage = () => {
                         spacing={2}
                     >
                         <Grid item>
-                            <QRBox title="QR Code" barcode={formValues.material_id} />
+                            <QRBox title="Internal Label" barcode={formValues.material_id} />
                         </Grid>
                         <Grid item>
                         <div>
