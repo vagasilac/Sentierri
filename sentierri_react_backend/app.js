@@ -14,6 +14,7 @@ const shopRoutes = require('./routes/shopRoutes');
 const colorRoutes = require('./routes/colorRoutes');
 const unitOfMeasureRoutes = require('./routes/UMRoutes');
 const passport = require('./middleware/passport');
+const uploadRoutes = require('./routes/uploadRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -35,6 +36,7 @@ app.use('/api/customers', customerRoutes);
 app.use('/api/shops', shopRoutes);
 app.use('/api/colors', colorRoutes);
 app.use('/api/unitsOfMeasure', unitOfMeasureRoutes);
+app.use('/api/uploads', uploadRoutes);
 
 // Add routes for other entities (e.g., products, orders) as needed
 

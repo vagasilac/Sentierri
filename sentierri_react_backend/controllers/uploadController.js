@@ -28,11 +28,15 @@ const upload = multer({
   })
 });
 
-exports.uploadFile = (req, res) => {
+const uploadFile = (req, res) => {
   upload.single('file')(req, res, function(err) {
     if (err) {
       return res.status(500).json({error: err.message});
     }
     res.send({fileUrl: req.file.location});
   });
+};
+
+module.exports = {
+  uploadFile
 };
