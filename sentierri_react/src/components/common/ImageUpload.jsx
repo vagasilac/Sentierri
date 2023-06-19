@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Paper, Button, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { uploadFile } from '../../features/fileUpload/fileUploadSlice';
+import { uploadFile, clearFileUrl } from '../../features/fileUpload/fileUploadSlice';
 import CircularProgress from '@mui/material/CircularProgress';
 
 export default function ImageUpload({ fileUrlRead, title, uploaded }) {
@@ -14,7 +14,9 @@ export default function ImageUpload({ fileUrlRead, title, uploaded }) {
   const handleUpload = async (event) => {
     const file = event.target.files[0];
     dispatch(uploadFile(file));
-    event.target.value = null;
+    if (!loading) {
+      dispatch(clearFileUrl());
+    }
 
   }
 

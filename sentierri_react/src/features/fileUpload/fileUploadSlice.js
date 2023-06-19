@@ -21,6 +21,10 @@ const fileUploadSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        clearFileUrl: (state) => {
+            console.log('fileUploadSlice clearFileUrl');
+            state.fileUrl = null;
+        }
     },
 });
 
@@ -28,6 +32,7 @@ export const {
     uploadFileRequest,
     uploadFileSuccess,
     uploadFileFailure,
+    clearFileUrl,
 } = fileUploadSlice.actions;
 
 export const uploadFile = (file) => {
