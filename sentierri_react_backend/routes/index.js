@@ -13,6 +13,7 @@ const customerRoutes = require('./customerRoutes');
 const shopRoutes = require('./shopRoutes');
 const colorRoutes = require('./colorRoutes');
 const UMRoutes = require('./UMRoutes');
+const uploadRoutes = require('./upload');
 
 // Use your entity routes
 router.use('/materials', materialRoutes);
@@ -26,6 +27,7 @@ router.use('/customers', customerRoutes);
 router.use('/shops', shopRoutes);
 router.use('/colors', colorRoutes);
 router.use('/units-of-measure', UMRoutes);
+router.use('/upload', uploadRoutes);
 
 // Add other entity routes here
 

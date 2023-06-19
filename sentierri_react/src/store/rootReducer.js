@@ -10,8 +10,10 @@ import customerReducer from '../features/customers/customersSlice';
 import shopReducer from '../features/shops/shopsSlice';
 import colorReducer from '../features/colors/colorsSlice';
 import rawMaterialsReducer from '../features/rawMaterials/rawMaterialsSlice';
+import fileUploadSlice from '../features/fileUpload/fileUploadSlice';
 
 const rootReducer = combineReducers({
+  fileUpload: fileUploadSlice,
   suppliers: suppliersReducer,
   categories: categoriesReducer,
   subCategories: subCategoriesReducer,

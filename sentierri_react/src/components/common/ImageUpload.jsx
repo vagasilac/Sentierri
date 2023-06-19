@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
 import { Paper, Button, Typography } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { uploadFile } from '../../features/fileUpload/fileUploadSlice';
 
 export default function ImageUpload({ title }) {
-  
+  const dispatch = useDispatch();
+  const { loading, fileUrl } = useSelector((state) => state.fileUpload);
+
+
+
   const handleUpload = async (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+    dispatch(uploadFile(formData));    
+  }
 
   return (
     <Paper 
@@ -13,9 +24,9 @@ export default function ImageUpload({ title }) {
       <Typography variant="h6" gutterBottom>
         {title}
       </Typography>
-      {selectedFile ? (
+      {fileUrl ? (
         <img 
-          src={} 
+          src={fileUrl}
           style={{ width: '100%', height: 'auto' }}
           alt="uploaded image" 
         />
@@ -26,7 +37,7 @@ export default function ImageUpload({ title }) {
           alt="placeholder image" 
         />
       )}
-      <Button variant="contained" component="label" disabled={isLoading}
+      <Button variant="contained" component="label" disabled={loading}
         style={{ marginTop: '1rem' }}
       >
         Upload Image

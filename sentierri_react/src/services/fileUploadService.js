@@ -12,7 +12,7 @@ export const uploadFile = async (file) => {
     });
     return response.data.fileUrl;
   } catch (error) {
-    console.error('Error uploading file!', error);
+    console.error('Error uploading file!', error, 'error response:',error.response);
     return null;
   }
 };

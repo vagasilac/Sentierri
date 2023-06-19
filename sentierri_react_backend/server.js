@@ -20,13 +20,20 @@ app.use('/api', routes);
 
 // Handle errors
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error(err.stack, err.res);
   res.status(500).send('Something went wrong!');
 });
 
 // Start the server on port 3000 (or the port specified in the environment)
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+app.listen(PORT, (err) => {
+  if (err) {
+    return console.error(err);
+  }
   console.log(`Server is running on port ${PORT}`);
+});
+
+app.get('/', (req, res) => {
+  res.send('Hello, world!');
 });
