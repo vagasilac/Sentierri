@@ -29,10 +29,18 @@ const upload = multer({
 });
 
 const uploadFile = (req, res) => {
+  console.log('uploadFile req:', req);
   upload.single('file')(req, res, function(err) {
-    if (err) {
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading.
+      console.error(err);
+      return res.status(500).json({error: err.message});
+    } else if (err) {
+      // An unknown error occurred when uploading.
+      console.error(err);
       return res.status(500).json({error: err.message});
     }
+    // Everything went fine.
     res.send({fileUrl: req.file.location});
   });
 };

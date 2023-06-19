@@ -12,7 +12,7 @@ export default function ImageUpload({ title }) {
   const handleUpload = async (event) => {
     const file = event.target.files[0];
     const formData = new FormData();
-    formData.append('image', file);
+    formData.append('file', file);
     dispatch(uploadFile(formData));    
   }
 

@@ -31,6 +31,7 @@ export const {
 } = fileUploadSlice.actions;
 
 export const uploadFile = (file) => {
+    console.log('fileUploadSlice uploadFile file:', file, 'file.name:', file.name, 'file.type:', file.type, 'file.size:', file.size, 'file.lastModified:', file.lastModified, 'file.lastModifiedDate:', file.lastModifiedDate, 'file.webkitRelativePath:', file.webkitRelativePath, 'file.path:', file.path, 'file.lastModifiedDate:', file.lastModified);
     return async (dispatch) => {
         dispatch(uploadFileRequest());
         try {
