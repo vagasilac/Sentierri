@@ -34,7 +34,7 @@ router.get('/:id', getMaterialById);
 router.put('/:id', updateMaterial);
 
 // Update a material by ID (delete label url)
-router.put('/:id/delete-label', deleteMaterialLabelUrl);
+router.put('/:id/delete-label/:url', deleteMaterialLabelUrl);
 
 // Delete a material by ID
 router.delete('/:id', deleteMaterial);
