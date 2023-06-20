@@ -14,6 +14,7 @@ const {
   getMaterialById,
   updateMaterial,
   deleteMaterial,
+  deleteMaterialLabelUrl,
 } = require('../controllers/materialController');
 const authMiddleware = require('../middleware/auth');
 
@@ -31,6 +32,9 @@ router.get('/:id', getMaterialById);
 
 // Update a material by ID
 router.put('/:id', updateMaterial);
+
+// Update a material by ID (delete label url)
+router.put('/:id/delete-label', deleteMaterialLabelUrl);
 
 // Delete a material by ID
 router.delete('/:id', deleteMaterial);

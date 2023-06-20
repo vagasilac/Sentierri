@@ -48,4 +48,8 @@ export const updateRawMaterial = async ( id, newFormValues ) => {
     return false;
   }
 };
-  
+
+export const deleteMaterialLabelUrl = async (id, url) => {
+  const response = await axios.put(`/api/materials/${id}/delete-label/${url}`);
+  return response.data;
+}

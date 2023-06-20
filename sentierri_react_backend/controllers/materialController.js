@@ -56,6 +56,25 @@ const updateMaterial = async (req, res) => {
   }
 };
 
+// Update (anull) a material's image URL by ID
+const deleteMaterialLabelUrl = async (req, res) => {
+  try {
+    const [rowsUpdated] = await Material.update({label_url: null}, {
+      where: { id: req.params.id },
+    });
+
+    if (!rowsUpdated) {
+      return res.status(404).json({ message: 'Material not found' });
+    }
+
+    const updatedMaterial = await Material.findByPk(req.params.id);
+    res.status(200).json(updatedMaterial);
+  } catch (error) {
+    res.status(400).json({ message: 'Error updating material', error });
+  }
+};
+
+
 // Delete a material by ID
 const deleteMaterial = async (req, res) => {
   try {
@@ -78,4 +97,5 @@ module.exports = {
   getMaterialById,
   updateMaterial,
   deleteMaterial,
+  deleteMaterialLabelUrl
 };

@@ -7,7 +7,7 @@ import { fetchCategories } from '../../features/categories/categoriesSlice';
 import { fetchSubCategories } from '../../features/subCategories/subCategoriesSlice';
 import { fetchColors } from '../../features/colors/colorsSlice';
 import { fetchSuppliers } from '../../features/suppliers/suppliersSlice';
-import { fetchRawMaterials, addRawMaterial } from '../../features/rawMaterials/rawMaterialsSlice';
+import { fetchRawMaterials, addRawMaterial, updateRawMaterial, deleteMaterialLabelUrl } from '../../features/rawMaterials/rawMaterialsSlice';
 import { addSupplierMaterial, fetchSupplierMaterialsByMaterialId } from '../../features/supplierMaterials/supplierMaterialsSlice';
 import { fetchUMs } from '../../features/UM/UMSlice';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,7 +15,6 @@ import { Style } from '@material-ui/icons';
 import QRBox from '../common/QRBox';
 import ImageUpload from '../common/ImageUpload';
 import { clearFileUrl, uploadFile } from '../../features/fileUpload/fileUploadSlice';
-import { updateRawMaterial } from '../../services/rawMaterialService';
 
 // TODO: validation (duplicate material_id, name, etc., required fields, etc., numeric fields, etc.)
 
@@ -160,15 +159,9 @@ const RawMaterialPage = () => {
         }
     }, [fileUrl, rawMaterial]);
 
-    const handleImageDelete = async (e) => {
-        e.preventDefault();
-        try {
-            dispatch(deleteImage(formValues.label_url));
-            setFormValues((prev) => ({ ...prev, label_url: '' }));
-            setFileUploaded(false);
-        } catch (err) {
-            console.log(err);
-        }
+    const handleImageDelete = () => {
+        dispatch(deleteMaterialLabelUrl(numId, formValues.label_url));
+        dispatch(clearFileUrl());
     };
 
     const handleSubmit = async (e) => {
@@ -204,7 +197,7 @@ const RawMaterialPage = () => {
                     Back
                 </Button>
             </Box>
-            <Grid container spacing={3} style={{display: 'flex',flexDirection: 'row',}}>
+            <Grid container spacing={3} style={{display: 'flex',flexDirection: 'row', width: '100%'}}>
                 {/* Main Content */}
                 <Grid item xs={12} md={9}>
                     <Paper
@@ -460,16 +453,15 @@ const RawMaterialPage = () => {
                 </Grid>
                 {/* Side panel - QR, label */}
                 <Grid item xs={12} md={3}>
-                    <Grid container item
+                    <Grid container
                         direction="column"
                         alignItems="center"
                         spacing={2}
                     >
-                        <Grid item>
+                        <Grid item xs={12}>
                             <QRBox title="Internal Label" barcode={formValues.material_id} />
                         </Grid>
-                        <Grid item>
-                        <div>
+                        <Grid item xs={12}>
                             <ImageUpload
                                 fileUrlRead={formValues.label_url}
                                 title={"Supplier Label"}
@@ -478,7 +470,6 @@ const RawMaterialPage = () => {
                                 onImageDelete={handleImageDelete}
                                 uploaded={fileUploaded}
                             />
-                        </div>
                         </Grid>
                     </Grid>
                 </Grid>

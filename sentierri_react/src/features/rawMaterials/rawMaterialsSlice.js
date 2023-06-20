@@ -61,7 +61,19 @@ const rawMaterialsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         },
+    deleteMaterialLabelUrlRequest: (state) => {
+        state.loading = true;
       },
+    deleteMaterialLabelUrlSuccess: (state, action) => {
+        state.loading = false;
+        state.currentRawMaterial = action.payload;
+        state.error = null;
+      },
+    deleteMaterialLabelUrlFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+      },
+    },
 });
 
 export const {
@@ -77,6 +89,9 @@ export const {
     updateRawMaterialRequest,
     updateRawMaterialSuccess,
     updateRawMaterialFailure,
+    deleteMaterialLabelUrlFailure,
+    deleteMaterialLabelUrlRequest,
+    deleteMaterialLabelUrlSuccess,
 } = rawMaterialsSlice.actions;
 
 export const fetchRawMaterials = () => {
@@ -117,14 +132,27 @@ export const addRawMaterial = (rawMaterial) => {
 }
 
 // updateRawMaterial
-export const updateRawMaterial = (rawMaterial) => {
+export const updateRawMaterial = (id, newFormValues) => {
   return async (dispatch) => {
     dispatch(addRawMaterialRequest());
     try {
-      const updatedRawMaterial = await rawMaterialService.updateRawMaterial(rawMaterial);
+      const updatedRawMaterial = await rawMaterialService.updateRawMaterial(id, newFormValues);
       dispatch(addRawMaterialSuccess(updatedRawMaterial));
     } catch (error) {
       dispatch(addRawMaterialFailure(error));
+    }
+  };
+}
+
+// deleteImageUrl
+export const deleteMaterialLabelUrl = (id, url) => {
+  return async (dispatch) => {
+    dispatch(deleteMaterialLabelUrlRequest());
+    try {
+      const updatedRawMaterial = await rawMaterialService.deleteMaterialLabelUrl(id, url);
+      dispatch(deleteMaterialLabelUrlSuccess(updatedRawMaterial));
+    } catch (error) {
+      dispatch(deleteMaterialLabelUrlFailure(error));
     }
   };
 }
