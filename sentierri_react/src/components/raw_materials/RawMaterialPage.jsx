@@ -65,7 +65,7 @@ const RawMaterialPage = () => {
     const [selectedCategoryId, setSelectedCategoryId] = useState('');
     const [filteredSubCategories, setFilteredSubCategories] = useState([]);
     const [selectedSuppliers, setSelectedSuppliers] = useState([]);
-    
+    const [key, setKey] = useState(Math.random());
     //set value of "loading, fileUrl, error" to null, then get it with useSelector from fileUploadSlice state
     const { loading, fileUrl, error } = useSelector((state) => state.fileUpload);   
     const [fileUploaded, setFileUploaded] = useState(false);
@@ -162,6 +162,8 @@ const RawMaterialPage = () => {
     const handleImageDelete = () => {
         dispatch(deleteMaterialLabelUrl(numId, formValues.label_url));
         dispatch(clearFileUrl());
+        setFileUploaded(false);
+        setKey(Math.random());
     };
 
     const handleSubmit = async (e) => {
@@ -463,6 +465,7 @@ const RawMaterialPage = () => {
                         </Grid>
                         <Grid item xs={12}>
                             <ImageUpload
+                                key={key}
                                 fileUrlRead={formValues.label_url}
                                 title={"Supplier Label"}
                                 loading={loading}
