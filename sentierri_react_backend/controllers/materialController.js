@@ -1,5 +1,7 @@
 // Import the Material model
+const { API_BASE_URL } = require('../../sentierri_react/src/config');
 const {Material} = require('../models');
+const { API_BASE_URL } = require('../config');
 
 // Create a new material
 const createMaterial = async (req, res) => {
@@ -67,9 +69,10 @@ const deleteMaterialLabelUrl = async (req, res) => {
     // Extract the key from the label_url
     const urlParts = material.label_url.split('/');
     const fileKey = urlParts[urlParts.length - 1];
+    console.log('fileKey:', fileKey, 'urlParts:', urlParts, 'material.label_url:', material.label_url, 'material:', material);
 
     // Delete the file from DigitalOcean Spaces
-    await axios.delete(`http://localhost:3000/api/upload/${fileKey}`);
+    await axios.delete(`${API_BASE_URL}/upload/${fileKey}`);
 
     const [rowsUpdated] = await Material.update({label_url: null}, {
       where: { id: req.params.id },

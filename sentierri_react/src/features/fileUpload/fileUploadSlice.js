@@ -24,7 +24,19 @@ const fileUploadSlice = createSlice({
         clearFileUrl: (state) => {
             console.log('fileUploadSlice clearFileUrl');
             state.fileUrl = null;
-        }
+        },
+        deleteFileRequest: (state) => {
+            state.loading = true;
+        },
+        deleteFileSuccess: (state, action) => {
+            state.loading = false;
+            state.fileUrl = action.payload;
+            state.error = null;
+        },
+        deleteFileFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
     },
 });
 
@@ -33,6 +45,9 @@ export const {
     uploadFileSuccess,
     uploadFileFailure,
     clearFileUrl,
+    deleteFileRequest,
+    deleteFileSuccess,
+    deleteFileFailure,
 } = fileUploadSlice.actions;
 
 export const uploadFile = (file) => {
@@ -44,6 +59,18 @@ export const uploadFile = (file) => {
             dispatch(uploadFileSuccess(fileUrl));
         } catch (error) {
             dispatch(uploadFileFailure(error.stack));
+        }
+    };
+};
+
+export const deleteFile = (fileUrl) => {
+    return async (dispatch) => {
+        dispatch(deleteFileRequest());
+        try {
+            const fileUrl = await fileUploadService.deleteFile(fileUrl);
+            dispatch(deleteFileSuccess(fileUrl));
+        } catch (error) {
+            dispatch(deleteFileFailure(error.stack));
         }
     };
 };
