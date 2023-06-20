@@ -111,6 +111,8 @@ TREE =
       └──colorsSlice.js
       ├──customers
       └──customersSlice.js
+      ├──fileUpload
+      └──fileUploadSlice.js
       ├──rawMaterials
       └──rawMaterialsSlice.js
       ├──shops
@@ -123,9 +125,8 @@ TREE =
       └──supplierMaterialsSlice.js
       ├──suppliers
       └──suppliersSlice.js
-      ├──UM
+    └──UM
       └──UMSlice.js
-    └──apiSlice.js
     ├──navbarActions
     └──navbarActions.jsx
     ├──services
@@ -133,6 +134,7 @@ TREE =
       ├──categoryService.js
       ├──colorService.js
       ├──customerService.js
+      ├──fileUploadService.js
       ├──rawMaterialService.js
       ├──shopsService.js
       ├──subCategoryService.js
@@ -173,10 +175,7 @@ TREE =
     ├──supplierCategoryController.js
     ├──supplierController.js
     ├──supplierMaterialController.js
-    ├──UMController.js
-    ├──uploadController.js
-    ├──uploadController_nw1.js
-  └──uploadController_orig.js
+  └──UMController.js
   ├──deploy
   └──nginx
   ├──middleware
@@ -233,18 +232,21 @@ TREE =
 ├──Get-Tree2.ps1
 ├──tree.txt
 ├──treeall.txt
-├──treetoupload.md
+├──treetoupload-09.38-16.06.md
+├──treetoupload-11.37-16.06.md
 ├──xmastree.ps1
 └──xmastree.txt
+
 LINKS = 
 Use TREE where root's link is:
 frontend: https://github.com/vagasilac/Sentierri/blob/master/sentierri_react + file for files 
 backend: https://github.com/vagasilac/Sentierri/blob/master/sentierri_react_backend + file for files and https://github.com/vagasilac/Sentierri/tree/... for folders.
-TASK:
-I want to introduce to my React Express app the functionality of upload.
-For example: in NewRawMaterialPage 
 
-METHOD:
+GOAL = 
+Please help me recreate the mechanism that deletes the the currently opened (RawMaterialPage) material's label_url value in  Materials table, when the delete button is pressed in the ImageUpload component.
+
+METHOD =
  Decide which files to open (You have the LINKS thus the ACCESS to all the files of the application and the folder structure) to do TASK, then open ALL relevant files (through the links with your browsing, scraping and link opening plugins) and inspect them.
  So no "Since I don't have access to your ..." >> you have ACCESS. "The existing code in the file looks like this:" >> avoid this. "Your [filename] file currently looks like this:" >> avoid this. "replace [assumed path] with the actual path"" >> avoid this, give path yourself.  Don't repeat (e.g. here's the relevant part of your code) and explain any existing code, only suggest code modifications. Don't give me instructions which files to open and check, do it yourself, you have the LINKS and the ability to open them and read the code. Don't assume anything, but look for the relevant files and check the code for yourself. When answering don't give instructions like: "replace the placeholders in the code snippets with the actual names of your components and variables" but look for the actual names and variables (go and check the real, existing files).
  Cut in half code for new files in two responses and give them separately if it would not fit in one response.
+ Track down all relevant files that you want to open and read, don't ask for permission for it. Look for imports, and from them you can deduce what other files need to be opened. Do yourself as much as possible, be as much autonomous as possible.

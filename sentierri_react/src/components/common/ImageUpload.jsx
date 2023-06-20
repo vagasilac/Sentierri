@@ -24,11 +24,14 @@ export default function ImageUpload({ fileUrlRead, title, uploaded, onImageDelet
   };
 
   const handleImageDelete = () => {
-    if (onImageDelete) {
+    try
+    {
       onImageDelete();
+      fileUrlRead = null;
     }
-    if (props.currentId) {
-      dispatch(deleteMaterialLabelUrl(props.currentId));
+    catch (err)
+    {
+      console.log('ImageUpload handleImageDelete error', err);
     }
   };
 
