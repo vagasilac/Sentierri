@@ -45,6 +45,25 @@ const uploadFile = (req, res) => {
   });
 };
 
+const deleteFile = (req, res) => {
+  const params = {
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: req.params.key
+  };
+
+  s3.deleteObject(params, function(err, data) {
+    if (err) {
+      console.log(err, err.stack);
+      return res.status(500).json({error: err.message});
+    } else {
+      console.log(data);
+      res.send({message: 'File deleted successfully'});
+    }
+  });
+};
+
+
 module.exports = {
-  uploadFile
+  uploadFile,
+  deleteFile
 };
