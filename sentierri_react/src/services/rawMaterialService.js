@@ -50,6 +50,11 @@ export const updateRawMaterial = async ( id, newFormValues ) => {
 };
 
 export const deleteMaterialLabelUrl = async (id, url) => {
-  const response = await axios.put(`/api/materials/${id}/delete-label/${url}`);
+  try {
+  const response = await axios.put(`${API_BASE_URL}/materials/${id}/delete-label`, {url});
   return response.data;
+  } catch (error) {
+    console.error('Error deleting material label url', error.stack);
+    return null;
+  }
 }

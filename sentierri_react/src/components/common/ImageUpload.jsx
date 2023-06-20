@@ -59,7 +59,7 @@ export default function ImageUpload({ fileUrlRead, title, uploaded, onImageDelet
           ) :
             loading ? (
               <div 
-                style={{ display: 'flex', justifyContent: 'center' }}
+                style={{ display: 'flex', justifyContent: 'center', width: 'auto' }}
               >
                 <CircularProgress />
               </div>
