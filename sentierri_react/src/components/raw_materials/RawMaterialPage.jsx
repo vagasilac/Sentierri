@@ -163,6 +163,7 @@ const RawMaterialPage = () => {
         dispatch(deleteMaterialLabelUrl(numId, formValues.label_url));
         dispatch(clearFileUrl());
         setFileUploaded(false);
+        setFormValues(prev => ({ ...prev, label_url: null }));
         setKey(Math.random());
     };
 
