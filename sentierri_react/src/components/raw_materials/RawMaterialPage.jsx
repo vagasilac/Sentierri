@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Container, Grid, Breadcrumbs, Box, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem, Paper, } from '@material-ui/core';
+import { CardContent, Tabs, Tab, CardHeader, Divider, Container, Grid, Breadcrumbs, Box, Typography, TextField, Button, FormControl, List, ListItem, ListItemText, ListItemAvatar, Avatar, InputLabel, Select, MenuItem, Paper, Card, CardMedia, } from '@material-ui/core';
 import Autocomplete from '@mui/material/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
 import { fetchCategories } from '../../features/categories/categoriesSlice';
@@ -15,6 +15,17 @@ import { Style } from '@material-ui/icons';
 import QRBox from '../common/QRBox';
 import ImageUpload from '../common/ImageUpload';
 import { clearFileUrl, uploadFile } from '../../features/fileUpload/fileUploadSlice';
+import Diversity2Icon from '@mui/icons-material/Diversity2';
+import CategoryIcon from '@mui/icons-material/Category';
+import ColorLensIcon from '@mui/icons-material/ColorLens';
+import SquareFootIcon from '@mui/icons-material/SquareFoot';
+import StraightenIcon from '@mui/icons-material/Straighten';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import PaidIcon from '@mui/icons-material/Paid';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import ModelTable from '../raw_materials/ModelTable';
+import StockTable from '../raw_materials/StockTable';
+import TransactionsTable from '../raw_materials/TransactionsTable';
 
 // TODO: validation (duplicate material_id, name, etc., required fields, etc., numeric fields, etc.)
 
@@ -25,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     submitButton: {
       marginTop: theme.spacing(2),
     },
+    cardGrid: {
+        display: 'flex', justifyContent: 'space-between', backgroundColor: '#f5f5f5', alignItems: 'center', borderRadius: '2rem', paddingLeft: '2rem', paddingRight: '2rem', margin: '0.5rem' },
+
 }));
   
 const RawMaterialPage = () => {
@@ -70,9 +84,7 @@ const RawMaterialPage = () => {
     const { loading, fileUrl, error } = useSelector((state) => state.fileUpload);   
     const [fileUploaded, setFileUploaded] = useState(false);
     const [file, setFile] = useState(null);
-    console.log('file', file);
-    console.log('fileUrl', fileUrl);
-    console.log('fileUploaded', fileUploaded);
+    const [tabValue, setTabValue] = useState(0);
 
     useEffect(() => {
         dispatch(clearFileUrl());
@@ -167,6 +179,10 @@ const RawMaterialPage = () => {
         setKey(Math.random());
     };
 
+    const handleTabChange = (event, newValue) => {
+        setTabValue(newValue);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try
@@ -203,256 +219,184 @@ const RawMaterialPage = () => {
             <Grid container spacing={3} style={{display: 'flex',flexDirection: 'row', width: '100%'}}>
                 {/* Main Content */}
                 <Grid item xs={12} md={9}>
-                    <Paper
-                    elevation={4}
-                    className={classes.paper}
-                    style={{ 
-                        padding: '3rem',
-                        marginVertical: '2rem',
-                    }}
-                    >                
-                        <Typography variant="h4">Update Raw Material</Typography>
-                        <form className={classes.form} onSubmit={handleSubmit}>
-                            <Grid container spacing={3}>
-                                <Grid item xs={12} md={6}> 
-                                    <TextField
-                                    required
-                                    fullWidth
-                                    label="Material ID"
-                                    name="material_id"
-                                    value={formValues.material_id}
-                                    onChange={handleChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={6}> 
-                                    <TextField
-                                    required
-                                    fullWidth
-                                    label="Name"
-                                    name="name"
-                                    value={formValues.name}
-                                    onChange={handleChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={6}> 
-                                    <TextField
-                                    required
-                                    fullWidth
-                                    label="Group"
-                                    name="material_group"
-                                    value={formValues.material_group}
-                                    onChange={handleChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={6}> 
-                                    <TextField
-                                    required
-                                    fullWidth
-                                    label="Type"
-                                    name="material_type"
-                                    value={formValues.material_type}
-                                    onChange={handleChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={6}> 
-                                    <FormControl required fullWidth>
-                                        <InputLabel id="material-category-label">Category</InputLabel>
-                                        <Select
-                                        labelId="material-category-label"
-                                        name="material_category"
-                                        value={formValues.material_category}
-                                        onChange={handleChange}
-                                        >
-                                        {categories.map((category) => (
-                                            <MenuItem key={category.id} value={category.id}>
-                                            {category.name}
-                                            </MenuItem>
-                                        ))}
-                                        </Select>
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={12} md={6}> 
-                                    <FormControl fullWidth>
-                                        <InputLabel id="material-subcategory-label">Subcategory</InputLabel>
-                                        <Select
-                                        labelId="material-subcategory-label"
-                                        name="material_subcategory"
-                                        value={formValues.material_subcategory}
-                                        onChange={handleChange}
-                                        >
-                                        {filteredSubCategories.map((filteredSubCategory) => (
-                                            <MenuItem key={filteredSubCategory.id} value={filteredSubCategory.id}>
-                                            {filteredSubCategory.name}
-                                            </MenuItem>
-                                        ))}
-                                        </Select>
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={12} md={6}
-                                    style={
-                                        {
+                    <Grid container spacing={3}>
+                        {/* Details card */}
+                        <Grid item xs={12}>
+                            <Card className={classes.root}>
+                                    <Box
+                                        style={{
                                             display: 'flex',
-                                            flexDirection: 'row',
                                             justifyContent: 'space-between',
                                             alignItems: 'center',
-                                        }
-                                    }>
-                                        <FormControl
-                                            required fullWidth
-                                            >
-                                            <InputLabel id="color-label">Color</InputLabel>
-                                            <Select
-                                                labelId="color-label"
-                                                name="color"
-                                                value={formValues.color}
-                                                onChange={handleChange}
-                                                inputProps={{
-                                                    name: 'color',
-                                                    }}
-                                            >
-                                                {colors.map((color) => (
-                                                    <MenuItem key={color.id} value={color.name_ro} >
-                                                        <div
-                                                            style={{
-                                                                display: 'flex',
-                                                                flexDirection: 'row',
-                                                                width: '100%',
-                                                                justifyContent: 'space-between',
-                                                            }}
-                                                        >
-                                                            {color.name_ro}
-                                                            <div style={{
-                                                                background: color.gradient ? `linear-gradient(180deg, ${color.display_color_code} 0%, #000000 100%)` : color.display_color_code,
-                                                                width: '1.5rem',
-                                                                height: '1.5rem',
-                                                                borderRadius: '50%',
-                                                            }}/>
-                                                        </div>
-                                                    </MenuItem>
-                                                ))}
-                                            </Select>
-                                        </FormControl>
-                                </Grid>
-                                <Grid item xs={12} md={6}> 
-                                    <TextField
-                                    required
-                                    fullWidth
-                                    label="Supplier Color"
-                                    name="supplier_color"
-                                    value={formValues.supplier_color}
-                                    onChange={handleChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={6}> 
-                                    <TextField
-                                    required
-                                    fullWidth
-                                    label="Size"
-                                    name="size"
-                                    value={formValues.size}
-                                    onChange={handleChange}
-                                    />
-                                </Grid>
-                                {/* 
-                                Only show the roll width field if the material_type is roll
-                                */}
-                                {formValues.material_type == 'roll' && (
-                                    <Grid item xs={12} md={6}> 
-                                    <TextField
-                                    // required
-                                    fullWidth
-                                    label="Roll Width"
-                                    name="roll_width"
-                                    type="number"
-                                    value={formValues.roll_width}
-                                    onChange={handleChange}
-                                    />
-                                </Grid>
-                                )}
-                                <Grid item xs={12} md={6}>
-                                        <FormControl
-                                            required fullWidth
-                                            >
-                                            <InputLabel id="um-label">UM</InputLabel>
-                                            <Select
-                                                labelId="um-label"
-                                                name="um"
-                                                value={formValues.unit_of_measure}
-                                                onChange={handleChange}
-                                                inputProps={{
-                                                    name: 'unit_of_measure',
-                                                    }}
-                                            >
-                                                {UMs.map((UM) => (
-                                                    <MenuItem key={UM.id} value={UM.abbreviation} >
-                                                        {UM.abbreviation}
-                                                    </MenuItem>
-                                                ))}
-                                            </Select>
-                                        </FormControl>
-                                </Grid>
-                                <Grid item xs={12} md={6}> 
-                                    <TextField
-                                    InputProps={{
-                                        inputProps: {
-                                            step: 0.01
-                                        }
-                                    }}
-                                    required
-                                    fullWidth
-                                    label="Price per unit"
-                                    name="price_per_unit"
-                                    type="number"
-                                    value={formValues.price_per_unit}
-                                    onChange={handleChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={6}> 
-                                    <TextField
-                                    // only accept integers
-                                    InputProps={{
-                                        inputProps: {
-                                            step: 1
-                                        }
-                                    }}
-                                    required
-                                    fullWidth
-                                    label="Lead Time (days)"
-                                    name="lead_time"
-                                    type="number"
-                                    value={formValues.lead_time}
-                                    onChange={handleChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={6}> 
-                                    { suppliers && (
-                                        <Autocomplete
-                                            disablePortal
-                                            multiple
-                                            id="combo-box"
-                                            name="main_supplier"
-                                            options={suppliers}
-                                            getOptionLabel={(option) => option.name}
-                                            onChange={(event, value) => setSelectedSuppliers(value)}
-                                            renderInput={(params) =>
-                                                <TextField {...params} label={"Main Supplier(s)"} variant="standard"/>
-                                            }
-                                        />
-                                    )}
-                                </Grid>            
-                                <Grid item xs={6}>
-                                    <Button
-                                    type="submit"
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.submitButton}
+                                        }}
                                     >
-                                    Update Raw Material
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                        </form>
-                    </Paper>
+                                        <CardHeader
+                                            title={formValues.name}
+                                            subheader={formValues.material_id}
+                                            />
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={handleSubmit}
+                                            style={{
+                                                marginRight: '1rem',
+                                            }}
+                                            >
+                                                Update
+                                        </Button>
+                                    </Box>
+                                    <Divider />
+                                    <CardContent
+                                        style={{
+                                            display: 'flex',
+                                            flexDirection: 'row',
+                                            maxHeight: '20rem',
+                                            overflow: 'auto',
+                                        }}
+                                    >
+                                    <List
+                                        style={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            flexWrap: 'wrap',
+                                        }}
+                                    >
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar>
+                                                <Diversity2Icon />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText
+                                                primary={formValues.material_group}
+                                                // secondary={secondary ? 'Secondary text' : null}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar>
+                                                <CategoryIcon />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText
+                                                primary={formValues.material_category}
+                                                secondary={formValues.material_subcategory}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar>
+                                                    <ColorLensIcon />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText
+                                                primary={formValues.color}
+                                                secondary={formValues.supplier_color}
+                                            />
+                                        </ListItem>
+                                    {/* </List>
+                                    <List> */}
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar>
+                                                    <SquareFootIcon />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText
+                                                primary={formValues.size}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar>
+                                                    <StraightenIcon />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText
+                                                primary={formValues.roll_width}
+                                                />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar>
+                                                    <DateRangeIcon />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText
+                                                primary={formValues.lead_time}
+                                                />
+                                        </ListItem>
+                                    {/* </List>
+                                    <List> */}
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar>
+                                                    <PaidIcon />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText
+                                                primary={formValues.price_per_unit}
+                                            />
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemAvatar>
+                                                <Avatar>
+                                                    <LocalShippingIcon />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText
+                                                primary={formValues.main_supplier}
+                                            />
+                                        </ListItem>
+                                    </List>
+                                    </CardContent>
+                            </Card>
+                        </Grid>
+                        {/* table with three tabs: "Models", "Stock", "Transactions" */}
+                        <Grid item xs={12}>
+                            <Paper
+                                elevation={4}
+                                className={classes.paper}
+                                style={{ 
+                                    padding: '3rem',
+                                    marginVertical: '2rem',
+                                }}
+                            >
+                                <Box
+                                    sx={{ borderBottom: 1, borderColor: 'divider' }}
+                                    style={{
+                                        marginBottom: '2rem',
+                                    }}
+                                >
+                                    <Tabs value={tabValue}
+                                    indicatorColor="primary"
+                                    textColor="primary"
+
+                                    onChange={handleTabChange}
+                                    >
+                                        <Tab label="Models" />
+                                        <Tab label="Stock" />
+                                        <Tab label="Transactions" />
+                                    </Tabs>
+                                </Box>
+                                {tabValue === 0 && (
+                                    <Box p={3}>
+                                        <ModelTable />
+                                    </Box>
+                                )}
+                                {tabValue === 1 && (
+                                    <Box p={3}>
+                                        <StockTable />
+                                    </Box>
+                                )}
+                                {tabValue === 2 && (
+                                    <Box p={3}>
+                                        <TransactionsTable />
+                                    </Box>
+                                )}
+                            </Paper>
+                        </Grid>
+                    </Grid>
                 </Grid>
                 {/* Side panel - QR, label */}
                 <Grid item xs={12} md={3}>

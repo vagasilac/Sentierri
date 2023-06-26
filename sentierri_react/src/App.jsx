@@ -52,6 +52,7 @@ function App() {
             <Route path="/raw-materials/" element={<RawMaterialsPage />} />
             <Route path="/raw-materials/new" element={<NewRawMaterialPage />} />
             <Route path="/raw_materials/:id" element={<RawMaterialPage />} />
+            {/* <Route path="/raw_materials/:id" element={<RawMaterialEditPage />} /> */}
             <Route path="/settings/categories/" element={<Categories />} />
             <Route path="/settings/categories/new" element={<NewCategory />} />
             <Route path="/settings/categories/:id" element={<Category />} />

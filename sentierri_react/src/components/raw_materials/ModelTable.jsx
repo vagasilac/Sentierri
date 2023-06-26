@@ -111,7 +111,4 @@ export const ModelTable = () => {
     );
 };
 
-
-
-
-
+export default ModelTable;

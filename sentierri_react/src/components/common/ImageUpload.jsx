@@ -9,6 +9,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteMaterialLabelUrl } from '../../features/rawMaterials/rawMaterialsSlice';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
+// TODO:
+// - preview image instead of actual image
+// - only upload image when parent component is submitted
+
 export default function ImageUpload({ fileUrlRead, title, uploaded, onImageDelete }) {
   const dispatch = useDispatch();
   const { loading, fileUrl } = useSelector((state) => state.fileUpload);
