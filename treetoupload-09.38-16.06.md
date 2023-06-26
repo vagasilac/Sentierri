@@ -76,6 +76,7 @@ TREE =
       ├──raw_materials
         ├──ModelTable.jsx
         ├──NewRawMaterialPage.jsx
+        ├──RawMaterialEditPage.jsx
         ├──RawMaterialPage.jsx
         ├──RawMaterialPage_.jsx
         ├──RawMaterialPage_orig.jsx
@@ -175,7 +176,8 @@ TREE =
     ├──supplierCategoryController.js
     ├──supplierController.js
     ├──supplierMaterialController.js
-  └──UMController.js
+    ├──UMController.js
+  └──uploadController.js
   ├──deploy
   └──nginx
   ├──middleware
@@ -211,7 +213,7 @@ TREE =
     ├──supplierMaterialRoutes.js
     ├──supplierRoutes.js
     ├──UMRoutes.js
-  └──upload.js
+  └──uploadRoutes.js
   ├──seeders
   ├──uploads
   └──file-1686607186837.PNG
@@ -219,6 +221,7 @@ TREE =
   ├──.env
   ├──.gitignore
   ├──app.js
+  ├──config.js
   ├──Dockerfile
   ├──package-lock.json
   ├──package.json
@@ -243,10 +246,12 @@ frontend: https://github.com/vagasilac/Sentierri/blob/master/sentierri_react + f
 backend: https://github.com/vagasilac/Sentierri/blob/master/sentierri_react_backend + file for files and https://github.com/vagasilac/Sentierri/tree/... for folders.
 
 GOAL = 
-Please help me recreate the mechanism that deletes the the currently opened (RawMaterialPage) material's label_url value in  Materials table, when the delete button is pressed in the ImageUpload component.
+In the RawMaterialPage, help me modify the code in a way that the ListItems to appear in a horizontal slider, automatically sliding to the left.
 
 METHOD =
  Decide which files to open (You have the LINKS thus the ACCESS to all the files of the application and the folder structure) to do TASK, then open ALL relevant files (through the links with your browsing, scraping and link opening plugins) and inspect them.
  So no "Since I don't have access to your ..." >> you have ACCESS. "The existing code in the file looks like this:" >> avoid this. "Your [filename] file currently looks like this:" >> avoid this. "replace [assumed path] with the actual path"" >> avoid this, give path yourself.  Don't repeat (e.g. here's the relevant part of your code) and explain any existing code, only suggest code modifications. Don't give me instructions which files to open and check, do it yourself, you have the LINKS and the ability to open them and read the code. Don't assume anything, but look for the relevant files and check the code for yourself. When answering don't give instructions like: "replace the placeholders in the code snippets with the actual names of your components and variables" but look for the actual names and variables (go and check the real, existing files).
  Cut in half code for new files in two responses and give them separately if it would not fit in one response.
  Track down all relevant files that you want to open and read, don't ask for permission for it. Look for imports, and from them you can deduce what other files need to be opened. Do yourself as much as possible, be as much autonomous as possible.
+ Design a proprietary language for ChatGPT, using symbols, characters, and abbreviations, that is optimized for maximum compression of React and Node.js codebases, as well as error messages related to these technologies. This language, intended solely for compression and not for human readability, will enable the storage of the compressed data in the Memory Bank plugin. The stored information should be retrievable and decipherable by ChatGPT as needed
+ Use this language to store all of your knowledge of this project, this codebase for future requests.

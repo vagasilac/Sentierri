@@ -26,6 +26,7 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import ModelTable from '../raw_materials/ModelTable';
 import StockTable from '../raw_materials/StockTable';
 import TransactionsTable from '../raw_materials/TransactionsTable';
+import { useSwipeable } from 'react-swipeable';
 
 // TODO: validation (duplicate material_id, name, etc., required fields, etc., numeric fields, etc.)
 
@@ -150,6 +151,12 @@ const RawMaterialPage = () => {
         }
     };
 
+    const handlers = useSwipeable({
+        onSwiped: (eventData) => console.log("User Swiped!", eventData),
+        delta: 30,
+        trackMouse: true,
+      });
+
     const handleBack = () => {
         navigate('/raw-materials');
     };
@@ -248,107 +255,117 @@ const RawMaterialPage = () => {
                                     <Divider />
                                     <CardContent
                                         style={{
-                                            display: 'flex',
-                                            flexDirection: 'row',
-                                            maxHeight: '20rem',
-                                            overflow: 'auto',
+                                            // display: 'flex',
+                                            // flexDirection: 'row',
+                                            // maxHeight: '20rem',
+                                            // overflow: 'auto',
                                         }}
                                     >
-                                    <List
-                                        style={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            flexWrap: 'wrap',
-                                        }}
-                                    >
-                                        <ListItem>
-                                            <ListItemAvatar>
-                                                <Avatar>
-                                                <Diversity2Icon />
-                                                </Avatar>
-                                            </ListItemAvatar>
-                                            <ListItemText
-                                                primary={formValues.material_group}
-                                                // secondary={secondary ? 'Secondary text' : null}
-                                            />
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemAvatar>
-                                                <Avatar>
-                                                <CategoryIcon />
-                                                </Avatar>
-                                            </ListItemAvatar>
-                                            <ListItemText
-                                                primary={formValues.material_category}
-                                                secondary={formValues.material_subcategory}
-                                            />
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemAvatar>
-                                                <Avatar>
-                                                    <ColorLensIcon />
-                                                </Avatar>
-                                            </ListItemAvatar>
-                                            <ListItemText
-                                                primary={formValues.color}
-                                                secondary={formValues.supplier_color}
-                                            />
-                                        </ListItem>
-                                    {/* </List>
-                                    <List> */}
-                                        <ListItem>
-                                            <ListItemAvatar>
-                                                <Avatar>
-                                                    <SquareFootIcon />
-                                                </Avatar>
-                                            </ListItemAvatar>
-                                            <ListItemText
-                                                primary={formValues.size}
-                                            />
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemAvatar>
-                                                <Avatar>
-                                                    <StraightenIcon />
-                                                </Avatar>
-                                            </ListItemAvatar>
-                                            <ListItemText
-                                                primary={formValues.roll_width}
+                                    <div {...handlers}>
+                                        <List
+                                            style={{
+                                                display: 'flex',
+                                                flexDirection: 'row',
+                                                flexWrap: 'nowrap',
+                                                overflowX: 'auto',
+                                                // hide scrollbar
+                                                scrollbarWidth: 'none',
+                                                msOverflowStyle: 'none',
+                                                '&::-webkit-scrollbar': {
+                                                    width: '0 !important',
+                                                    display: 'none !important',
+                                                },
+                                            }}
+                                        >
+                                            <ListItem>
+                                                <ListItemAvatar>
+                                                    <Avatar>
+                                                    <Diversity2Icon />
+                                                    </Avatar>
+                                                </ListItemAvatar>
+                                                <ListItemText
+                                                    primary={formValues.material_group}
+                                                    // secondary={secondary ? 'Secondary text' : null}
                                                 />
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemAvatar>
-                                                <Avatar>
-                                                    <DateRangeIcon />
-                                                </Avatar>
-                                            </ListItemAvatar>
-                                            <ListItemText
-                                                primary={formValues.lead_time}
+                                            </ListItem>
+                                            <ListItem>
+                                                <ListItemAvatar>
+                                                    <Avatar>
+                                                    <CategoryIcon />
+                                                    </Avatar>
+                                                </ListItemAvatar>
+                                                <ListItemText
+                                                    primary={formValues.material_category}
+                                                    secondary={formValues.material_subcategory}
                                                 />
-                                        </ListItem>
-                                    {/* </List>
-                                    <List> */}
-                                        <ListItem>
-                                            <ListItemAvatar>
-                                                <Avatar>
-                                                    <PaidIcon />
-                                                </Avatar>
-                                            </ListItemAvatar>
-                                            <ListItemText
-                                                primary={formValues.price_per_unit}
-                                            />
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemAvatar>
-                                                <Avatar>
-                                                    <LocalShippingIcon />
-                                                </Avatar>
-                                            </ListItemAvatar>
-                                            <ListItemText
-                                                primary={formValues.main_supplier}
-                                            />
-                                        </ListItem>
-                                    </List>
+                                            </ListItem>
+                                            <ListItem>
+                                                <ListItemAvatar>
+                                                    <Avatar>
+                                                        <ColorLensIcon />
+                                                    </Avatar>
+                                                </ListItemAvatar>
+                                                <ListItemText
+                                                    primary={formValues.color}
+                                                    secondary={formValues.supplier_color}
+                                                />
+                                            </ListItem>
+                                        {/* </List>
+                                        <List> */}
+                                            <ListItem>
+                                                <ListItemAvatar>
+                                                    <Avatar>
+                                                        <SquareFootIcon />
+                                                    </Avatar>
+                                                </ListItemAvatar>
+                                                <ListItemText
+                                                    primary={formValues.size}
+                                                />
+                                            </ListItem>
+                                            <ListItem>
+                                                <ListItemAvatar>
+                                                    <Avatar>
+                                                        <StraightenIcon />
+                                                    </Avatar>
+                                                </ListItemAvatar>
+                                                <ListItemText
+                                                    primary={formValues.roll_width}
+                                                    />
+                                            </ListItem>
+                                            <ListItem>
+                                                <ListItemAvatar>
+                                                    <Avatar>
+                                                        <DateRangeIcon />
+                                                    </Avatar>
+                                                </ListItemAvatar>
+                                                <ListItemText
+                                                    primary={formValues.lead_time}
+                                                    />
+                                            </ListItem>
+                                        {/* </List>
+                                        <List> */}
+                                            <ListItem>
+                                                <ListItemAvatar>
+                                                    <Avatar>
+                                                        <PaidIcon />
+                                                    </Avatar>
+                                                </ListItemAvatar>
+                                                <ListItemText
+                                                    primary={formValues.price_per_unit}
+                                                />
+                                            </ListItem>
+                                            <ListItem>
+                                                <ListItemAvatar>
+                                                    <Avatar>
+                                                        <LocalShippingIcon />
+                                                    </Avatar>
+                                                </ListItemAvatar>
+                                                <ListItemText
+                                                    primary={formValues.main_supplier}
+                                                />
+                                            </ListItem>
+                                        </List>
+                                    </div>
                                     </CardContent>
                             </Card>
                         </Grid>
