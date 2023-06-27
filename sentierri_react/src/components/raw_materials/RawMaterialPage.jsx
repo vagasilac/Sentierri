@@ -26,7 +26,6 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import ModelTable from '../raw_materials/ModelTable';
 import StockTable from '../raw_materials/StockTable';
 import TransactionsTable from '../raw_materials/TransactionsTable';
-import { useSwipeable } from 'react-swipeable';
 
 // TODO: validation (duplicate material_id, name, etc., required fields, etc., numeric fields, etc.)
 
@@ -151,12 +150,6 @@ const RawMaterialPage = () => {
         }
     };
 
-    const handlers = useSwipeable({
-        onSwiped: (eventData) => console.log("User Swiped!", eventData),
-        delta: 30,
-        trackMouse: true,
-      });
-
     const handleBack = () => {
         navigate('/raw-materials');
     };
@@ -223,7 +216,7 @@ const RawMaterialPage = () => {
                     Back
                 </Button>
             </Box>
-            <Grid container spacing={3} style={{display: 'flex',flexDirection: 'row', width: '100%'}}>
+            <Grid container spacing={3} style={{display: 'flex', flexDirection: 'row', width: '100%'}}>
                 {/* Main Content */}
                 <Grid item xs={12} md={9}>
                     <Grid container spacing={3}>
@@ -253,30 +246,15 @@ const RawMaterialPage = () => {
                                         </Button>
                                     </Box>
                                     <Divider />
-                                    <CardContent
-                                        style={{
-                                            // display: 'flex',
-                                            // flexDirection: 'row',
-                                            // maxHeight: '20rem',
-                                            // overflow: 'auto',
-                                        }}
-                                    >
-                                    <div {...handlers}>
+                                    <CardContent>
+                                    <div style={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
                                         <List
                                             style={{
                                                 display: 'flex',
                                                 flexDirection: 'row',
                                                 flexWrap: 'nowrap',
                                                 overflowX: 'auto',
-                                                // hide scrollbar
-                                                scrollbarWidth: 'none',
-                                                msOverflowStyle: 'none',
-                                                '&::-webkit-scrollbar': {
-                                                    width: '0 !important',
-                                                    display: 'none !important',
-                                                },
-                                            }}
-                                        >
+                                                }}>
                                             <ListItem>
                                                 <ListItemAvatar>
                                                     <Avatar>
@@ -285,7 +263,6 @@ const RawMaterialPage = () => {
                                                 </ListItemAvatar>
                                                 <ListItemText
                                                     primary={formValues.material_group}
-                                                    // secondary={secondary ? 'Secondary text' : null}
                                                 />
                                             </ListItem>
                                             <ListItem>
