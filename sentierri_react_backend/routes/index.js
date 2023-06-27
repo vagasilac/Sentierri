@@ -12,6 +12,7 @@ const agentRelationRoutes = require('./agentRelationRoutes');
 const customerRoutes = require('./customerRoutes');
 const shopRoutes = require('./shopRoutes');
 const colorRoutes = require('./colorRoutes');
+const modelRoutes = require('./modelRoutes');
 const UMRoutes = require('./UMRoutes');
 const uploadRoutes = require('./uploadRoutes');
 
@@ -26,6 +27,7 @@ router.use('/agentrelations', agentRelationRoutes);
 router.use('/customers', customerRoutes);
 router.use('/shops', shopRoutes);
 router.use('/colors', colorRoutes);
+router.use('/models', modelRoutes);
 router.use('/units-of-measure', UMRoutes);
 router.use('/uploads', uploadRoutes);
 

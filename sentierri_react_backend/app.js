@@ -55,6 +55,7 @@ const AgentRelation = require('./models/agentrelation')(sequelize);
 const Customer = require('./models/customer')(sequelize);
 const Shop = require('./models/shop')(sequelize);
 const Color = require('./models/color')(sequelize);
+const Model = require('./models/model')(sequelize);
 const UnitOfMeasure = require('./models/unitOfMeasure')(sequelize);
 
 // Sync models with the database
