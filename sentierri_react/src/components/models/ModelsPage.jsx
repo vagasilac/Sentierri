@@ -3,7 +3,7 @@ import { Typography, Box, Container, Button } from '@material-ui/core';
 import DataTable from '../common/DataTable';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchSuppliers } from '../../features/suppliers/suppliersSlice';
+import { fetchModels } from '../../features/models/modelsSlice';
 import CircularProgress from '@mui/material/CircularProgress';
 // import VisibilityIcon from '@mui/icons-material/Visibility';
 import StartIcon from '@mui/icons-material/Start';
