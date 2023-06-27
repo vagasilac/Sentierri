@@ -12,6 +12,7 @@ const agentRelationRoutes = require('./routes/agentRelationRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const shopRoutes = require('./routes/shopRoutes');
 const colorRoutes = require('./routes/colorRoutes');
+const modelRoutes = require('./routes/modelRoutes');
 const unitOfMeasureRoutes = require('./routes/UMRoutes');
 const passport = require('./middleware/passport');
 const uploadRoutes = require('./routes/uploadRoutes');
@@ -35,6 +36,7 @@ app.use('/api/agentrelations', agentRelationRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/shops', shopRoutes);
 app.use('/api/colors', colorRoutes);
+app.use('/api/models', modelRoutes);
 app.use('/api/unitsOfMeasure', unitOfMeasureRoutes);
 app.use('/api/uploads', uploadRoutes);
 

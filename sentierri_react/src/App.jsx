@@ -25,6 +25,7 @@ import UMPage from './components/UM/UMPage';
 import NewUMPage from './components/UM/NewUMPage';
 import UMsPage from './components/UM/UnitsOfMeasure';
 import NewCategory from './components/categories/NewCategory';
+import ModelsPage from './components/models/ModelsPage';
 
 const drawerWidth = 240;
 const MainContent = styled('div', {
@@ -49,6 +50,7 @@ function App() {
         <div className='main'> 
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/models/" element={<ModelsPage />} />
             <Route path="/raw-materials/" element={<RawMaterialsPage />} />
             <Route path="/raw-materials/new" element={<NewRawMaterialPage />} />
             <Route path="/raw_materials/:id" element={<RawMaterialPage />} />

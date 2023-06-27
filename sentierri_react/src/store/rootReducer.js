@@ -9,6 +9,7 @@ import supplierMaterialsReducer from '../features/supplierMaterials/supplierMate
 import customerReducer from '../features/customers/customersSlice';
 import shopReducer from '../features/shops/shopsSlice';
 import colorReducer from '../features/colors/colorsSlice';
+import modelReducer from '../features/models/modelsSlice';
 import rawMaterialsReducer from '../features/rawMaterials/rawMaterialsSlice';
 import fileUploadSlice from '../features/fileUpload/fileUploadSlice';
 
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   supplierMaterials: supplierMaterialsReducer,
   shops: shopReducer,
   colors: colorReducer,
+  models: modelReducer,
 });
 
 export default rootReducer;
