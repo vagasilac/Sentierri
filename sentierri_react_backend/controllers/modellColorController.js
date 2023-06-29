@@ -41,12 +41,12 @@ const getModellColorById = async (req, res) => {
 }
 
 const getModellColorsByModellId = async (req, res) => {
-  const { modellId } = req.params;
-
+  const { id: modellId } = req.params;
   try {
     const modellColors = await ModellColor.findAll({
       where: { modellId }
     });
+    console.log('modellColorController.js: getModellColorsByModellId - modellColors', modellColors);
     if (modellColors) {
       res.status(200).json(modellColors);
     } else {

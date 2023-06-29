@@ -27,6 +27,7 @@ const modellColorsSlice = createSlice({
     fetchModellColorsByModellIdSuccess: (state, action) => {
       state.loading = false;
       state.data = action.payload;
+      console.log('modellColorsSlice - fetchModellColorsByModellIdSuccess - state.data: ', state.data);
       state.error = null;
     },
     fetchModellColorsByModellIdFailure: (state, action) => {
@@ -92,6 +93,7 @@ export const fetchModellColorsByModellId = (modellId) => {
     dispatch(fetchModellColorsByModellIdRequest());
     try {
       const modellColors = await modellColorService.getModellColorsByModellId(modellId);
+      console.log('modellColorsSlice - fetchModellColorsByModellId - modellColors: ', modellColors);
       dispatch(fetchModellColorsByModellIdSuccess(modellColors));
     } catch (error) {
       dispatch(fetchModellColorsByModellIdFailure(error));

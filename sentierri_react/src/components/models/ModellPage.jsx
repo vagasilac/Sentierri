@@ -36,14 +36,15 @@ const ModellPage = () => {
     const { currentModell, loading, error } = useSelector((state) => state.modells);
     const { currentModType } = useSelector((state) => state.modTypes);
     const { currentStage } = useSelector((state) => state.stages);
-    const { modellColors } = useSelector((state) => state.modellColors);
+    const modellColors = useSelector((state) => state.modellColors.data);
+    // declare modellColors as an array of color ids of the state.modellColors.data objects
+    const modellColorsArray = modellColors.map(modellColor => modellColor.colorId);
     const [tabValue, setTabValue] = useState(0);
     
     useEffect(() => {
         if (numId && numId !== "") {
             dispatch(fetchModellById(numId));
             dispatch(fetchModellColorsByModellId(numId));
-            console.log('dispatch', dispatch(fetchModellColorsByModellId(numId)));
         }
     }, [dispatch, numId]);
     
@@ -82,6 +83,7 @@ const ModellPage = () => {
     console.log('currentModell.parentModTypeId: ', currentModell?.parentModTypeId);
     console.log('currentModell.parentStageId: ', currentModell?.parentStageId);
     console.log('modellColors: ', modellColors);
+    console.log('modellColorsArray: ', modellColorsArray);
 
     return (
         <Container

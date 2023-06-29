@@ -53,8 +53,8 @@ export const removeModellColor = async (modellId, colorId) => {
 // getModellColorsByModellId
 export const getModellColorsByModellId = async (modellId) => {
   try {
-    console.log('getModellColorsByModellId modellId:', modellId, 'API_BASE_URL:', API_BASE_URL, 'API_BASE_URL + /modell-colors/:modellId:', API_BASE_URL + '/modell-colors/:modellId');
     const response = await axios.get(`${API_BASE_URL}/modell-colors/modell/${modellId}`);
+    console.log('getModellColorsByModellId response.data:', response.data);
     return response.data;
   } catch (error) {
     console.error('Error fetching modellColors:', error);

@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
           model: 'Modell',
           key: 'id',},
     },
-      ColorId: {
+      colorId: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false,

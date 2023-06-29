@@ -12,7 +12,7 @@ const {
 
 router.post('/', createModellColor);
 router.get('/', getAllModellColors);
-router.get('/:id', getModellColorsByModellId);
+router.get('/modell/:id', getModellColorsByModellId);
 router.get('/:id', getModellColorById);
 router.put('/:id', updateModellColor);
 router.delete('/:id', deleteModellColor);
