@@ -63,6 +63,13 @@ const ModellPage = () => {
     }, [dispatch, currentModell]);
 
 
+    useEffect(() => {
+        if ((modellColorsArray.length > 0) && (colors.length > 0)) {
+            // set colorsToDisplay to an array of display_color_code values of colors objects with id values that are included in modellColorsArray
+            const filteredColors = colors.filter(color => modellColorsArray.includes(color.id));
+            setColorsToDisplay(filteredColors);
+        }
+      }, [modellColorsArray, colors, dispatch]);
 
     // FILE UPLOAD EVENT HANDLERS
     const handleFileUpload = () => {
@@ -132,7 +139,7 @@ const ModellPage = () => {
                     <Paper className={classes.paper}>
                         <Typography variant="h5" gutterBottom>Colors</Typography>
                         <Grid container spacing={3}>
-                            {colors?.map((color, index) => (
+                            {colorsToDisplay?.map((color, index) => (
                             <Grid item xs={3} key={index}>
                                 <div style={{ backgroundColor: color?.value, height: '100px', width: '100px' }}></div>
                             </Grid>
