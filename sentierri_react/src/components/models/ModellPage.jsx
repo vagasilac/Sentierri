@@ -9,6 +9,7 @@ import { fetchModellById, updateModell } from "../../features/modells/modellsSli
 import { fetchModTypeById } from "../../features/modTypes/modTypesSlice";
 import { fetchStageById } from "../../features/stages/stagesSlice";
 import { fetchModellColorsByModellId } from "../../features/modellColors/modellColorsSlice";
+import { fetchColors } from "../../features/colors/colorsSlice";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { SPO } from './SPO';
 import { SInvoices_dummy } from './SInvoices_dummy';
@@ -37,14 +38,18 @@ const ModellPage = () => {
     const { currentModType } = useSelector((state) => state.modTypes);
     const { currentStage } = useSelector((state) => state.stages);
     const modellColors = useSelector((state) => state.modellColors.data);
-    // declare modellColors as an array of color ids of the state.modellColors.data objects
+    const colors = useSelector((state) => state.colors.data);
     const modellColorsArray = modellColors.map(modellColor => modellColor.colorId);
     const [tabValue, setTabValue] = useState(0);
+    const [colorsToDisplay, setColorsToDisplay] = useState([]);
+    console.log('colorsToDisplay: ', colorsToDisplay);
+    console.log('colors: ', colors);
     
     useEffect(() => {
         if (numId && numId !== "") {
             dispatch(fetchModellById(numId));
             dispatch(fetchModellColorsByModellId(numId));
+            dispatch(fetchColors());
         }
     }, [dispatch, numId]);
     
@@ -56,6 +61,7 @@ const ModellPage = () => {
             dispatch(fetchStageById(currentModell.parentStageId));
         }
     }, [dispatch, currentModell]);
+
 
 
     // FILE UPLOAD EVENT HANDLERS
@@ -125,6 +131,13 @@ const ModellPage = () => {
                     {/* Color filter */}
                     <Paper className={classes.paper}>
                         <Typography variant="h5" gutterBottom>Colors</Typography>
+                        <Grid container spacing={3}>
+                            {colors?.map((color, index) => (
+                            <Grid item xs={3} key={index}>
+                                <div style={{ backgroundColor: color?.value, height: '100px', width: '100px' }}></div>
+                            </Grid>
+                            ))}
+                        </Grid>
                     </Paper>
                     {/* Size filter */}
                     <Paper className={classes.paper}>
