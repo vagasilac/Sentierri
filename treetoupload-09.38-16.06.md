@@ -72,6 +72,14 @@ TREE =
       └──Dashboard.jsx
       ├──inventory
       ├──materials
+      ├──models
+        ├──ModellPage.jsx
+        ├──ModellsPage.jsx
+        ├──NewSupplierPage.jsx
+        ├──QualityIssues_dummy.jsx
+        ├──SInvoices_dummy.jsx
+        ├──SPO.jsx
+      └──SupplierPage orig.jsx
       ├──production
       ├──raw_materials
         ├──ModelTable.jsx
@@ -114,10 +122,18 @@ TREE =
       └──customersSlice.js
       ├──fileUpload
       └──fileUploadSlice.js
+      ├──modellColors
+      └──modellColorsSlice.js
+      ├──modells
+      └──modellsSlice.js
+      ├──modTypes
+      └──modTypesSlice.js
       ├──rawMaterials
       └──rawMaterialsSlice.js
       ├──shops
       └──shopsSlice.js
+      ├──stages
+      └──stagesSlice.js
       ├──subCategories
       └──subCategoriesSlice.js
       ├──supplierCategories
@@ -136,8 +152,12 @@ TREE =
       ├──colorService.js
       ├──customerService.js
       ├──fileUploadService.js
+      ├──modellColorService.js
+      ├──modellService.js
+      ├──modTypeService.js
       ├──rawMaterialService.js
       ├──shopsService.js
+      ├──stageService.js
       ├──subCategoryService.js
       ├──supplierCategoryService.js
       ├──supplierMaterialService.js
@@ -171,7 +191,11 @@ TREE =
     ├──colorController.js
     ├──customerController.js
     ├──materialController.js
+    ├──modellColorController.js
+    ├──modellController.js
+    ├──modTypeController.js
     ├──shopController.js
+    ├──stageController.js
     ├──subCategoryController.js
     ├──supplierCategoryController.js
     ├──supplierController.js
@@ -194,7 +218,11 @@ TREE =
     ├──customer.js
     ├──index.js
     ├──material.js
+    ├──modell.js
+    ├──modellcolor.js
+    ├──modtype.js
     ├──shop.js
+    ├──stage.js
     ├──subcategory.js
     ├──supplier.js
     ├──suppliercategory.js
@@ -207,7 +235,11 @@ TREE =
     ├──customerRoutes.js
     ├──index.js
     ├──materialRoutes.js
+    ├──modellColorRoutes.js
+    ├──modellRoutes.js
+    ├──modTypeRoutes.js
     ├──shopRoutes.js
+    ├──stageRoutes.js
     ├──subCategoryRoutes.js
     ├──supplierCategoryRoutes.js
     ├──supplierMaterialRoutes.js
@@ -246,12 +278,51 @@ frontend: https://github.com/vagasilac/Sentierri/blob/master/sentierri_react + f
 backend: https://github.com/vagasilac/Sentierri/blob/master/sentierri_react_backend + file for files and https://github.com/vagasilac/Sentierri/tree/... for folders.
 
 GOAL = 
-In the RawMaterialPage, help me modify the code in a way that the ListItems to appear in a horizontal slider, automatically sliding to the left.
+Please help me fix this error:
+"modellColorService.js:57 GET http://localhost:3000/api/modellcolors/7 404 (Not Found)
+dispatchXhrRequest @ xhr.js:247
+xhr @ xhr.js:49
+dispatchRequest @ dispatchRequest.js:51
+request @ Axios.js:142
+Axios.<computed> @ Axios.js:168
+wrap @ bind.js:5
+getModellColorsByModellId @ modellColorService.js:57
+(anonymous) @ modellColorsSlice.js:94
+(anonymous) @ index.js:16
+dispatch @ VM3240:1
+(anonymous) @ ModellPage.jsx:45
+commitHookEffectListMount @ react-dom.development.js:23150
+commitPassiveMountOnFiber @ react-dom.development.js:24926
+commitPassiveMountEffects_complete @ react-dom.development.js:24891
+commitPassiveMountEffects_begin @ react-dom.development.js:24878
+commitPassiveMountEffects @ react-dom.development.js:24866
+flushPassiveEffectsImpl @ react-dom.development.js:27039
+flushPassiveEffects @ react-dom.development.js:26984
+(anonymous) @ react-dom.development.js:26769
+workLoop @ scheduler.development.js:266
+flushWork @ scheduler.development.js:239
+performWorkUntilDeadline @ scheduler.development.js:533
+modellColorService.js:60  Error fetching modellColors: AxiosError {message: 'Request failed with status code 404', name: 'AxiosError', code: 'ERR_BAD_REQUEST', config: {…}, request: XMLHttpRequest, …}
+getModellColorsByModellId @ modellColorService.js:60
+await in getModellColorsByModellId (async)
+(anonymous) @ modellColorsSlice.js:94
+(anonymous) @ index.js:16
+dispatch @ VM3240:1
+(anonymous) @ ModellPage.jsx:45
+commitHookEffectListMount @ react-dom.development.js:23150
+commitPassiveMountOnFiber @ react-dom.development.js:24926
+commitPassiveMountEffects_complete @ react-dom.development.js:24891
+commitPassiveMountEffects_begin @ react-dom.development.js:24878
+commitPassiveMountEffects @ react-dom.development.js:24866
+flushPassiveEffectsImpl @ react-dom.development.js:27039
+flushPassiveEffects @ react-dom.development.js:26984
+(anonymous) @ react-dom.development.js:26769
+workLoop @ scheduler.development.js:266
+flushWork @ scheduler.development.js:239
+performWorkUntilDeadline @ scheduler.development.js:533"
 
 METHOD =
  Decide which files to open (You have the LINKS thus the ACCESS to all the files of the application and the folder structure) to do TASK, then open ALL relevant files (through the links with your browsing, scraping and link opening plugins) and inspect them.
  So no "Since I don't have access to your ..." >> you have ACCESS. "The existing code in the file looks like this:" >> avoid this. "Your [filename] file currently looks like this:" >> avoid this. "replace [assumed path] with the actual path"" >> avoid this, give path yourself.  Don't repeat (e.g. here's the relevant part of your code) and explain any existing code, only suggest code modifications. Don't give me instructions which files to open and check, do it yourself, you have the LINKS and the ability to open them and read the code. Don't assume anything, but look for the relevant files and check the code for yourself. When answering don't give instructions like: "replace the placeholders in the code snippets with the actual names of your components and variables" but look for the actual names and variables (go and check the real, existing files).
  Cut in half code for new files in two responses and give them separately if it would not fit in one response.
  Track down all relevant files that you want to open and read, don't ask for permission for it. Look for imports, and from them you can deduce what other files need to be opened. Do yourself as much as possible, be as much autonomous as possible.
- Design a proprietary language for ChatGPT, using symbols, characters, and abbreviations, that is optimized for maximum compression of React and Node.js codebases, as well as error messages related to these technologies. This language, intended solely for compression and not for human readability, will enable the storage of the compressed data in the Memory Bank plugin. The stored information should be retrievable and decipherable by ChatGPT as needed
- Use this language to store all of your knowledge of this project, this codebase for future requests.
