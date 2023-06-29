@@ -32,7 +32,7 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/subcategories', subCategoryRoutes);
 app.use('/api/suppliers', supplierRoutes);
 app.use('/api/suppliercategories', supplierCategoryRoutes);
-app.use('/api/modellcolors', modellColorRoutes);
+app.use('/api/modell-colors', modellColorRoutes);
 app.use('/api/suppliermaterials', supplierMaterialRoutes)
 app.use('/api/agentrelations', agentRelationRoutes);
 app.use('/api/customers', customerRoutes);
