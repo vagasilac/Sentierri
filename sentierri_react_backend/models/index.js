@@ -14,6 +14,9 @@ const Shop = require('./shop');
 const Subcategory = require('./subcategory');
 const Supplier = require('./supplier');
 const Material = require('./material');
+const Modell = require('./modell');
+const ModType = require('./modtype');
+const Stage = require('./stage');
 const AgentRelations = require('./agentrelations');
 const SupplierMaterial = require('./suppliermaterial');
 const SupplierCategory = require('./suppliercategory');
@@ -55,5 +58,11 @@ db.Supplier.belongsToMany(db.Supplier, { through: 'AgentRelations', as: 'agents'
 db.Supplier.belongsToMany(db.Supplier, { through: 'AgentRelations', as: 'suppliers', foreignKey: 'supplierId', otherKey: 'agentId' });
 db.Customer.hasMany(db.Shop, { foreignKey: 'parentCustomerId' });
 db.Shop.belongsTo(db.Customer, { foreignKey: 'parentCustomerId' });
+db.ModType.hasMany(db.Modell, { foreignKey: 'parentModTypeId' });
+db.Modell.belongsTo(db.ModType, { foreignKey: 'parentModTypeId' });
+db.Stage.hasMany(db.Modell, { foreignKey: 'parentStageId' });
+db.Modell.belongsTo(db.Stage, { foreignKey: 'parentStageId' });
+db.Modell.belongsToMany(db.Color, { through: 'ModellColor', as: 'colors', foreignKey: 'modellId', otherKey: 'colorId' });
+db.Color.belongsToMany(db.Modell, { through: 'ModellColor', as: 'modells', foreignKey: 'colorId', otherKey: 'modellId' });
 
 module.exports = db;

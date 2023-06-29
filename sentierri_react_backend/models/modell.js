@@ -1,7 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
+const ModType = require('./modtype');
 
 module.exports = (sequelize) => {
-  const Model = sequelize.define('Model', {
+  const Modell = sequelize.define('Modell', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -23,12 +24,28 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
     },
+    parentModTypeId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'ModType',
+        key: 'id',
+      },
+      },
+    parentStageId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Stage',
+        key: 'id',
+      },
     },
+  },
   {
     sequelize,
-    modelName: 'Model',
-    tableName: 'Models',
+    modelName: 'Modell',
+    tableName: 'Modells',
   });
 
-  return Model;
+  return Modell;
 };

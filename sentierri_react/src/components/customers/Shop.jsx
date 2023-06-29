@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Grid, Box, Typography, TextField, Button, Paper } from '@material-ui/core';
+import { Container, Grid, Box, Typography, TextField, Button, Paper, Breadcrumbs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchShops, updateShop } from '../../features/shops/shopsSlice';
@@ -71,18 +71,23 @@ const Shop = () => {
 
     return (
         <Container
-            style={{
-                paddingBottom: '2rem',
-            }}
+            maxWidth="md"
+            style={{ paddingTop: '2rem', paddingBottom: '3rem', }}
         >
-            <Button variant="contained" color="primary" onClick={handleBack}
-                style={{
-                    marginTop: '1rem',
-                    marginBottom: '1rem',
-                }}
-                >
-                Back
-            </Button>
+            <Box style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', }}>
+                <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: '2rem' }}>
+                    <Button color="inherit" disabled>CRM</Button>
+                    <Button color="inherit" onClick={handleBack}>Shops</Button>
+                    <Button color="inherit" disabled>{formValues.name}</Button>
+                </Breadcrumbs>
+                <Button variant="contained" color="primary" onClick={handleBack}
+                    style={{
+                        marginBottom: '1rem',
+                    }}
+                    >
+                    Back
+                </Button>
+            </Box>
             <Paper
                 elevation={4}
                 className={classes.paper}

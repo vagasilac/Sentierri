@@ -7,12 +7,13 @@ const categoryRoutes = require('./routes/categoryRoutes');
 const subCategoryRoutes = require('./routes/subCategoryRoutes');
 const supplierRoutes = require('./routes/supplierRoutes');
 const supplierCategoryRoutes = require('./routes/supplierCategoryRoutes');
+const modellColorRoutes = require('./routes/modellColorRoutes');
 const supplierMaterialRoutes = require('./routes/supplierMaterialRoutes');
 const agentRelationRoutes = require('./routes/agentRelationRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const shopRoutes = require('./routes/shopRoutes');
 const colorRoutes = require('./routes/colorRoutes');
-const modelRoutes = require('./routes/modelRoutes');
+const modellRoutes = require('./routes/modellRoutes');
 const unitOfMeasureRoutes = require('./routes/UMRoutes');
 const passport = require('./middleware/passport');
 const uploadRoutes = require('./routes/uploadRoutes');
@@ -31,12 +32,13 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/subcategories', subCategoryRoutes);
 app.use('/api/suppliers', supplierRoutes);
 app.use('/api/suppliercategories', supplierCategoryRoutes);
+app.use('/api/modellcolors', modellColorRoutes);
 app.use('/api/suppliermaterials', supplierMaterialRoutes)
 app.use('/api/agentrelations', agentRelationRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/shops', shopRoutes);
 app.use('/api/colors', colorRoutes);
-app.use('/api/models', modelRoutes);
+app.use('/api/modells', modellRoutes);
 app.use('/api/unitsOfMeasure', unitOfMeasureRoutes);
 app.use('/api/uploads', uploadRoutes);
 
@@ -57,7 +59,9 @@ const AgentRelation = require('./models/agentrelation')(sequelize);
 const Customer = require('./models/customer')(sequelize);
 const Shop = require('./models/shop')(sequelize);
 const Color = require('./models/color')(sequelize);
-const Model = require('./models/model')(sequelize);
+const Modell = require('./models/modell')(sequelize);
+const ModType = require('./models/modtype')(sequelize);
+const Stage = require('./models/stage')(sequelize);
 const UnitOfMeasure = require('./models/unitOfMeasure')(sequelize);
 
 // Sync models with the database

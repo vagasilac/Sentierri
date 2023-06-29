@@ -87,7 +87,7 @@ const CustomerPage = () => {
 
     return (
         <Container style={{ paddingBottom: '2rem', paddingTop: '3rem' }} >
-            <Box style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
+            <Box style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', }}>
                 <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: '2rem' }}>
                     <Button color="inherit" disabled>CRM</Button>
                     <Button color="inherit" onClick={handleBack}>Customers</Button>
@@ -95,7 +95,6 @@ const CustomerPage = () => {
                 </Breadcrumbs>
                 <Button variant="contained" color="primary" onClick={handleBack}
                     style={{
-                        marginTop: '1rem',
                         marginBottom: '1rem',
                     }}
                     >

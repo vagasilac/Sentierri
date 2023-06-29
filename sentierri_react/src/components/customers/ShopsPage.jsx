@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Box, Button } from '@material-ui/core';
+import { Typography, Box, Button, Container, Breadcrumbs } from '@material-ui/core';
 import DataTable from '../common/DataTable';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -133,31 +133,40 @@ const ShopsPage = () => {
     ];
 
     return (
-        <Box style={{ marginLeft: '3rem', }}>
-            <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Typography variant="h4" component="div">
-                    Shops
-                </Typography>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => navigate(`/shops/new`)}
-                >
-                    Add Shop
-                </Button>
-            </Box>
-            {/* if shops is not empty */}
-            {shops.length > 0 ? (    
-                <DataTable
-                    columns={columns}
-                    data={shops}
-                />
-            ) : (
-                <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
-                    <CircularProgress />
+        <Container
+            maxWidth="xl"
+            style={{ paddingTop: '3rem', paddingBottom: '4rem', marginLeft: '3rem', overflowX: 'auto' }}
+            >
+            <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: '2rem', marginLeft: '3rem' }}>
+                <Button color="inherit" disabled>CRM</Button>
+                <Button color="inherit" disabled>Shops</Button>
+            </Breadcrumbs>
+            <Box style={{ marginLeft: '3rem', }}>
+                <Box style={{display: 'flex', justifyContent: 'space-between', marginBottom: '2rem'}}>
+                    <Typography variant="h4" component="div">
+                        Shops
+                    </Typography>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => navigate(`/shops/new`)}
+                    >
+                        Add Shop
+                    </Button>
                 </Box>
-            )}
-        </Box>
+                {/* if shops is not empty */}
+                {shops.length > 0 ? (    
+                    <DataTable
+                        columns={columns}
+                        data={shops}
+                    />
+                ) : (
+                    <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
+                        <CircularProgress />
+                    </Box>
+                )}
+            </Box>
+        </Container>
     );
 };
 

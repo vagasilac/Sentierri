@@ -34,7 +34,7 @@ const sections = [
       label: 'PLM',
       items: [
         { icon: StartIcon, label: 'Prototypes' },
-        { icon: DnsIcon, label: 'Models', link: '/models' },
+        { icon: DnsIcon, label: 'Models', link: '/models/' },
       ],
     },
     {
