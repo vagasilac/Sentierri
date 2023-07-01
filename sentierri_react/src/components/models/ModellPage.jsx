@@ -149,6 +149,10 @@ const ModellPage = () => {
     console.log('modellColors: ', modellColors);
     console.log('modellColorsArray: ', modellColorsArray);
 
+    const getBackgroundColor = (sizeId, modellSizesArray) => {
+        return modellSizesArray.includes(sizeId) ? 'lightgreen' : 'default';
+      };
+
     return (
         <Container
             maxWidth="xl"
@@ -228,13 +232,13 @@ const ModellPage = () => {
                     <Paper className={classes.paper}
                         style={{ paddingTop: '0.5rem' }}
                     >
-                        {sizes?.map((size, index) => (
+                        {modellSizes && sizes.map((size, index) => (
                             <Chip
                                 key={index}
                                 label={size?.size_ro}
                                 style={{ 
                                     marginRight: '1rem', marginTop: '1rem',
-                                    backgroundColor: modellSizesArray.includes(size.id) ? 'lightgreen' : 'default' 
+                                    backgroundColor: getBackgroundColor(size.id, modellSizesArray)
                                 }}
                             />
                         ))}
