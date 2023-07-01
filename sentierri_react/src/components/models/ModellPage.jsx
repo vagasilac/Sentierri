@@ -45,6 +45,7 @@ const ModellPage = () => {
     const modellSizes = useSelector((state) => state.modellSizes.data);
     const { loading: colorsLoading, data: colors } = useSelector((state) => state.colors);
     const { loading: sizesLoading, data: sizes } = useSelector((state) => state.sizes);
+    const { modellSizesLoading } = useSelector((state) => state.modellSizes);
     const modellColorsArray = modellColors.map(modellColor => modellColor.colorId);
     const modellSizesArray = modellSizes.map(modellSize => modellSize.sizeId);
     const [tabValue, setTabValue] = useState(0);
@@ -232,7 +233,7 @@ const ModellPage = () => {
                     <Paper className={classes.paper}
                         style={{ paddingTop: '0.5rem' }}
                     >
-                        {modellSizes && sizes.map((size, index) => (
+                        {!modellSizesLoading && sizes.map((size, index) => (
                             <Chip
                                 key={index}
                                 label={size?.size_ro}
