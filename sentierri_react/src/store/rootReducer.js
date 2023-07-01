@@ -6,10 +6,12 @@ import agentRelationsSlice from '../features/agentRelations/agentRelationsSlice'
 import UMReducer from '../features/UM/UMSlice';
 import supplierCategoriesReducer from '../features/supplierCategories/supplierCategoriesSlice';
 import modellColorsReducer from '../features/modellColors/modellColorsSlice';
+import modellSizeReducer from '../features/modellSizes/modellSizesSlice';
 import supplierMaterialsReducer from '../features/supplierMaterials/supplierMaterialsSlice';
 import customerReducer from '../features/customers/customersSlice';
 import shopReducer from '../features/shops/shopsSlice';
 import colorReducer from '../features/colors/colorsSlice';
+import sizeReducer from '../features/sizes/sizesSlice';
 import modellReducer from '../features/modells/modellsSlice';
 import modTypeReducer from '../features/modTypes/modTypesSlice';
 import stageReducer from '../features/stages/stagesSlice';
@@ -27,9 +29,11 @@ const rootReducer = combineReducers({
   UM: UMReducer,
   supplierCategories: supplierCategoriesReducer,
   modellColors: modellColorsReducer,
+  modellSizes: modellSizeReducer,
   supplierMaterials: supplierMaterialsReducer,
   shops: shopReducer,
   colors: colorReducer,
+  sizes: sizeReducer,
   modells: modellReducer,
   modTypes: modTypeReducer,
   stages: stageReducer

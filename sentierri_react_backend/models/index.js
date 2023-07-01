@@ -10,6 +10,8 @@ const config = require('../config/config')[process.env.USE_ENV_VARIABLE];
 const db = {};
 const Category = require('./category');
 const Customer = require('./customer');
+const Color = require('./color');
+const Size = require('./size');
 const Shop = require('./shop');
 const Subcategory = require('./subcategory');
 const Supplier = require('./supplier');
@@ -64,5 +66,7 @@ db.Stage.hasMany(db.Modell, { foreignKey: 'parentStageId' });
 db.Modell.belongsTo(db.Stage, { foreignKey: 'parentStageId' });
 db.Modell.belongsToMany(db.Color, { through: 'ModellColor', as: 'colors', foreignKey: 'modellId', otherKey: 'colorId' });
 db.Color.belongsToMany(db.Modell, { through: 'ModellColor', as: 'modells', foreignKey: 'colorId', otherKey: 'modellId' });
+db.Modell.belongsToMany(db.Size, { through: 'ModellSize', as: 'sizes', foreignKey: 'modellId', otherKey: 'sizeId' });
+db.Size.belongsToMany(db.Modell, { through: 'ModellSize', as: 'modells', foreignKey: 'sizeId', otherKey: 'modellId' });
 
 module.exports = db;
