@@ -27,6 +27,7 @@ import UMsPage from './components/UM/UnitsOfMeasure';
 import NewCategory from './components/categories/NewCategory';
 import ModellsPage from './components/models/ModellsPage';
 import ModellPage from './components/models/ModellPage';
+import NewCPO from './components/customers/NewCPO';
 
 const drawerWidth = 240;
 const MainContent = styled('div', {
@@ -72,12 +73,12 @@ function App() {
             <Route path="/customers/" element={<CustomersPage />} />
             <Route path="/customers/new" element={<NewCustomerPage />} />
             <Route path="/customers/:id" element={<CustomerPage />} />
+            <Route path="/customers/cpos/new" element={<NewCPO />} />
             <Route path="/shops/" element={<ShopsPage />} />
             <Route path="/shops/:id" element={<Shop />} />
           </Routes>
         </div>
       </MainContent>
-      {/* </div> */}
     </Router>
   );
 }

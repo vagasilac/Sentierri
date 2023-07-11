@@ -105,10 +105,13 @@ export const fetchModellSizes = () => {
 
 export const clearModellSizes = () => {
   return async (dispatch) => {
+    console.log('modellSizesSlice - clearModellSizes - dispatching clearModellSizesRequest');
     dispatch(clearModellSizesRequest());
     try {
+      console.log('modellSizesSlice - clearModellSizes - dispatching clearModellSizesSuccess');
       dispatch(clearModellSizesSuccess());
     } catch (error) {
+      console.log('modellSizesSlice - clearModellSizes - dispatching clearModellSizesFailure');
       dispatch(clearModellSizesFailure(error));
     }
   };

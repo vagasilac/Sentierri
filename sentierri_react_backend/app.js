@@ -9,6 +9,7 @@ const supplierRoutes = require('./routes/supplierRoutes');
 const supplierCategoryRoutes = require('./routes/supplierCategoryRoutes');
 const modellColorRoutes = require('./routes/modellColorRoutes');
 const modellSizeRoutes = require('./routes/modellSizeRoutes');
+const finishedProductRoutes = require('./routes/finishedProductRoutes');
 const supplierMaterialRoutes = require('./routes/supplierMaterialRoutes');
 const agentRelationRoutes = require('./routes/agentRelationRoutes');
 const customerRoutes = require('./routes/customerRoutes');
@@ -36,6 +37,7 @@ app.use('/api/suppliers', supplierRoutes);
 app.use('/api/suppliercategories', supplierCategoryRoutes);
 app.use('/api/modell-colors', modellColorRoutes);
 app.use('/api/modell-sizes', modellSizeRoutes);
+app.use('/api/finished-products', finishedProductRoutes);
 app.use('/api/suppliermaterials', supplierMaterialRoutes)
 app.use('/api/agentrelations', agentRelationRoutes);
 app.use('/api/customers', customerRoutes);

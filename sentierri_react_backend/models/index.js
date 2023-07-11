@@ -68,5 +68,11 @@ db.Modell.belongsToMany(db.Color, { through: 'ModellColor', as: 'colors', foreig
 db.Color.belongsToMany(db.Modell, { through: 'ModellColor', as: 'modells', foreignKey: 'colorId', otherKey: 'modellId' });
 db.Modell.belongsToMany(db.Size, { through: 'ModellSize', as: 'sizes', foreignKey: 'modellId', otherKey: 'sizeId' });
 db.Size.belongsToMany(db.Modell, { through: 'ModellSize', as: 'modells', foreignKey: 'sizeId', otherKey: 'modellId' });
+db.Modell.hasMany(db.FinishedProduct, { foreignKey: 'modellId' });
+db.FinishedProduct.belongsTo(db.Modell, { foreignKey: 'modellId' });
+db.Color.hasMany(db.FinishedProduct, { foreignKey: 'colorId' });
+db.FinishedProduct.belongsTo(db.Color, { foreignKey: 'colorId' });
+db.Size.hasMany(db.FinishedProduct, { foreignKey: 'sizeId' });
+db.FinishedProduct.belongsTo(db.Size, { foreignKey: 'sizeId' });
 
 module.exports = db;

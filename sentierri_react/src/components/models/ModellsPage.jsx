@@ -12,6 +12,20 @@ import { fetchModellColors } from '../../features/modellColors/modellColorsSlice
 import { fetchModellSizes } from '../../features/modellSizes/modellSizesSlice';
 import CircularProgress from '@mui/material/CircularProgress';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import BasicSpeedDial from '../common/BasicSpeedDial';
+import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import PrintIcon from '@mui/icons-material/Print';
+import ShareIcon from '@mui/icons-material/Share';
+import AddIcon from '@mui/icons-material/Add';
+
+const actions = [
+  { icon: <FileCopyIcon />, name: 'Copy' },
+  { icon: <AddIcon />, name: 'Take Order', link: '/customers/cpos/new' },
+  { icon: <SaveIcon />, name: 'Save' },
+  { icon: <PrintIcon />, name: 'Print' },
+  { icon: <ShareIcon />, name: 'Share' },
+];
 
 const ModellsPage = () => {
   const dispatch = useDispatch();
@@ -57,6 +71,7 @@ const ModellsPage = () => {
   const prevModellSizesLoading = usePrevious(modellSizesLoading);
 
   const [modellColorNameMap, setModellColorNameMap] = useState({});
+  const [modellSizeNameMap, setModellSizeNameMap] = useState({});
   const [modTypeNameMap, setModTypeNameMap] = useState({});
   const [stageNameMap, setStageNameMap] = useState({});
 
@@ -67,6 +82,7 @@ const ModellsPage = () => {
         parentModTypeId: modTypeNameMap[modell.parentModTypeId] || 'N/A',
         parentStageId: stageNameMap[modell.parentStageId] || 'N/A',
         colors: modellColorNameMap[modell.id]?.join(', ') || 'N/A',
+        sizes: modellSizeNameMap[modell.id]?.join(', ') || 'N/A',
       }));
     } catch (error) {
       console.error('Error transforming modells data:', error);
@@ -120,6 +136,23 @@ const ModellsPage = () => {
       setModellColorNameMap(newModellColorNameMap);
     }
   }, [modellColors, colors, prevModellColorsLoading, modellColorsLoading, colorsLoading]);
+
+  useEffect(() => {
+    if (prevModellSizesLoading && !modellSizesLoading && !sizesLoading) {
+      let newModellSizeNameMap = {};
+      modellSizes.forEach(modellSize => {
+        if (!newModellSizeNameMap[modellSize.modellId]) {
+          newModellSizeNameMap[modellSize.modellId] = [];
+        }
+        const size = sizes.find(size => size.id === modellSize.sizeId);
+        if (size) {
+          newModellSizeNameMap[modellSize.modellId].push(size.size_ro);
+        }
+      });
+      setModellSizeNameMap(newModellSizeNameMap);
+    }
+  }, [modellSizes, sizes, prevModellSizesLoading, modellSizesLoading, sizesLoading]);
+
   
   // columns for react-table
   const columns = [
@@ -147,6 +180,36 @@ const ModellsPage = () => {
       filter: true,
       sort: true,
     }},
+    { accessor: 'sizes',
+    Header: 'Sizes',
+    options: {
+      filter: true,
+      sort: true,
+    }},
+    { accessor: 'reserved stock',
+    Header: 'Reserved Stock',
+    options: {
+      filter: true,
+      sort: true,
+    }},
+    { accessor: 'available stock',
+    Header: 'Available Stock',
+    options: {
+      filter: true,
+      sort: true,
+    }},
+    { accessor: 'demand',
+    Header: 'Demand',
+    options: {
+      filter: true,
+      sort: true,
+    }},
+    { accessor: 'to produce',
+    Header: 'To Produce',
+    options: {
+      filter: true,
+      sort: true,
+    }},
     { Header: 'Actions',
           Cell: ({row}) => (
             <div>
@@ -170,37 +233,40 @@ const ModellsPage = () => {
   console.log('sizes:', sizes);
 
   return (
-    <Container
-        maxWidth="lg"
-        style={{ paddingTop: '3rem', paddingBottom: '4rem', }}
-      >
-      <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: '2rem' }}>
-        <Button color="inherit" disabled>PLM</Button>
-        <Button color="inherit" disabled>Models</Button>
-      </Breadcrumbs>
-      <Box style={{display: 'flex', justifyContent: 'space-between'}}>
-        <Typography
-            variant="h4"
-            style={{ marginBottom: '2rem' }}
-          >Models</Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          style={{marginBottom: '2rem'}}
-          onClick={() => navigate('/models/new')}>Add New</Button>
-      </Box>
-      {
-      isLoading ? (
-        <CircularProgress
-            style={{ marginLeft: '50%', marginTop: '2rem' }}
-          />
-        ) : modells?.length > 0 ? (
-          <DataTable key={modells?.length} columns={columns} data={modells} />
-        ) : (
-            <p>No models found</p>
-        )
-      }
-    </Container>
+    <>
+      <BasicSpeedDial actions={actions} />
+      <Container
+          maxWidth="lg"
+          style={{ paddingTop: '3rem', paddingBottom: '4rem', }}
+        >
+        <Breadcrumbs aria-label="breadcrumb" style={{ marginBottom: '2rem' }}>
+          <Button color="inherit" disabled>PLM</Button>
+          <Button color="inherit" disabled>Models</Button>
+        </Breadcrumbs>
+        <Box style={{display: 'flex', justifyContent: 'space-between'}}>
+          <Typography
+              variant="h4"
+              style={{ marginBottom: '2rem' }}
+            >Models</Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{marginBottom: '2rem'}}
+            onClick={() => navigate('/models/new')}>Add New</Button>
+        </Box>
+        {
+        isLoading ? (
+          <CircularProgress
+              style={{ marginLeft: '50%', marginTop: '2rem' }}
+            />
+          ) : modells?.length > 0 ? (
+            <DataTable key={modells?.length} columns={columns} data={modells} />
+          ) : (
+              <p>No models found</p>
+          )
+        }
+      </Container>
+    </>
   );
 };
 
